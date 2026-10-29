@@ -1,5 +1,10 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
+import crypto from "crypto";
+
+export const generateReferralCodeString = () => {
+  return "VL" + crypto.randomBytes(4).toString("hex").toUpperCase();
+};
 
 const userSchema = new mongoose.Schema(
   {
@@ -42,6 +47,14 @@ const userSchema = new mongoose.Schema(
         message: "Status must be 'active', 'suspended', or 'inactive'"
       },
       default: "active"
+    },
+    referralCode: {
+      type: String,
+      unique: true,
+      sparse: true,
+      uppercase: true,
+      trim: true,
+      index: true
     }
   },
   {
@@ -55,6 +68,12 @@ const userSchema = new mongoose.Schema(
     }
   }
 );
+
+userSchema.pre("validate", function () {
+  if (!this.referralCode) {
+    this.referralCode = generateReferralCodeString();
+  }
+});
 
 userSchema.pre("save", async function () {
   if (!this.isModified("password")) {
@@ -75,6 +94,7 @@ userSchema.methods.toSafeObject = function () {
     email: this.email,
     role: this.role,
     status: this.status,
+    referralCode: this.referralCode,
     createdAt: this.createdAt,
     updatedAt: this.updatedAt
   };

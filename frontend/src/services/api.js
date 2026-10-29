@@ -87,6 +87,37 @@ export const api = {
   },
   user: {
     getProfile: () => request("/users/me/profile"),
+    getWallet: () => request("/users/me/wallet"),
+    getProgress: () => request("/users/me/progress"),
+    getAchievements: () => request("/users/me/achievements"),
+    claimAchievement: (id) => request(`/users/me/achievements/${id}/claim`, { method: "POST" }),
+    getReferrals: () => request("/users/me/referrals"),
+    getReferralHistory: (params = {}) => {
+      const query = new URLSearchParams(params).toString();
+      return request(`/users/me/referrals/history${query ? `?${query}` : ""}`);
+    },
+    createWithdrawal: (data) => request("/users/me/withdrawals", { method: "POST", body: data }),
+    getWithdrawalSummary: () => request("/users/me/withdrawals/summary"),
+    getWithdrawals: (params = {}) => {
+      const query = new URLSearchParams(params).toString();
+      return request(`/users/me/withdrawals${query ? `?${query}` : ""}`);
+    },
+    getWithdrawal: (id) => request(`/users/me/withdrawals/${id}`),
+    cancelWithdrawal: (id, reason) =>
+      request(`/users/me/withdrawals/${id}/cancel`, { method: "POST", body: { reason } }),
+  },
+  referral: {
+    validateCode: (code) => request(`/referrals/validate/${encodeURIComponent(code)}`),
+  },
+  admin: {
+    getWithdrawals: (params = {}) => {
+      const query = new URLSearchParams(params).toString();
+      return request(`/admin/withdrawals${query ? `?${query}` : ""}`);
+    },
+    reviewWithdrawal: (id, data) =>
+      request(`/admin/withdrawals/${id}/review`, { method: "POST", body: data }),
+    settleWithdrawal: (id, data = {}) =>
+      request(`/admin/withdrawals/${id}/settle`, { method: "POST", body: data }),
   },
 };
 

@@ -1,4 +1,5 @@
 import User from "../models/User.js";
+import { getOrCreateWallet } from "../services/wallet.service.js";
 
 /**
  * Get authenticated user profile.
@@ -28,6 +29,7 @@ export const getMyProfile = async (req, res) => {
         email: user.email,
         role: user.role,
         status: user.status,
+        referralCode: user.referralCode,
         memberSince: user.createdAt,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt
@@ -41,3 +43,21 @@ export const getMyProfile = async (req, res) => {
   }
 };
 
+/**
+ * Get authenticated user wallet balances.
+ * Identity is derived exclusively from the verified server-side authentication context.
+ */
+export const getMyWallet = async (req, res) => {
+  try {
+    const wallet = await getOrCreateWallet(req.user._id);
+
+    res.status(200).json({
+      wallet: wallet.toSafeObject()
+    });
+  } catch (error) {
+    console.error("Get wallet error:", error.message);
+    res.status(500).json({
+      message: "Server error retrieving user wallet."
+    });
+  }
+};

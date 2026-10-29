@@ -1,11 +1,17 @@
 import User from "../models/User.js";
 import { generateToken } from "../utils/jwt.js";
+import { getOrCreateWallet } from "../services/wallet.service.js";
+import { getOrCreateUserProgress } from "../services/progression.service.js";
+import {
+  validateReferralCode,
+  createReferralRelationship
+} from "../services/referral.service.js";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export const register = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, referralCode } = req.body;
 
     if (!name || typeof name !== "string" || name.trim().length < 2) {
       return res.status(400).json({
@@ -23,6 +29,16 @@ export const register = async (req, res) => {
       return res.status(400).json({
         message: "Password is required and must be at least 6 characters long."
       });
+    }
+
+    // Optional referral code validation
+    if (referralCode && typeof referralCode === "string" && referralCode.trim()) {
+      const codeValidation = await validateReferralCode(referralCode.trim());
+      if (!codeValidation.valid) {
+        return res.status(400).json({
+          message: codeValidation.message
+        });
+      }
     }
 
     const normalizedEmail = email.trim().toLowerCase();
@@ -45,6 +61,18 @@ export const register = async (req, res) => {
     });
 
     await user.save();
+
+    // Auto-provision zero-balance wallet and user progression for new user
+    await getOrCreateWallet(user._id);
+    await getOrCreateUserProgress(user._id);
+
+    // Establish referral relationship if valid referralCode was provided
+    if (referralCode && typeof referralCode === "string" && referralCode.trim()) {
+      await createReferralRelationship({
+        referralCode: referralCode.trim(),
+        referredUserId: user._id
+      });
+    }
 
     const token = generateToken({ id: user._id, role: user.role });
 
@@ -123,4 +151,3 @@ export const getMe = async (req, res) => {
     res.status(500).json({ message: "Server error retrieving user data." });
   }
 };
-
