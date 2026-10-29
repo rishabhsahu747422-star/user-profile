@@ -1,7 +1,7 @@
-import mongoose from "mongoose";
+import express from "express";
+import dotenv from "dotenv";
+dotenv.config();
 
-export const connectDb = async () => {
-  await mongoose.connect(() => {
-    console.log("mongoDb connected successfully");
-  });
-};
+const app = express();
+
+export default app;
