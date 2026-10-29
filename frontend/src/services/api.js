@@ -86,6 +86,7 @@ export const api = {
     },
   },
   user: {
+    getOverview: () => request("/users/me/overview"),
     getProfile: () => request("/users/me/profile"),
     getWallet: () => request("/users/me/wallet"),
     getProgress: () => request("/users/me/progress"),

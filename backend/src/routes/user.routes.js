@@ -1,5 +1,9 @@
 import { Router } from "express";
-import { getMyProfile, getMyWallet } from "../controllers/user.controller.js";
+import {
+  getMyProfile,
+  getMyWallet,
+  getMyOverview
+} from "../controllers/user.controller.js";
 import {
   getMyProgress,
   getMyAchievements,
@@ -21,6 +25,7 @@ import { authenticateUser } from "../middleware/auth.middleware.js";
 const router = Router();
 
 router.get("/me/profile", authenticateUser, getMyProfile);
+router.get("/me/overview", authenticateUser, getMyOverview);
 router.get("/me/wallet", authenticateUser, getMyWallet);
 router.get("/me/progress", authenticateUser, getMyProgress);
 router.get("/me/achievements", authenticateUser, getMyAchievements);
