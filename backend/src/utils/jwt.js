@@ -17,6 +17,6 @@ export const verifyToken = (token) => {
     throw new Error("JWT_SECRET is not configured in environment variables");
   }
 
-  return jwt.verify(token, secret);
+  return jwt.verify(token, secret, { algorithms: ["HS256"] });
 };
 

@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import User from "../models/User.js";
 import { verifyToken } from "../utils/jwt.js";
 
@@ -12,6 +13,9 @@ export const authenticateUser = async (req, res, next) => {
     }
 
     const token = authHeader.split(" ")[1];
+    if (!token || !token.trim()) {
+      return res.status(401).json({ message: "Authentication token missing." });
+    }
 
     let decoded;
     try {
@@ -20,6 +24,10 @@ export const authenticateUser = async (req, res, next) => {
       if (err.name === "TokenExpiredError") {
         return res.status(401).json({ message: "Token has expired. Please log in again." });
       }
+      return res.status(401).json({ message: "Invalid authentication token." });
+    }
+
+    if (!decoded || !decoded.id || !mongoose.Types.ObjectId.isValid(decoded.id)) {
       return res.status(401).json({ message: "Invalid authentication token." });
     }
 

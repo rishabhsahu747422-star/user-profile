@@ -163,7 +163,7 @@ export const getAdminUsers = async ({
 
   const query = {};
 
-  if (search && search.trim()) {
+  if (search && typeof search === "string" && search.trim()) {
     const escapedSearch = search.trim().replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     query.$or = [
       { name: { $regex: escapedSearch, $options: "i" } },
@@ -172,17 +172,19 @@ export const getAdminUsers = async ({
     ];
   }
 
-  if (status && ["active", "suspended", "inactive"].includes(status)) {
+  if (status && typeof status === "string" && ["active", "suspended", "inactive"].includes(status)) {
     query.status = status;
   }
 
-  if (role && ["user", "admin"].includes(role)) {
+  if (role && typeof role === "string" && ["user", "admin"].includes(role)) {
     query.role = role;
   }
 
+  const allowedSortFields = ["createdAt", "name", "email", "status", "role"];
+  const safeSortBy = typeof sortBy === "string" && allowedSortFields.includes(sortBy) ? sortBy : "createdAt";
   const sortDirections = { asc: 1, desc: -1 };
   const sortDirection = sortDirections[sortOrder] || -1;
-  const sort = { [sortBy]: sortDirection };
+  const sort = { [safeSortBy]: sortDirection };
 
   const [rawUsers, total] = await Promise.all([
     User.find(query)

@@ -61,17 +61,17 @@ export const getAuditLogs = async ({
 
   const query = {};
 
-  if (action && AUDIT_ACTIONS.includes(action)) {
+  if (action && typeof action === "string" && AUDIT_ACTIONS.includes(action)) {
     query.action = action;
   }
-  if (targetType && AUDIT_TARGET_TYPES.includes(targetType)) {
+  if (targetType && typeof targetType === "string" && AUDIT_TARGET_TYPES.includes(targetType)) {
     query.targetType = targetType;
   }
-  if (targetId) {
-    query.targetId = String(targetId);
+  if (targetId && typeof targetId === "string") {
+    query.targetId = String(targetId).trim();
   }
-  if (adminId) {
-    query.adminId = adminId;
+  if (adminId && typeof adminId === "string" && adminId.trim()) {
+    query.adminId = adminId.trim();
   }
 
   const [logs, total] = await Promise.all([

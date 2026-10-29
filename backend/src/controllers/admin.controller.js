@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import {
   getAdminOverview,
   getAdminUsers,
@@ -47,6 +48,9 @@ export const listUsers = async (req, res) => {
  */
 export const getUserDetails = async (req, res) => {
   try {
+    if (!req.params.id || !mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ message: "Invalid user ID format." });
+    }
     const userDetails = await getAdminUserDetails(req.params.id);
     res.status(200).json(userDetails);
   } catch (error) {
@@ -62,6 +66,9 @@ export const getUserDetails = async (req, res) => {
  */
 export const changeUserStatus = async (req, res) => {
   try {
+    if (!req.params.id || !mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ message: "Invalid user ID format." });
+    }
     const { status, reason } = req.body;
     const ipAddress = req.ip || req.connection?.remoteAddress || null;
 
@@ -108,6 +115,9 @@ export const listAuditLogs = async (req, res) => {
  */
 export const getWithdrawalDetails = async (req, res) => {
   try {
+    if (!req.params.id || !mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(404).json({ message: "Withdrawal request not found." });
+    }
     const withdrawal = await Withdrawal.findById(req.params.id)
       .populate("userId", "name email role status referralCode")
       .populate("reviewedBy", "name email role")

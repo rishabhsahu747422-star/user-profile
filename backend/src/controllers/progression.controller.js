@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import {
   getUserProgressionOverview,
   getUserAchievements,
@@ -47,6 +48,9 @@ export const getMyAchievements = async (req, res) => {
 export const claimAchievement = async (req, res) => {
   try {
     const { id } = req.params;
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid achievement ID." });
+    }
     const result = await claimAchievementReward(req.user._id, id);
     res.status(200).json({
       message: "Achievement claimed successfully.",

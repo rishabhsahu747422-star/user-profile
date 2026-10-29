@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Withdrawal, { WITHDRAWAL_STATUSES } from "../models/Withdrawal.js";
 import {
   reviewWithdrawalRequest,
@@ -15,10 +16,10 @@ export const listWithdrawals = async (req, res) => {
     const skip = (parsedPage - 1) * parsedLimit;
 
     const query = {};
-    if (status && WITHDRAWAL_STATUSES.includes(status)) {
+    if (status && typeof status === "string" && WITHDRAWAL_STATUSES.includes(status)) {
       query.status = status;
     }
-    if (userId) {
+    if (userId && mongoose.Types.ObjectId.isValid(userId)) {
       query.userId = userId;
     }
 
@@ -53,6 +54,9 @@ export const listWithdrawals = async (req, res) => {
  */
 export const reviewWithdrawal = async (req, res) => {
   try {
+    if (!req.params.id || !mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ message: "Invalid withdrawal ID format." });
+    }
     const { decision, reason, adminNotes } = req.body;
     const withdrawal = await reviewWithdrawalRequest({
       withdrawalId: req.params.id,
@@ -76,6 +80,9 @@ export const reviewWithdrawal = async (req, res) => {
  */
 export const settleWithdrawal = async (req, res) => {
   try {
+    if (!req.params.id || !mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ message: "Invalid withdrawal ID format." });
+    }
     const { reason } = req.body;
     const withdrawal = await settleWithdrawalRequest({
       withdrawalId: req.params.id,

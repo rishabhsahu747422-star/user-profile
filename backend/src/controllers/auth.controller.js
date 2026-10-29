@@ -105,6 +105,12 @@ export const login = async (req, res) => {
       });
     }
 
+    if (typeof email !== "string" || typeof password !== "string") {
+      return res.status(400).json({
+        message: "Email and password must be valid text strings."
+      });
+    }
+
     const normalizedEmail = String(email).trim().toLowerCase();
 
     const user = await User.findOne({ email: normalizedEmail }).select("+password");

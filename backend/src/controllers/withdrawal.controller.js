@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import {
   createWithdrawalRequest,
   getUserWithdrawalSummary,
@@ -5,6 +6,7 @@ import {
   getWithdrawalById,
   cancelWithdrawalRequest
 } from "../services/withdrawal.service.js";
+import { SUPPORTED_ASSETS } from "../models/Wallet.js";
 
 /**
  * Creates a new withdrawal request for the authenticated user.
@@ -14,20 +16,30 @@ export const createWithdrawal = async (req, res) => {
   try {
     const { amount, assetType = "VE", payoutMethod, payoutDetails, idempotencyKey } = req.body;
 
-    if (!amount) {
+    if (amount === undefined || amount === null) {
       return res.status(400).json({ message: "Amount is required." });
     }
-    if (!idempotencyKey) {
+
+    const numAmount = Number(amount);
+    if (!Number.isInteger(numAmount) || numAmount <= 0) {
+      return res.status(400).json({ message: `Withdrawal amount must be a positive integer. Got: ${amount}` });
+    }
+
+    if (!SUPPORTED_ASSETS.includes(assetType)) {
+      return res.status(400).json({ message: `Unsupported asset type: ${assetType}. Must be one of: ${SUPPORTED_ASSETS.join(", ")}` });
+    }
+
+    if (!idempotencyKey || typeof idempotencyKey !== "string" || !idempotencyKey.trim()) {
       return res.status(400).json({ message: "idempotencyKey is required for withdrawal requests." });
     }
 
     const result = await createWithdrawalRequest({
       userId: req.user._id,
       assetType,
-      amount: parseInt(amount, 10),
-      payoutMethod,
-      payoutDetails,
-      idempotencyKey
+      amount: numAmount,
+      payoutMethod: payoutMethod ? String(payoutMethod).trim() : "MANUAL",
+      payoutDetails: typeof payoutDetails === "object" && payoutDetails !== null ? payoutDetails : {},
+      idempotencyKey: idempotencyKey.trim()
     });
 
     res.status(result.isDuplicate ? 200 : 201).json(result);
@@ -79,6 +91,9 @@ export const getMyWithdrawalHistory = async (req, res) => {
  */
 export const getMyWithdrawal = async (req, res) => {
   try {
+    if (!req.params.id || !mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(404).json({ message: "Withdrawal request not found." });
+    }
     const withdrawal = await getWithdrawalById(req.user._id, req.params.id, false);
     res.status(200).json({ withdrawal });
   } catch (error) {
@@ -91,6 +106,9 @@ export const getMyWithdrawal = async (req, res) => {
  */
 export const cancelMyWithdrawal = async (req, res) => {
   try {
+    if (!req.params.id || !mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(404).json({ message: "Withdrawal request not found." });
+    }
     const { reason } = req.body;
     const withdrawal = await cancelWithdrawalRequest({
       userId: req.user._id,
