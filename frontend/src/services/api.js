@@ -63,6 +63,7 @@ export const api = {
   get: (endpoint, options = {}) => request(endpoint, { method: "GET", ...options }),
   post: (endpoint, body, options = {}) => request(endpoint, { method: "POST", body, ...options }),
   put: (endpoint, body, options = {}) => request(endpoint, { method: "PUT", body, ...options }),
+  patch: (endpoint, body, options = {}) => request(endpoint, { method: "PATCH", body, ...options }),
   delete: (endpoint, options = {}) => request(endpoint, { method: "DELETE", ...options }),
   checkHealth: () => request("/health"),
   auth: {
@@ -111,14 +112,27 @@ export const api = {
     validateCode: (code) => request(`/referrals/validate/${encodeURIComponent(code)}`),
   },
   admin: {
+    getOverview: () => request("/admin/overview"),
+    getUsers: (params = {}) => {
+      const query = new URLSearchParams(params).toString();
+      return request(`/admin/users${query ? `?${query}` : ""}`);
+    },
+    getUserDetails: (id) => request(`/admin/users/${id}`),
+    updateUserStatus: (id, data) =>
+      request(`/admin/users/${id}/status`, { method: "PATCH", body: data }),
     getWithdrawals: (params = {}) => {
       const query = new URLSearchParams(params).toString();
       return request(`/admin/withdrawals${query ? `?${query}` : ""}`);
     },
+    getWithdrawal: (id) => request(`/admin/withdrawals/${id}`),
     reviewWithdrawal: (id, data) =>
       request(`/admin/withdrawals/${id}/review`, { method: "POST", body: data }),
     settleWithdrawal: (id, data = {}) =>
       request(`/admin/withdrawals/${id}/settle`, { method: "POST", body: data }),
+    getAuditLogs: (params = {}) => {
+      const query = new URLSearchParams(params).toString();
+      return request(`/admin/audit-logs${query ? `?${query}` : ""}`);
+    },
   },
 };
 

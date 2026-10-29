@@ -9,6 +9,7 @@ import {
   getOrCreateWallet
 } from "./wallet.service.js";
 import { SUPPORTED_ASSETS } from "../models/Wallet.js";
+import { logAdminAction } from "./audit.service.js";
 
 /**
  * Creates a new withdrawal request and reserves the requested balance.
@@ -265,6 +266,21 @@ export const reviewWithdrawalRequest = async ({
     });
 
     await withdrawal.save();
+
+    await logAdminAction({
+      adminUser,
+      action: "WITHDRAWAL_APPROVE",
+      targetType: "WITHDRAWAL",
+      targetId: withdrawal._id,
+      details: {
+        userId: withdrawal.userId,
+        amount: withdrawal.amount,
+        assetType: withdrawal.assetType,
+        withdrawalId: withdrawal.withdrawalId
+      },
+      reason: reason.trim()
+    });
+
     return withdrawal;
   } else {
     // Reject
@@ -300,6 +316,22 @@ export const reviewWithdrawalRequest = async ({
     });
 
     await withdrawal.save();
+
+    await logAdminAction({
+      adminUser,
+      action: "WITHDRAWAL_REJECT",
+      targetType: "WITHDRAWAL",
+      targetId: withdrawal._id,
+      details: {
+        userId: withdrawal.userId,
+        amount: withdrawal.amount,
+        assetType: withdrawal.assetType,
+        withdrawalId: withdrawal.withdrawalId,
+        releaseTransactionId: releaseRes.transaction._id
+      },
+      reason: reason.trim()
+    });
+
     return withdrawal;
   }
 };
@@ -346,6 +378,22 @@ export const settleWithdrawalRequest = async ({
   });
 
   await withdrawal.save();
+
+  await logAdminAction({
+    adminUser,
+    action: "WITHDRAWAL_SETTLE",
+    targetType: "WITHDRAWAL",
+    targetId: withdrawal._id,
+    details: {
+      userId: withdrawal.userId,
+      amount: withdrawal.amount,
+      assetType: withdrawal.assetType,
+      withdrawalId: withdrawal.withdrawalId,
+      settleTransactionId: settleRes.transaction._id
+    },
+    reason: reason.trim()
+  });
+
   return withdrawal;
 };
 

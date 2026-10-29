@@ -39,6 +39,16 @@ export function Navbar() {
               >
                 My Profile
               </NavLink>
+              {user?.role === 'admin' && (
+                <NavLink
+                  to="/admin"
+                  className={({ isActive }) =>
+                    `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`
+                  }
+                >
+                  Admin Portal
+                </NavLink>
+              )}
               {user?.role && (
                 <span className={`d-none d-md-inline-block ${styles.userBadge}`}>
                   {user.role}

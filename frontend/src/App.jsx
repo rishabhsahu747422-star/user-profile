@@ -4,6 +4,7 @@ import Navbar from './components/Navbar'
 import Home from './pages/Home/Home'
 import Login from './pages/Login/Login'
 import UserProfile from './pages/UserProfile/UserProfile'
+import AdminDashboard from './pages/Admin/AdminDashboard'
 import './App.css'
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/user-profile" element={<UserProfile />} />
             <Route path="/profile" element={<UserProfile />} />
+            <Route path="/admin" element={<AdminDashboard />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </div>
