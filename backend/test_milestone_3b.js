@@ -1,3 +1,5 @@
+process.env.JWT_SECRET = process.env.JWT_SECRET || "milestone_3b_test_secret_key_12345_32chars_min";
+
 import mongoose from "mongoose";
 import User from "./src/models/User.js";
 import Wallet from "./src/models/Wallet.js";
@@ -11,7 +13,10 @@ import {
   isTransactionSupported
 } from "./src/services/wallet.service.js";
 
-const BASE_URL = "http://localhost:5173/api";
+import app from "./src/app.js";
+
+let BASE_URL;
+let server;
 const results = [];
 
 function assert(condition, description) {
@@ -29,6 +34,9 @@ async function runMilestone3BTests() {
 
   const mongoUri = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/user-profile";
   await mongoose.connect(mongoUri);
+
+  server = app.listen(0);
+  BASE_URL = `http://127.0.0.1:${server.address().port}/api`;
 
   const timestamp = Date.now();
   const testUser = await User.create({
@@ -235,6 +243,7 @@ async function runMilestone3BTests() {
   });
   assert(profRes.status === 200, "Existing GET /api/users/me/profile still returns HTTP 200");
 
+  if (server) server.close();
   await mongoose.disconnect();
 
   console.log("\n=== Test Summary ===");
