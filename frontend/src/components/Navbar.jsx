@@ -32,7 +32,7 @@ export function Navbar() {
           {isAuthenticated ? (
             <>
               <NavLink
-                to="/profile"
+                to="/user-profile"
                 className={({ isActive }) =>
                   `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`
                 }
