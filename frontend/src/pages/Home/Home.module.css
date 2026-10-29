@@ -1,0 +1,62 @@
+.homeMain {
+  flex-grow: 1;
+}
+
+.welcomeBadge {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding: 5px 14px;
+  border-radius: 20px;
+  background-color: rgba(59, 130, 246, 0.12);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  margin-bottom: 1rem;
+}
+
+.welcomeHeading {
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: -0.8px;
+  color: #f8fafc;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.textAccentGold {
+  color: #f59e0b;
+}
+
+.welcomeDescription {
+  font-size: 1.1rem;
+  color: #94a3b8;
+  line-height: 1.6;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 0;
+}
+
+.diagnosticSection {
+  margin-top: 1rem;
+}
+
+.diagnosticHeader {
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #64748b;
+  font-size: 0.75rem;
+}
+
+@media (max-width: 768px) {
+  .welcomeHeading {
+    font-size: 1.85rem;
+  }
+  .welcomeDescription {
+    font-size: 1rem;
+  }
+}
+

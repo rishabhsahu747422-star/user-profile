@@ -1,0 +1,246 @@
+.profileContainer {
+  min-height: calc(100vh - 160px);
+  padding: 2.5rem 1rem;
+}
+
+.profileWrapper {
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.profileCard {
+  background-color: var(--bg-navy-card, #162444);
+  border: 1px solid var(--border-navy, #23355b);
+  border-radius: 1rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+  margin-bottom: 2rem;
+  color: #f8fafc;
+}
+
+.cardHeader {
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(30, 58, 138, 0.4), rgba(15, 23, 42, 0.6));
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.avatarAndInfo {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2563eb, #f59e0b);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  text-transform: uppercase;
+}
+
+.userName {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  color: #f8fafc;
+}
+
+.userEmail {
+  font-size: 0.95rem;
+  color: #94a3b8;
+  margin-bottom: 0;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.cardBody {
+  padding: 2rem;
+}
+
+.sectionTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #f8fafc;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+
+.infoItem {
+  background-color: #0b132b;
+  border: 1px solid #23355b;
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+}
+
+.infoLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #94a3b8;
+  margin-bottom: 0.35rem;
+}
+
+.infoValue {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #f8fafc;
+  word-break: break-all;
+}
+
+.roleBadge {
+  display: inline-block;
+  padding: 0.25rem 0.65rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  background-color: rgba(59, 130, 246, 0.2);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.35);
+}
+
+.statusBadge {
+  display: inline-block;
+  padding: 0.25rem 0.65rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  background-color: rgba(34, 197, 94, 0.2);
+  color: #4ade80;
+  border: 1px solid rgba(34, 197, 94, 0.35);
+}
+
+/* Pending Module Card */
+.pendingCard {
+  background-color: #111d38;
+  border: 1px dashed #3b82f6;
+  border-radius: 1rem;
+  padding: 2rem;
+  color: #f8fafc;
+}
+
+.pendingHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.pendingBadge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  background-color: rgba(245, 158, 11, 0.15);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.pendingTitle {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #f8fafc;
+  margin: 0;
+}
+
+.pendingText {
+  color: #94a3b8;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+/* Skeleton Loading State */
+.skeletonContainer {
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.skeletonHeader {
+  height: 120px;
+  background: linear-gradient(90deg, #162444 25%, #23355b 50%, #162444 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 1rem 1rem 0 0;
+}
+
+.skeletonBody {
+  padding: 2rem;
+  background-color: #162444;
+  border-radius: 0 0 1rem 1rem;
+  border: 1px solid #23355b;
+}
+
+.skeletonLine {
+  height: 20px;
+  margin-bottom: 1rem;
+  background: linear-gradient(90deg, #0b132b 25%, #1e293b 50%, #0b132b 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeletonHeader,
+  .skeletonLine {
+    animation: none;
+  }
+}
+
+@media (max-width: 576px) {
+  .cardHeader {
+    padding: 1.5rem 1.25rem;
+  }
+  .cardBody {
+    padding: 1.5rem 1.25rem;
+  }
+  .avatar {
+    width: 48px;
+    height: 48px;
+    font-size: 1.2rem;
+  }
+  .userName {
+    font-size: 1.25rem;
+  }
+}
+

@@ -1,0 +1,15 @@
+.statusCard {
+  max-width: 520px;
+  margin: 0.5rem auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border: 1px solid #23355b;
+  background-color: #162444;
+  color: #f8fafc;
+}
+
+.timestamp {
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
