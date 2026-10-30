@@ -21,11 +21,11 @@ export function Home() {
 
           <div className="d-flex justify-content-center gap-3 mt-4">
             {isAuthenticated ? (
-              <Link to="/profile" className="btn btn-primary px-4 py-2 fw-semibold">
+              <Link to="/profile" className={styles.ctaBtn}>
                 View My Profile
               </Link>
             ) : (
-              <Link to="/login" className="btn btn-primary px-4 py-2 fw-semibold">
+              <Link to="/login" className={styles.ctaBtn}>
                 Sign In to Platform
               </Link>
             )}

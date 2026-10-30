@@ -48,11 +48,11 @@ export function HealthStatus() {
 
   return (
     <div className={`card ${styles.statusCard}`}>
-      <div className="card-header bg-dark text-white d-flex justify-content-between align-items-center border-bottom border-secondary border-opacity-25 py-2">
-        <span className="fw-semibold small">VE Loop System Health</span>
+      <div className={styles.cardHeader}>
+        <span className={styles.headerTitle}>VE Loop System Health</span>
         <button
           type="button"
-          className="btn btn-sm btn-outline-light py-0 px-2"
+          className={styles.refreshBtn}
           onClick={handleRefresh}
           disabled={loading}
         >
@@ -82,19 +82,19 @@ export function HealthStatus() {
         {!loading && status && (
           <div>
             <div className="d-flex align-items-center justify-content-between mb-2">
-              <span className="fw-medium text-light small">API Service:</span>
-              <span className="badge bg-primary">{status.service}</span>
+              <span className={styles.label}>API Service:</span>
+              <span className={styles.badgeService}>{status.service}</span>
             </div>
             <div className="d-flex align-items-center justify-content-between mb-2">
-              <span className="fw-medium text-light small">Service Status:</span>
-              <span className="badge bg-success">{status.status.toUpperCase()}</span>
+              <span className={styles.label}>Service Status:</span>
+              <span className={styles.badgeSuccess}>{status.status.toUpperCase()}</span>
             </div>
             <div className="d-flex align-items-center justify-content-between mb-2">
-              <span className="fw-medium text-light small">MongoDB Database:</span>
+              <span className={styles.label}>MongoDB Database:</span>
               <span
-                className={`badge ${
-                  status.database?.connected ? 'bg-success' : 'bg-warning text-dark'
-                }`}
+                className={
+                  status.database?.connected ? styles.badgeSuccess : styles.badgeWarning
+                }
               >
                 {status.database?.status?.toUpperCase() || 'UNKNOWN'}
               </span>

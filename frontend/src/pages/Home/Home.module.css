@@ -1,62 +1,85 @@
 .homeMain {
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .welcomeBadge {
   display: inline-block;
   font-size: 0.8rem;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.8px;
-  padding: 5px 14px;
-  border-radius: 20px;
-  background-color: rgba(59, 130, 246, 0.12);
-  color: #60a5fa;
-  border: 1px solid rgba(59, 130, 246, 0.3);
-  margin-bottom: 1rem;
+  padding: 6px 16px;
+  border-radius: var(--radius-full, 9999px);
+  background-color: var(--accent-soft, #EEF1FF);
+  color: var(--accent-primary, #7895F8);
+  border: 1px solid #C7D2FE;
+  margin-bottom: 1.25rem;
 }
 
 .welcomeHeading {
-  font-size: 2.5rem;
-  font-weight: 700;
+  font-size: 2.75rem;
+  font-weight: 800;
   letter-spacing: -0.8px;
-  color: #f8fafc;
+  color: var(--text-primary, #20212A);
   line-height: 1.2;
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
 }
 
 .textAccentGold {
-  color: #f59e0b;
+  color: var(--accent-primary, #7895F8);
+  background: linear-gradient(135deg, var(--accent-primary, #7895F8) 0%, #5E7EE8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .welcomeDescription {
-  font-size: 1.1rem;
-  color: #94a3b8;
+  font-size: 1.15rem;
+  color: var(--text-secondary, #737783);
   line-height: 1.6;
-  max-width: 600px;
+  max-width: 620px;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 0;
 }
 
+.ctaBtn {
+  background: linear-gradient(135deg, var(--accent-primary, #7895F8) 0%, #5E7EE8 100%);
+  color: #FFFFFF !important;
+  font-weight: 700;
+  border-radius: var(--radius-sm, 8px);
+  padding: 0.65rem 1.75rem;
+  box-shadow: 0 4px 12px rgba(120, 149, 248, 0.35);
+  border: none;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.ctaBtn:hover {
+  opacity: 0.95;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(120, 149, 248, 0.45);
+}
+
 .diagnosticSection {
-  margin-top: 1rem;
+  margin-top: 2rem;
 }
 
 .diagnosticHeader {
   text-transform: uppercase;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 1px;
-  color: #64748b;
+  color: var(--text-secondary, #737783);
   font-size: 0.75rem;
 }
 
 @media (max-width: 768px) {
   .welcomeHeading {
-    font-size: 1.85rem;
+    font-size: 2rem;
   }
   .welcomeDescription {
     font-size: 1rem;
   }
 }
-

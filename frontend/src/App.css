@@ -2,22 +2,26 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: var(--bg-navy, #0b132b);
+  background-color: var(--app-background, #E9EAEE);
 }
 
 .app-content {
-  flex: 1;
+  flex: 1 0 auto;
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .app-footer {
-  border-top: 1px solid var(--border-navy, #23355b);
+  flex-shrink: 0;
   margin-top: auto;
-  background-color: rgba(11, 19, 43, 0.95);
+  border-top: 1px solid var(--border-subtle, #E7E8ED);
+  background-color: var(--surface-primary, #FFFFFF);
+  padding: 1.25rem 0;
 }
 
 .footer-text {
-  color: var(--text-secondary, #94a3b8);
+  color: var(--text-secondary, #737783);
   font-size: 0.85rem;
+  font-weight: 500;
 }
