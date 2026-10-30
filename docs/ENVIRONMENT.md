@@ -58,3 +58,4 @@ The application incorporates a synchronous fail-fast startup validator located i
 If any required variable is missing or malformed when running in `production` mode, the process aborts immediately with exit code 1 and prints secret-free diagnostic error messages.
 
 **Security Guarantee:** Error messages describe misconfigurations without leaking the actual contents of secrets or credentials to logs or stdout.
+

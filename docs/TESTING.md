@@ -100,3 +100,4 @@ npm --prefix frontend run build
 
 - **MongoDB Standalone vs. Replica Set:** When running against a standalone MongoDB instance, multi-document transactions (`session.withTransaction`) are unavailable. The platform automatically switches to its Two-Phase Compensating Ledger Protocol. If deployed to MongoDB Atlas or a replica set, native transactions activate seamlessly.
 - **Test Data Isolation:** All test scripts create dynamically timestamped test users (`qa_user_<timestamp>@example.com`) and clean up test fixtures upon completion.
+

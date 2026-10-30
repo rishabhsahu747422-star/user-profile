@@ -169,3 +169,4 @@ npm --prefix frontend run build
 - [x] Zero secrets, real API keys, or `.env` credential files committed.
 
 **Final Status:** **READY FOR SUBMISSION**
+

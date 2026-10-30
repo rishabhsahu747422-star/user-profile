@@ -93,3 +93,4 @@ In accordance with OWASP principles and Task 14 Section 30:
 - The seeded demo credentials use strong, bcrypt-salted password hashes (`$2a$10$...`).
 - Password hashes are strictly excluded from JSON representations (`select: false` and `toSafeObject()` transforms).
 - The quick-fill demo panel can be disabled in strict production deployments by setting `NODE_ENV=production`.
+

@@ -129,3 +129,4 @@ To ensure optimal performance and eliminate the "waterfall of API calls" problem
 - **Styles & Modularity:** CSS Modules (`.module.css`) isolate component styles, preventing CSS leakage. Global themes use CSS Custom Properties (`--bg-navy-dark: #0a1128`, `--text-light: #f8fafc`).
 - **Responsive Layout:** Bootstrap 5 grid provides fluid responsiveness across mobile (375px+), tablet (768px+), and desktop (1024px+).
 - **Graceful UI States:** Every dynamic view includes skeleton loading indicators, empty-state placeholders, and clear error banners with retry triggers.
+
