@@ -51,7 +51,14 @@ const referralSchema = new mongoose.Schema(
       ref: "User",
       required: [true, "Referred user ID is required"],
       unique: true, // Crucial: Exactly one referral relationship per referred user
-      index: true
+      index: true,
+      validate: {
+        validator: function (val) {
+          if (!this.referrerId || !val) return true;
+          return this.referrerId.toString() !== val.toString();
+        },
+        message: "Self-referral is strictly prohibited."
+      }
     },
     referralCode: {
       type: String,

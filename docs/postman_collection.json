@@ -1,0 +1,308 @@
+{
+  "info": {
+    "name": "VE Loop Rewards — Task 14 API Collection",
+    "description": "Comprehensive Postman collection for VE Loop Rewards User Profile & Admin Management System.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000/api",
+      "type": "string"
+    },
+    {
+      "key": "userToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "adminToken",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "System Health",
+      "item": [
+        {
+          "name": "Liveness Probe (GET /health)",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "http://localhost:3000/health" }
+          }
+        },
+        {
+          "name": "Readiness Probe (GET /ready)",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "http://localhost:3000/ready" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"test.user@example.com\",\n  \"password\": \"UserPassword123!\",\n  \"referralCode\": \"DEMO2026\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/register" }
+          }
+        },
+        {
+          "name": "Login User",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"demo-user@example.com\",\n  \"password\": \"UserPassword123!\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login" }
+          }
+        },
+        {
+          "name": "Login Admin",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"demo-admin@example.com\",\n  \"password\": \"AdminPassword123!\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "User Profile & Dashboard",
+      "item": [
+        {
+          "name": "Unified Overview (GET /api/users/me/overview)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{userToken}}" }],
+            "url": { "raw": "{{baseUrl}}/users/me/overview" }
+          }
+        },
+        {
+          "name": "Get Profile (GET /api/users/me/profile)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{userToken}}" }],
+            "url": { "raw": "{{baseUrl}}/users/me/profile" }
+          }
+        },
+        {
+          "name": "Get Wallet Balances (GET /api/users/me/wallet)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{userToken}}" }],
+            "url": { "raw": "{{baseUrl}}/users/me/wallet" }
+          }
+        },
+        {
+          "name": "Get Level Progress (GET /api/users/me/progress)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{userToken}}" }],
+            "url": { "raw": "{{baseUrl}}/users/me/progress" }
+          }
+        },
+        {
+          "name": "Get Achievements (GET /api/users/me/achievements)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{userToken}}" }],
+            "url": { "raw": "{{baseUrl}}/users/me/achievements" }
+          }
+        },
+        {
+          "name": "Claim Achievement Reward",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{userToken}}" }],
+            "url": { "raw": "{{baseUrl}}/users/me/achievements/:id/claim" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Referrals",
+      "item": [
+        {
+          "name": "Validate Referral Code",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/referrals/validate/DEMO2026" }
+          }
+        },
+        {
+          "name": "Get Referral Summary",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{userToken}}" }],
+            "url": { "raw": "{{baseUrl}}/users/me/referrals" }
+          }
+        },
+        {
+          "name": "Get Referral History",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{userToken}}" }],
+            "url": { "raw": "{{baseUrl}}/users/me/referrals/history?page=1&limit=10" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Withdrawals",
+      "item": [
+        {
+          "name": "Create Withdrawal Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{userToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 300,\n  \"assetType\": \"VE\",\n  \"payoutMethod\": \"UPI\",\n  \"payoutDetails\": { \"accountIdentifier\": \"user@upi\" },\n  \"idempotencyKey\": \"wd_sample_idemp_key_01\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/users/me/withdrawals" }
+          }
+        },
+        {
+          "name": "Cancel Withdrawal Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{userToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"User requested cancellation\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/users/me/withdrawals/:id/cancel" }
+          }
+        },
+        {
+          "name": "Get Withdrawal Summary",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{userToken}}" }],
+            "url": { "raw": "{{baseUrl}}/users/me/withdrawals/summary" }
+          }
+        },
+        {
+          "name": "Get Withdrawal History",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{userToken}}" }],
+            "url": { "raw": "{{baseUrl}}/users/me/withdrawals?page=1&limit=10" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Administration",
+      "item": [
+        {
+          "name": "Admin Overview Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/overview" }
+          }
+        },
+        {
+          "name": "List Users (Search & Filters)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/users?page=1&limit=15&search=&status=&role=" }
+          }
+        },
+        {
+          "name": "Get User Details",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/users/:id" }
+          }
+        },
+        {
+          "name": "Update User Status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"suspended\",\n  \"reason\": \"Account under review for policy compliance\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/admin/users/:id/status" }
+          }
+        },
+        {
+          "name": "List Withdrawals",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/withdrawals?page=1&limit=20&status=pending" }
+          }
+        },
+        {
+          "name": "Review Withdrawal (Approve / Reject)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"decision\": \"approve\",\n  \"reason\": \"KYC and payout details verified\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/admin/withdrawals/:id/review" }
+          }
+        },
+        {
+          "name": "Settle Withdrawal",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Disbursed via automated wire payment\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/admin/withdrawals/:id/settle" }
+          }
+        },
+        {
+          "name": "List Platform Audit Logs",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/audit-logs?page=1&limit=20" }
+          }
+        }
+      ]
+    }
+  ]
+}

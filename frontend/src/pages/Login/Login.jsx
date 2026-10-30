@@ -175,6 +175,51 @@ export function Login() {
               {isRegisterMode ? 'Sign In' : 'Create an Account'}
             </button>
           </div>
+
+          {!isRegisterMode && (
+            <div className={styles.demoBox} aria-label="Demo Credentials Panel">
+              <div className={styles.demoTitle}>
+                <span>Demo Evaluation Access</span>
+                <span className={styles.demoBadge}>Demo Mode</span>
+              </div>
+              <div className={styles.demoRow}>
+                <div>
+                  <div className={styles.demoLabel}>Demo Administrator</div>
+                  <div className={styles.demoVal}>demo-admin@example.com</div>
+                </div>
+                <button
+                  type="button"
+                  className={styles.quickFillBtn}
+                  onClick={() => {
+                    setEmail('demo-admin@example.com')
+                    setPassword('AdminPassword123!')
+                    setError(null)
+                  }}
+                  title="Quick-fill Demo Admin credentials"
+                >
+                  Quick Fill
+                </button>
+              </div>
+              <div className={styles.demoRow}>
+                <div>
+                  <div className={styles.demoLabel}>Demo Regular User</div>
+                  <div className={styles.demoVal}>demo-user@example.com</div>
+                </div>
+                <button
+                  type="button"
+                  className={styles.quickFillBtn}
+                  onClick={() => {
+                    setEmail('demo-user@example.com')
+                    setPassword('UserPassword123!')
+                    setError(null)
+                  }}
+                  title="Quick-fill Demo User credentials"
+                >
+                  Quick Fill
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

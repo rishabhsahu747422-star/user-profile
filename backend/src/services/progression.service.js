@@ -444,22 +444,27 @@ export const claimAchievementReward = async (userId, achievementId) => {
     throw new Error("userId and achievementId are required.");
   }
 
-  const userAch = await UserAchievement.findOne({ userId, achievementId });
-  if (!userAch || !userAch.unlocked) {
-    throw new Error("Achievement is not unlocked yet.");
-  }
+  // Atomic check-and-update to prevent race conditions during concurrent claims
+  const updatedUserAch = await UserAchievement.findOneAndUpdate(
+    { userId, achievementId, unlocked: true, isClaimed: false },
+    { $set: { isClaimed: true, claimedAt: new Date() } },
+    { returnDocument: "after" }
+  );
 
-  if (userAch.isClaimed) {
-    throw new Error("Achievement reward has already been claimed.");
+  if (!updatedUserAch) {
+    const existing = await UserAchievement.findOne({ userId, achievementId });
+    if (!existing || !existing.unlocked) {
+      throw new Error("Achievement is not unlocked yet.");
+    }
+    if (existing.isClaimed) {
+      throw new Error("Achievement reward has already been claimed.");
+    }
+    throw new Error("Unable to claim achievement.");
   }
-
-  userAch.isClaimed = true;
-  userAch.claimedAt = new Date();
-  await userAch.save();
 
   return {
     success: true,
     achievementId,
-    claimedAt: userAch.claimedAt
+    claimedAt: updatedUserAch.claimedAt
   };
 };
