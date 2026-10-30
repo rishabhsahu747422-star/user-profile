@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
 import styles from './Login.module.css'
 
-export function Login() {
-  const [isRegisterMode, setIsRegisterMode] = useState(false)
+export function Login({ initialMode = 'login' }) {
+  const [isRegisterMode, setIsRegisterMode] = useState(initialMode === 'register')
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -57,15 +57,23 @@ export function Login() {
   }
 
   const toggleMode = () => {
-    setIsRegisterMode((prev) => !prev)
+    const nextMode = !isRegisterMode
+    setIsRegisterMode(nextMode)
     setError(null)
     setPassword('')
+    navigate(nextMode ? '/register' : '/login')
   }
 
   return (
     <div className={styles.loginContainer}>
       <div className={styles.loginCard}>
+        {/* Brand Logo & Header */}
         <div className={styles.cardHeader}>
+          <div className={styles.brandHeader}>
+            <div className={styles.brandLogo} aria-hidden="true">VE</div>
+            <span className={styles.brandTitle}>VE Loop Rewards</span>
+          </div>
+
           <span className={styles.authBadge}>
             {isRegisterMode ? 'Registration' : 'Secure Login'}
           </span>
@@ -86,9 +94,9 @@ export function Login() {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} noValidate>
+          <form onSubmit={handleSubmit} className={styles.authForm} noValidate>
             {isRegisterMode && (
-              <div className="mb-3">
+              <div className={styles.formGroup}>
                 <label className={styles.formLabel} htmlFor="auth-name">
                   Full Name
                 </label>
@@ -106,7 +114,7 @@ export function Login() {
               </div>
             )}
 
-            <div className="mb-3">
+            <div className={styles.formGroup}>
               <label className={styles.formLabel} htmlFor="auth-email">
                 Email Address
               </label>
@@ -123,7 +131,7 @@ export function Login() {
               />
             </div>
 
-            <div className="mb-4">
+            <div className={styles.formGroup}>
               <label className={styles.formLabel} htmlFor="auth-password">
                 Password
               </label>
@@ -139,9 +147,9 @@ export function Login() {
                 autoComplete={isRegisterMode ? 'new-password' : 'current-password'}
               />
               {isRegisterMode && (
-                <small className="text-secondary d-block mt-1">
+                <span className={styles.passwordHint}>
                   Must be at least 6 characters long.
-                </small>
+                </span>
               )}
             </div>
 
@@ -161,7 +169,7 @@ export function Login() {
           </form>
 
           <div className={styles.toggleSection}>
-            <span>
+            <span className={styles.togglePrompt}>
               {isRegisterMode
                 ? 'Already have an account?'
                 : "Don't have an account yet?"}
