@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider } from './context/AuthProvider'
-import Navbar from './components/Navbar'
+import Sidebar from './components/Sidebar'
+import TopHeader from './components/TopHeader'
 import Home from './pages/Home/Home'
 import Login from './pages/Login/Login'
 import UserProfile from './pages/UserProfile/UserProfile'
@@ -10,27 +11,41 @@ import './App.css'
 function App() {
   return (
     <AuthProvider>
-      <div className="app-container">
-        <Navbar />
+      <div className="app-shell">
+        {/* Compact Vertical Icon Sidebar */}
+        <Sidebar />
 
-        <div className="app-content">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/user-profile" element={<UserProfile />} />
-            <Route path="/profile" element={<UserProfile />} />
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </div>
+        {/* Main Application Surface */}
+        <div className="app-main-surface">
+          <div className="app-surface-frame">
+            {/* Top Navigation Bar */}
+            <TopHeader />
 
-        <footer className="app-footer py-3 text-center">
-          <div className="container">
-            <small className="footer-text">
-              &copy; {new Date().getFullYear()} VE Loop Rewards. All rights reserved.
-            </small>
+            {/* Routed Page Content */}
+            <main className="app-content-body">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/user-profile" element={<UserProfile />} />
+                <Route path="/profile" element={<UserProfile />} />
+                <Route path="/admin" element={<AdminDashboard />} />
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Routes>
+            </main>
+
+            {/* Clean Footer */}
+            <footer className="app-footer">
+              <small className="footer-text">
+                &copy; {new Date().getFullYear()} VE Loop Rewards. Enterprise Loyalty & Wallet System.
+              </small>
+              <div className="footer-links">
+                <span className="footer-link">Privacy Policy</span>
+                <span className="footer-link">Terms of Service</span>
+                <span className="footer-link">Security</span>
+              </div>
+            </footer>
           </div>
-        </footer>
+        </div>
       </div>
     </AuthProvider>
   )

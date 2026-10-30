@@ -1,52 +1,80 @@
+/* Design Tokens - High-Contrast Fintech System */
 :root {
-  /* Light Fintech Design Tokens */
-  --app-background: #E9EAEE;
-  --surface-primary: #FFFFFF;
-  --surface-secondary: #F7F8FA;
-  --surface-tertiary: #EEF1FF;
-  --accent-primary: #7895F8;
-  --accent-secondary: #A5B5FF;
-  --accent-soft: #EEF1FF;
-  --text-primary: #20212A;
-  --text-secondary: #737783;
-  --text-muted: #A0A4AD;
-  --border-subtle: #E7E8ED;
-  --border-focus: #7895F8;
+  /* Canvas & Surfaces */
+  --canvas-bg: #E9EAEE;
+  --surface-main: #FFFFFF;
+  --surface-alt: #F8FAFC;
+  --surface-muted: #F1F5F9;
+  --surface-card: #FFFFFF;
 
-  /* Status Colors */
-  --success: #20B486;
-  --success-soft: #ECFDF5;
-  --success-border: #A7F3D0;
-  --warning: #F4A340;
-  --warning-soft: #FFFBEB;
-  --warning-border: #FDE68A;
-  --danger: #EF6464;
-  --danger-soft: #FEF2F2;
-  --danger-border: #FECACA;
-  --purple: #8B5CF6;
-  --purple-soft: #F5F3FF;
+  /* Primary Brand & Accents (WCAG AA compliant) */
+  --primary-600: #4F46E5;
+  --primary-700: #4338CA;
+  --primary-500: #6366F1;
+  --primary-soft: #EEF2FF;
+  --primary-border: #C7D2FE;
+  --primary-text: #3730A3;
+
+  /* Secondary Violet / SVE Accent */
+  --purple-600: #7C3AED;
+  --purple-soft: #F3E8FF;
   --purple-border: #DDD6FE;
+  --purple-text: #6B21A8;
 
-  /* Shadows & Radii */
-  --shadow-card: 0 2px 10px rgba(0, 0, 0, 0.04);
-  --shadow-hover: 0 6px 20px rgba(0, 0, 0, 0.07);
-  --shadow-modal: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  --radius-sm: 8px;
-  --radius-md: 12px;
+  /* High-Contrast Neutral Typography */
+  --text-main: #0F172A;       /* High-contrast dark charcoal: 16.5:1 on white */
+  --text-secondary: #334155;  /* High-contrast slate: 9.6:1 on white */
+  --text-muted: #64748B;      /* Medium slate: 4.6:1 on white */
+  --text-inverse: #FFFFFF;
+
+  /* Borders & Dividers */
+  --border-light: #E2E8F0;
+  --border-subtle: #E2E8F0;
+  --border-strong: #CBD5E1;
+  --border-focus: #4F46E5;
+
+  /* Semantic Status Colors (Dark text on light tint for >= 4.5:1 contrast) */
+  --status-success-bg: #DCFCE7;
+  --status-success-border: #86EFAC;
+  --status-success-text: #166534;
+
+  --status-warning-bg: #FEF3C7;
+  --status-warning-border: #FCD34D;
+  --status-warning-text: #92400E;
+
+  --status-danger-bg: #FEE2E2;
+  --status-danger-border: #FCA5A5;
+  --status-danger-text: #991B1B;
+
+  --status-info-bg: #E0F2FE;
+  --status-info-border: #7DD3FC;
+  --status-info-text: #075985;
+
+  /* Elevated Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.07), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
+  --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.03);
+  --shadow-app: 0 20px 40px -15px rgba(15, 23, 42, 0.08);
+
+  /* Border Radii */
+  --radius-sm: 6px;
+  --radius-md: 10px;
   --radius-lg: 16px;
+  --radius-xl: 20px;
   --radius-full: 9999px;
 
-  /* Typography */
+  /* Compatibility Aliases */
+  --app-background: var(--canvas-bg);
+  --surface-primary: var(--surface-main);
+  --surface-secondary: var(--surface-alt);
+  --accent-primary: var(--primary-600);
+  --accent-secondary: var(--primary-500);
+  --accent-soft: var(--primary-soft);
+  --text-primary: var(--text-main);
+  --success: #16A34A;
+  --warning: #D97706;
+  --danger: #DC2626;
   --font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-
-  /* Backward Compatibility Fallbacks */
-  --bg-navy: var(--app-background);
-  --bg-navy-surface: var(--surface-primary);
-  --bg-navy-card: var(--surface-primary);
-  --border-navy: var(--border-subtle);
-  --accent-blue: var(--accent-primary);
-  --accent-gold: var(--warning);
-  --accent-gold-subtle: var(--warning-soft);
 }
 
 *,
@@ -59,8 +87,8 @@ html, body {
   min-height: 100%;
   margin: 0;
   padding: 0;
-  background-color: var(--app-background);
-  color: var(--text-primary);
+  background-color: var(--canvas-bg);
+  color: var(--text-main);
   font-family: var(--font-family);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

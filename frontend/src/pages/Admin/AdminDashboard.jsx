@@ -448,7 +448,7 @@ export function AdminDashboard() {
         {activeTab === 'overview' && overview && (
           <div>
             {/* Users Summary Cards */}
-            <h2 className="h5 fw-bold text-light mb-3">User Population Metrics</h2>
+            <h2 className="h5 fw-bold text-dark mb-3">User Population Metrics</h2>
             <div className={styles.statGrid}>
               <div className={styles.statCard}>
                 <span className={styles.statLabel}>Total Registered</span>
@@ -481,7 +481,7 @@ export function AdminDashboard() {
             </div>
 
             {/* Withdrawals & Financial Summary Cards */}
-            <h2 className="h5 fw-bold text-light mb-3">Withdrawal Pipeline & Reserves</h2>
+            <h2 className="h5 fw-bold text-dark mb-3">Withdrawal Pipeline & Reserves</h2>
             <div className={styles.statGrid}>
               <div className={styles.statCard}>
                 <span className={styles.statLabel}>Pending Reviews</span>
@@ -1045,14 +1045,14 @@ export function AdminDashboard() {
                         </td>
                         <td>
                           <div>
-                            <span className="badge bg-dark text-light border border-secondary border-opacity-25">
+                            <span className="badge bg-light text-dark border">
                               {log.targetType}
                             </span>{' '}
                             <code>{String(log.targetId).slice(-8)}</code>
                           </div>
                         </td>
                         <td>
-                          <span className="fw-semibold text-light">{log.reason}</span>
+                          <span className="fw-semibold text-dark">{log.reason}</span>
                         </td>
                         <td>
                           <small className="text-secondary font-monospace">
@@ -1117,8 +1117,8 @@ export function AdminDashboard() {
               </button>
             </div>
             <div className={styles.modalBody}>
-              <div className="mb-3 p-3 bg-dark rounded border border-secondary border-opacity-25">
-                <div className="h5 text-light fw-bold mb-1">
+              <div className="mb-3 p-3 bg-light rounded border">
+                <div className="h5 text-dark fw-bold mb-1">
                   {selectedUserDetails.user.name}
                 </div>
                 <div className="text-secondary mb-2">{selectedUserDetails.user.email}</div>
@@ -1139,45 +1139,45 @@ export function AdminDashboard() {
                 </div>
               </div>
 
-              <h4 className="h6 text-warning fw-bold text-uppercase mb-2">Wallet Balances</h4>
+              <h4 className="h6 text-primary fw-bold text-uppercase mb-2">Wallet Balances</h4>
               <div className="row g-2 mb-3">
                 <div className="col-6">
-                  <div className="p-2 bg-dark rounded border border-secondary border-opacity-25">
+                  <div className="p-2 bg-light rounded border">
                     <small className="text-secondary">VE Available / Reserved</small>
-                    <div className="fw-bold text-light">
+                    <div className="fw-bold text-dark">
                       {selectedUserDetails.wallet?.balances?.VE?.available?.toLocaleString() || 0}{' '}
                       / {selectedUserDetails.wallet?.balances?.VE?.reserved?.toLocaleString() || 0}
                     </div>
                   </div>
                 </div>
                 <div className="col-6">
-                  <div className="p-2 bg-dark rounded border border-secondary border-opacity-25">
+                  <div className="p-2 bg-light rounded border">
                     <small className="text-secondary">SVEs</small>
-                    <div className="fw-bold text-light">
+                    <div className="fw-bold text-dark">
                       {selectedUserDetails.wallet?.balances?.SVE?.available?.toLocaleString() || 0}
                     </div>
                   </div>
                 </div>
                 <div className="col-6">
-                  <div className="p-2 bg-dark rounded border border-secondary border-opacity-25">
+                  <div className="p-2 bg-light rounded border">
                     <small className="text-secondary">Quest Gems</small>
-                    <div className="fw-bold text-light">
+                    <div className="fw-bold text-dark">
                       {selectedUserDetails.wallet?.balances?.GEM?.available?.toLocaleString() || 0}
                     </div>
                   </div>
                 </div>
                 <div className="col-6">
-                  <div className="p-2 bg-dark rounded border border-secondary border-opacity-25">
+                  <div className="p-2 bg-light rounded border">
                     <small className="text-secondary">Tokens</small>
-                    <div className="fw-bold text-light">
+                    <div className="fw-bold text-dark">
                       {selectedUserDetails.wallet?.balances?.TOKEN?.available?.toLocaleString() || 0}
                     </div>
                   </div>
                 </div>
               </div>
 
-              <h4 className="h6 text-warning fw-bold text-uppercase mb-2">Progression</h4>
-              <div className="p-2 bg-dark rounded border border-secondary border-opacity-25 mb-3">
+              <h4 className="h6 text-primary fw-bold text-uppercase mb-2">Progression</h4>
+              <div className="p-2 bg-light rounded border mb-3">
                 <div className="d-flex justify-content-between mb-1">
                   <span>
                     Level {selectedUserDetails.progression?.currentLevel} (
@@ -1410,7 +1410,7 @@ export function AdminDashboard() {
                 </button>
               </div>
               <div className={styles.modalBody}>
-                <div className="alert alert-info border border-info border-opacity-25 bg-dark text-light mb-3">
+                <div className="alert alert-info border border-info border-opacity-25 bg-light text-dark mb-3">
                   <p className="mb-1">
                     You are confirming final payout settlement of{' '}
                     <strong className="text-warning">

@@ -3,7 +3,18 @@ import { api, getAuthToken, setAuthToken } from '../services/api'
 import { AuthContext } from './AuthContext'
 
 export function AuthProvider({ children }) {
-  const [token, setTokenState] = useState(() => getAuthToken())
+  const [token, setTokenState] = useState(() => {
+    try {
+      const urlToken = new URLSearchParams(window.location.search).get('token')
+      if (urlToken) {
+        setAuthToken(urlToken)
+        return urlToken
+      }
+    } catch {
+      // ignore
+    }
+    return getAuthToken()
+  })
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(() => Boolean(getAuthToken()))
 

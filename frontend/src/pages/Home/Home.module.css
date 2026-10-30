@@ -3,41 +3,42 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding: 3rem 1.5rem;
 }
 
 .welcomeBadge {
   display: inline-block;
   font-size: 0.8rem;
-  font-weight: 700;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.8px;
   padding: 6px 16px;
   border-radius: var(--radius-full, 9999px);
-  background-color: var(--accent-soft, #EEF1FF);
-  color: var(--accent-primary, #7895F8);
-  border: 1px solid #C7D2FE;
+  background-color: var(--primary-soft, #EEF2FF);
+  color: var(--primary-text, #3730A3);
+  border: 1px solid var(--primary-border, #C7D2FE);
   margin-bottom: 1.25rem;
 }
 
 .welcomeHeading {
   font-size: 2.75rem;
   font-weight: 800;
-  letter-spacing: -0.8px;
-  color: var(--text-primary, #20212A);
+  letter-spacing: -0.03em;
+  color: var(--text-main, #0F172A);
   line-height: 1.2;
   margin-bottom: 1.25rem;
 }
 
 .textAccentGold {
-  color: var(--accent-primary, #7895F8);
-  background: linear-gradient(135deg, var(--accent-primary, #7895F8) 0%, #5E7EE8 100%);
+  color: var(--primary-600, #4F46E5);
+  background: linear-gradient(135deg, var(--primary-600, #4F46E5) 0%, #3730A3 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .welcomeDescription {
   font-size: 1.15rem;
-  color: var(--text-secondary, #737783);
+  color: var(--text-secondary, #334155);
   line-height: 1.6;
   max-width: 620px;
   margin-left: auto;
@@ -46,32 +47,35 @@
 }
 
 .ctaBtn {
-  background: linear-gradient(135deg, var(--accent-primary, #7895F8) 0%, #5E7EE8 100%);
+  background: linear-gradient(135deg, var(--primary-600, #4F46E5) 0%, #3730A3 100%);
   color: #FFFFFF !important;
   font-weight: 700;
-  border-radius: var(--radius-sm, 8px);
-  padding: 0.65rem 1.75rem;
-  box-shadow: 0 4px 12px rgba(120, 149, 248, 0.35);
+  border-radius: var(--radius-md, 10px);
+  padding: 0.75rem 2rem;
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35);
   border: none;
   text-decoration: none;
   transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .ctaBtn:hover {
   opacity: 0.95;
   transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(120, 149, 248, 0.45);
+  box-shadow: 0 6px 18px rgba(79, 70, 229, 0.45);
 }
 
 .diagnosticSection {
-  margin-top: 2rem;
+  margin-top: 2.5rem;
 }
 
 .diagnosticHeader {
   text-transform: uppercase;
   font-weight: 700;
   letter-spacing: 1px;
-  color: var(--text-secondary, #737783);
+  color: var(--text-muted, #64748B);
   font-size: 0.75rem;
 }
 

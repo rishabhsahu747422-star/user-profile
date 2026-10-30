@@ -12,17 +12,24 @@ export function UserProfile() {
   const [toastMessage, setToastMessage] = useState(null)
   const [claimingId, setClaimingId] = useState(null)
 
+  // Withdrawal Request Modal State
+  const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false)
+  const [withdrawAmount, setWithdrawAmount] = useState('')
+  const [withdrawDestination, setWithdrawDestination] = useState('')
+  const [withdrawing, setWithdrawing] = useState(false)
+
   const { isAuthenticated, logout } = useAuth()
   const navigate = useNavigate()
 
-  // Toast auto-dismiss
+  // Toast auto-dismiss helper
   const showToast = useCallback((msg, type = 'info') => {
     setToastMessage({ text: msg, type })
     setTimeout(() => {
       setToastMessage(null)
-    }, 3000)
+    }, 3500)
   }, [])
 
+  // Load dashboard overview
   const loadOverview = useCallback(async (isRefresh = false) => {
     if (isRefresh) {
       setRefreshing(true)
@@ -32,7 +39,7 @@ export function UserProfile() {
       setOverview(data)
       setError(null)
       if (isRefresh) {
-        showToast('Dashboard data refreshed', 'success')
+        showToast('Dashboard data refreshed successfully', 'success')
       }
     } catch (err) {
       if (err.status === 401 || err.status === 403) {
@@ -125,7 +132,38 @@ export function UserProfile() {
     }
   }
 
-  // Format date helper
+  // Request withdrawal submit
+  const handleCreateWithdrawal = async (e) => {
+    e.preventDefault()
+    const amountNum = Number(withdrawAmount)
+    if (!amountNum || isNaN(amountNum) || amountNum <= 0) {
+      showToast('Please enter a valid withdrawal amount.', 'error')
+      return
+    }
+    if (!withdrawDestination.trim()) {
+      showToast('Please provide a payout destination address.', 'error')
+      return
+    }
+
+    setWithdrawing(true)
+    try {
+      await api.user.createWithdrawal({
+        amount: amountNum,
+        destination: withdrawDestination.trim()
+      })
+      showToast('Withdrawal request submitted successfully!', 'success')
+      setIsWithdrawModalOpen(false)
+      setWithdrawAmount('')
+      setWithdrawDestination('')
+      await loadOverview(false)
+    } catch (err) {
+      showToast(err.message || 'Failed to submit withdrawal request.', 'error')
+    } finally {
+      setWithdrawing(false)
+    }
+  }
+
+  // Date formatting helpers
   const formatDate = (dateString) => {
     if (!dateString) return 'N/A'
     try {
@@ -153,7 +191,6 @@ export function UserProfile() {
     }
   }
 
-  // Get initials for avatar
   const getInitials = (name) => {
     if (!name) return 'U'
     return name
@@ -168,26 +205,23 @@ export function UserProfile() {
     return (
       <div className={styles.dashboardContainer}>
         <div className={styles.dashboardWrapper}>
-          {/* Skeleton Hero */}
           <div className={`${styles.skeletonCard} mb-4`}>
-            <div className={styles.skeletonHeader}>
-              <div className={styles.skeletonAvatar}></div>
+            <div className="d-flex align-items-center gap-3">
+              <div className={styles.skeletonAvatar} />
               <div style={{ flex: 1 }}>
-                <div className={styles.skeletonLine} style={{ width: '35%', height: '1.5rem' }}></div>
-                <div className={styles.skeletonLine} style={{ width: '50%', height: '1rem', marginTop: '0.5rem' }}></div>
+                <div className={styles.skeletonLine} style={{ width: '35%', height: '1.5rem' }} />
+                <div className={styles.skeletonLine} style={{ width: '55%', height: '1rem', marginTop: '0.5rem' }} />
               </div>
             </div>
           </div>
-          {/* Skeleton Grid */}
-          <div className="row g-3 mb-4">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="col-12 col-sm-6 col-lg-3">
-                <div className={styles.skeletonCard} style={{ height: '140px' }}></div>
-              </div>
-            ))}
+          <div className="row g-4 mb-4">
+            <div className="col-12 col-xl-8">
+              <div className={styles.skeletonCard} style={{ height: '240px' }} />
+            </div>
+            <div className="col-12 col-xl-4">
+              <div className={styles.skeletonCard} style={{ height: '240px' }} />
+            </div>
           </div>
-          {/* Skeleton Progress */}
-          <div className={`${styles.skeletonCard} mb-4`} style={{ height: '180px' }}></div>
         </div>
       </div>
     )
@@ -261,247 +295,366 @@ export function UserProfile() {
         </div>
       )}
 
+      {/* Withdrawal Request Modal */}
+      {isWithdrawModalOpen && (
+        <div className={styles.modalOverlay} role="dialog" aria-modal="true" aria-labelledby="withdraw-modal-title">
+          <div className={styles.modalContent}>
+            <div className={styles.modalHeader}>
+              <h3 id="withdraw-modal-title" className={styles.modalTitle}>
+                Request VE Withdrawal
+              </h3>
+              <button
+                type="button"
+                className={styles.modalCloseBtn}
+                onClick={() => setIsWithdrawModalOpen(false)}
+                aria-label="Close modal"
+              >
+                &times;
+              </button>
+            </div>
+            <form onSubmit={handleCreateWithdrawal}>
+              <div className={styles.modalBody}>
+                <div className="mb-3">
+                  <div className="d-flex justify-content-between mb-1">
+                    <span className={styles.formLabel}>Available Balance:</span>
+                    <strong className="text-primary">{balances.VE.available.toLocaleString()} VEs</strong>
+                  </div>
+                  <small className="text-muted d-block mb-3">
+                    Minimum withdrawal is 200 VE. Requested funds will be reserved immediately upon submission.
+                  </small>
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="withdraw-amount-input" className={styles.formLabel}>
+                    Withdrawal Amount (VE):
+                  </label>
+                  <input
+                    id="withdraw-amount-input"
+                    type="number"
+                    min="200"
+                    max={balances.VE.available}
+                    step="1"
+                    className={styles.formControl}
+                    placeholder="e.g. 500"
+                    value={withdrawAmount}
+                    onChange={(e) => setWithdrawAmount(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="mb-2">
+                  <label htmlFor="withdraw-dest-input" className={styles.formLabel}>
+                    Destination Address / Account:
+                  </label>
+                  <input
+                    id="withdraw-dest-input"
+                    type="text"
+                    className={styles.formControl}
+                    placeholder="e.g. 0x71C... or user account"
+                    value={withdrawDestination}
+                    onChange={(e) => setWithdrawDestination(e.target.value)}
+                    required
+                  />
+                </div>
+              </div>
+              <div className={styles.modalFooter}>
+                <button
+                  type="button"
+                  className={styles.btnSecondaryAction}
+                  onClick={() => setIsWithdrawModalOpen(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className={styles.btnPrimaryAction}
+                  disabled={withdrawing || balances.VE.available < 200}
+                >
+                  {withdrawing ? 'Submitting...' : 'Confirm Withdrawal'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
       <div className={styles.dashboardWrapper}>
         {/* ======================================================== */}
-        {/* SECTION A: PROFILE HERO                                   */}
+        {/* SECTION A: WELCOME HERO & HORIZONTAL QUICK ACTIONS       */}
         {/* ======================================================== */}
-        <section className={styles.heroCard} aria-labelledby="profile-heading">
-          <div className={styles.heroHeader}>
-            <div className={styles.avatarAndMeta}>
-              <div className={styles.avatar} aria-hidden="true">
-                {getInitials(profile.name)}
+        <section className={styles.welcomeSection} aria-labelledby="welcome-heading">
+          <div className={styles.welcomeUserArea}>
+            <div className={styles.userAvatar} aria-hidden="true">
+              {getInitials(profile.name)}
+              <span className={styles.onlineIndicator} title="Active Account" />
+            </div>
+            <div className={styles.welcomeTextMeta}>
+              <div className={styles.greetingRow}>
+                <h1 id="welcome-heading" className={styles.welcomeGreeting}>
+                  Welcome back, {profile.name} 👋
+                </h1>
+                <span className={styles.statusPill}>{profile.status}</span>
+                <span className={styles.rolePill}>{profile.role}</span>
               </div>
-              <div className={styles.metaDetails}>
-                <div className="d-flex align-items-center gap-2 flex-wrap mb-1">
-                  <h1 id="profile-heading" className={styles.userName}>
-                    {profile.name}
-                  </h1>
-                  <span className={`${styles.statusBadge} ${profile.status === 'active' ? styles.statusActive : ''}`}>
-                    {profile.status}
-                  </span>
-                  <span className={styles.roleBadge}>{profile.role}</span>
-                </div>
-                <p className={styles.userEmail}>{profile.email}</p>
-                <div className={styles.subMetaRow}>
-                  <span className={styles.memberSince}>
-                    Member since {formatDate(profile.memberSince || profile.createdAt)}
-                  </span>
-                  <span className={styles.metaDivider}>•</span>
-                  <span className={styles.userIdChip}>
-                    ID: <code>{profile.id ? String(profile.id).slice(-8) : 'N/A'}</code>
-                    <button
-                      type="button"
-                      className={styles.copySmallBtn}
-                      onClick={() => copyToClipboard(profile.id, 'User ID')}
-                      title="Copy User ID"
-                      aria-label="Copy User ID"
-                    >
-                      Copy
-                    </button>
-                  </span>
-                </div>
+              <div className={styles.subMetaLine}>
+                <span>{profile.email}</span>
+                <span className={styles.metaDot}>•</span>
+                <span>Member since {formatDate(profile.memberSince || profile.createdAt)}</span>
+                <span className={styles.metaDot}>•</span>
+                <span className={styles.idBadge}>
+                  ID: <code>{profile.id ? String(profile.id).slice(-8) : 'N/A'}</code>
+                  <button
+                    type="button"
+                    className={styles.copyMiniBtn}
+                    onClick={() => copyToClipboard(profile.id, 'User ID')}
+                    title="Copy full user ID"
+                    aria-label="Copy User ID"
+                  >
+                    Copy
+                  </button>
+                </span>
               </div>
             </div>
+          </div>
 
-            <div className={styles.heroActions}>
-              <button
-                type="button"
-                className={`btn btn-sm ${styles.actionBtnOutline}`}
-                onClick={() => loadOverview(true)}
-                disabled={refreshing}
-                title="Refresh dashboard from server"
-              >
-                {refreshing ? 'Refreshing...' : 'Refresh'}
-              </button>
-              <button
-                type="button"
-                className={`btn btn-sm ${styles.actionBtnDanger}`}
-                onClick={handleLogout}
-              >
-                Sign Out
-              </button>
-            </div>
+          {/* Horizontal Quick Actions */}
+          <div className={styles.quickActionsRow}>
+            <button
+              type="button"
+              className={styles.btnSecondaryAction}
+              onClick={() => loadOverview(true)}
+              disabled={refreshing}
+              title="Refresh dashboard from server"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67" />
+              </svg>
+              <span>{refreshing ? 'Refreshing...' : 'Refresh'}</span>
+            </button>
+
+            <button
+              type="button"
+              className={styles.btnPrimaryAction}
+              onClick={() => setIsWithdrawModalOpen(true)}
+              title="Request funds withdrawal"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <polyline points="19 12 12 19 5 12" />
+              </svg>
+              <span>Request Withdrawal</span>
+            </button>
+
+            <button
+              type="button"
+              className={styles.btnSecondaryAction}
+              onClick={() => copyToClipboard(referrals.referralCode || profile.referralCode, 'Invite Code')}
+              title="Copy your referral invite code"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+                <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
+              </svg>
+              <span>Invite Friends</span>
+            </button>
+
+            <button
+              type="button"
+              className={styles.btnDangerAction}
+              onClick={handleLogout}
+              title="Sign out of platform"
+            >
+              Sign Out
+            </button>
           </div>
         </section>
 
         {/* ======================================================== */}
-        {/* SECTION B: REWARD ASSETS                                  */}
+        {/* ASYMMETRIC 2-COLUMN DASHBOARD GRID (70% / 30%)           */}
         {/* ======================================================== */}
-        <section className="mb-4" aria-labelledby="rewards-heading">
-          <div className="d-flex align-items-center justify-content-between mb-3">
-            <h2 id="rewards-heading" className={styles.sectionHeading}>
-              <span>Your Reward Assets</span>
-            </h2>
-            <span className={styles.sectionSubtext}>Backed by immutable ledger</span>
-          </div>
-
-          <div className="row g-3">
-            {/* VE Card */}
-            <div className="col-12 col-sm-6 col-lg-3">
-              <div className={`${styles.assetCard} ${styles.assetVe}`}>
-                <div className={styles.assetHeader}>
-                  <div className={styles.assetBadge}>VE</div>
-                  <span className={styles.assetLabel}>Primary Rewards</span>
-                </div>
-                <div className={styles.assetBalance}>
-                  {balances.VE.available.toLocaleString()}
-                  <span className={styles.assetUnit}>VEs</span>
-                </div>
-                <div className={styles.assetBreakdown}>
-                  <div className={styles.breakdownRow}>
-                    <span>Reserved:</span>
-                    <strong>{balances.VE.reserved.toLocaleString()}</strong>
-                  </div>
-                  <div className={styles.breakdownRow}>
-                    <span>Lifetime Earned:</span>
-                    <strong>{balances.VE.totalEarned.toLocaleString()}</strong>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* SVE Card */}
-            <div className="col-12 col-sm-6 col-lg-3">
-              <div className={`${styles.assetCard} ${styles.assetSve}`}>
-                <div className={styles.assetHeader}>
-                  <div className={styles.assetBadge}>SVE</div>
-                  <span className={styles.assetLabel}>Staked Units</span>
-                </div>
-                <div className={styles.assetBalance}>
-                  {balances.SVE.available.toLocaleString()}
-                  <span className={styles.assetUnit}>SVEs</span>
-                </div>
-                <div className={styles.assetBreakdown}>
-                  <div className={styles.breakdownRow}>
-                    <span>Reserved:</span>
-                    <strong>{balances.SVE.reserved.toLocaleString()}</strong>
-                  </div>
-                  <div className={styles.breakdownRow}>
-                    <span>Lifetime Earned:</span>
-                    <strong>{balances.SVE.totalEarned.toLocaleString()}</strong>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Gems Card */}
-            <div className="col-12 col-sm-6 col-lg-3">
-              <div className={`${styles.assetCard} ${styles.assetGem}`}>
-                <div className={styles.assetHeader}>
-                  <div className={styles.assetBadge}>GEM</div>
-                  <span className={styles.assetLabel}>Quest Gems</span>
-                </div>
-                <div className={styles.assetBalance}>
-                  {balances.GEM.available.toLocaleString()}
-                  <span className={styles.assetUnit}>Gems</span>
-                </div>
-                <div className={styles.assetBreakdown}>
-                  <div className={styles.breakdownRow}>
-                    <span>Reserved:</span>
-                    <strong>{balances.GEM.reserved.toLocaleString()}</strong>
-                  </div>
-                  <div className={styles.breakdownRow}>
-                    <span>Lifetime Earned:</span>
-                    <strong>{balances.GEM.totalEarned.toLocaleString()}</strong>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Tokens Card */}
-            <div className="col-12 col-sm-6 col-lg-3">
-              <div className={`${styles.assetCard} ${styles.assetToken}`}>
-                <div className={styles.assetHeader}>
-                  <div className={styles.assetBadge}>TOKEN</div>
-                  <span className={styles.assetLabel}>Platform Tokens</span>
-                </div>
-                <div className={styles.assetBalance}>
-                  {balances.TOKEN.available.toLocaleString()}
-                  <span className={styles.assetUnit}>Tokens</span>
-                </div>
-                <div className={styles.assetBreakdown}>
-                  <div className={styles.breakdownRow}>
-                    <span>Reserved:</span>
-                    <strong>{balances.TOKEN.reserved.toLocaleString()}</strong>
-                  </div>
-                  <div className={styles.breakdownRow}>
-                    <span>Lifetime Earned:</span>
-                    <strong>{balances.TOKEN.totalEarned.toLocaleString()}</strong>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ======================================================== */}
-        {/* SECTION C: LEVEL AND XP PROGRESS                          */}
-        {/* ======================================================== */}
-        <section className="mb-4" aria-labelledby="level-heading">
-          <div className={styles.dashboardCard}>
-            <div className={styles.cardHeaderFlex}>
-              <div>
-                <span className={styles.cardEyebrow}>Gamified Progression</span>
-                <h2 id="level-heading" className={styles.cardMainTitle}>
-                  Level {String(levelProgress.currentLevel).padStart(2, '0')} — {levelProgress.currentLevelName}
+        <div className="row g-4">
+          {/* ======================================================== */}
+          {/* LEFT / CENTER MAIN COLUMN (~68% width)                   */}
+          {/* ======================================================== */}
+          <div className="col-12 col-xl-8">
+            {/* Section B: Layered Financial Card & Asset Hub */}
+            <section className={styles.walletHubCard} aria-labelledby="wallet-hub-heading">
+              <div className={styles.hubHeader}>
+                <h2 id="wallet-hub-heading" className={styles.hubTitle}>
+                  Multi-Asset Financial Hub
                 </h2>
-              </div>
-              <div className={styles.xpTotalBadge}>
-                <span>{levelProgress.currentXp.toLocaleString()} Total XP</span>
-              </div>
-            </div>
-
-            <div className={styles.progressContainer}>
-              <div className="d-flex justify-content-between align-items-center mb-2">
-                <span className={styles.progressStatusText}>
-                  {levelProgress.nextLevel ? (
-                    <>
-                      Progress to <strong>Level {levelProgress.nextLevel} ({levelProgress.nextLevelName})</strong>
-                    </>
-                  ) : (
-                    <strong>Maximum Level Achieved</strong>
-                  )}
-                </span>
-                <span className={styles.progressPercentage}>
-                  {levelProgress.progressPercentage}%
-                </span>
+                <span className={styles.hubSubtext}>Immutable Ledger Backed</span>
               </div>
 
-              <div
-                className={styles.progressBarWrapper}
-                role="progressbar"
-                aria-valuenow={levelProgress.progressPercentage}
-                aria-valuemin="0"
-                aria-valuemax="100"
-              >
+              <div className={styles.walletComposition}>
+                {/* Primary Executive Metal Card (VE) */}
+                <div className={styles.executiveCard}>
+                  <div className={styles.cardDecorativeCircle} aria-hidden="true" />
+                  <div className={styles.cardTopRow}>
+                    <div className={styles.cardChipGraphic} aria-hidden="true" />
+                    <span className={styles.cardNetworkLabel}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="m4.93 4.93 4.24 4.24" />
+                        <path d="m14.83 9.17 4.24-4.24" />
+                        <path d="m14.83 14.83 4.24 4.24" />
+                        <path d="m9.17 14.83-4.24 4.24" />
+                      </svg>
+                      VE Rewards
+                    </span>
+                  </div>
+
+                  <div className={styles.cardBalanceBlock}>
+                    <span className={styles.cardBalanceLabel}>Available Balance</span>
+                    <div className={styles.cardBalanceNumber}>
+                      {balances.VE.available.toLocaleString()}
+                      <span>VEs</span>
+                    </div>
+                  </div>
+
+                  <div className={styles.cardBottomRow}>
+                    <div>
+                      <div className={styles.cardHolderName}>{profile.name.toUpperCase()}</div>
+                      <small style={{ fontSize: '0.72rem', color: '#C7D2FE' }}>Tier: {levelProgress.currentLevelName}</small>
+                    </div>
+                    <div className={styles.cardBreakdown}>
+                      <div>
+                        <span>Reserved: </span>
+                        <strong>{balances.VE.reserved.toLocaleString()}</strong>
+                      </div>
+                      <div>
+                        <span>Lifetime: </span>
+                        <strong>{balances.VE.totalEarned.toLocaleString()}</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Secondary Asset Stack (SVE, GEM, TOKEN) */}
+                <div className={styles.secondaryAssetsCol}>
+                  {/* SVE Asset */}
+                  <div className={`${styles.subAssetTile} ${styles.subAssetSve}`}>
+                    <div className={styles.subAssetIdentity}>
+                      <div className={styles.subAssetIcon}>SVE</div>
+                      <div className={styles.subAssetNameBlock}>
+                        <h4 className={styles.subAssetName}>Staked Units</h4>
+                        <span className={styles.subAssetSubtext}>
+                          Reserved: {balances.SVE.reserved.toLocaleString()}
+                        </span>
+                      </div>
+                    </div>
+                    <div className={styles.subAssetNumbers}>
+                      <div className={styles.subAssetAvailable}>
+                        {balances.SVE.available.toLocaleString()}
+                      </div>
+                      <span className={styles.subAssetLifetime}>
+                        Lifetime: {balances.SVE.totalEarned.toLocaleString()}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* GEM Asset */}
+                  <div className={`${styles.subAssetTile} ${styles.subAssetGem}`}>
+                    <div className={styles.subAssetIdentity}>
+                      <div className={styles.subAssetIcon}>GEM</div>
+                      <div className={styles.subAssetNameBlock}>
+                        <h4 className={styles.subAssetName}>Quest Gems</h4>
+                        <span className={styles.subAssetSubtext}>
+                          Reserved: {balances.GEM.reserved.toLocaleString()}
+                        </span>
+                      </div>
+                    </div>
+                    <div className={styles.subAssetNumbers}>
+                      <div className={styles.subAssetAvailable}>
+                        {balances.GEM.available.toLocaleString()}
+                      </div>
+                      <span className={styles.subAssetLifetime}>
+                        Lifetime: {balances.GEM.totalEarned.toLocaleString()}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* TOKEN Asset */}
+                  <div className={`${styles.subAssetTile} ${styles.subAssetToken}`}>
+                    <div className={styles.subAssetIdentity}>
+                      <div className={styles.subAssetIcon}>TKN</div>
+                      <div className={styles.subAssetNameBlock}>
+                        <h4 className={styles.subAssetName}>Platform Tokens</h4>
+                        <span className={styles.subAssetSubtext}>
+                          Reserved: {balances.TOKEN.reserved.toLocaleString()}
+                        </span>
+                      </div>
+                    </div>
+                    <div className={styles.subAssetNumbers}>
+                      <div className={styles.subAssetAvailable}>
+                        {balances.TOKEN.available.toLocaleString()}
+                      </div>
+                      <span className={styles.subAssetLifetime}>
+                        Lifetime: {balances.TOKEN.totalEarned.toLocaleString()}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* Section C: Progression & Level Tier */}
+            <section className={styles.dashboardCard} aria-labelledby="progression-heading">
+              <div className={styles.cardHeaderFlex}>
+                <div>
+                  <span className={styles.cardEyebrow}>Gamified Progression</span>
+                  <h2 id="progression-heading" className={styles.cardMainTitle}>
+                    Level {String(levelProgress.currentLevel).padStart(2, '0')} — {levelProgress.currentLevelName}
+                  </h2>
+                </div>
+                <div className={styles.xpBadgeHighlight}>
+                  {levelProgress.currentXp.toLocaleString()} Total XP
+                </div>
+              </div>
+
+              <div className={styles.progressContainer}>
+                <div className="d-flex justify-content-between align-items-center mb-1">
+                  <span className="fw-semibold" style={{ fontSize: '0.875rem' }}>
+                    {levelProgress.nextLevel ? (
+                      <>
+                        Progress toward <strong>Level {levelProgress.nextLevel} ({levelProgress.nextLevelName})</strong>
+                      </>
+                    ) : (
+                      <strong>Maximum Tier Mastered</strong>
+                    )}
+                  </span>
+                  <span className="fw-bold text-primary" style={{ fontSize: '0.95rem' }}>
+                    {levelProgress.progressPercentage}%
+                  </span>
+                </div>
+
                 <div
-                  className={styles.progressBarFill}
-                  style={{ width: `${levelProgress.progressPercentage}%` }}
-                ></div>
-              </div>
+                  className={styles.progressBarWrapper}
+                  role="progressbar"
+                  aria-valuenow={levelProgress.progressPercentage}
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                >
+                  <div
+                    className={styles.progressBarFill}
+                    style={{ width: `${levelProgress.progressPercentage}%` }}
+                  />
+                </div>
 
-              <div className="d-flex justify-content-between align-items-center mt-2">
-                <span className={styles.progressDetailText}>
-                  {levelProgress.nextLevelXp
-                    ? `${levelProgress.currentXp.toLocaleString()} / ${levelProgress.nextLevelXp.toLocaleString()} XP`
-                    : `${levelProgress.currentXp.toLocaleString()} XP`}
-                </span>
-                <span className={styles.progressRemainingText}>
-                  {levelProgress.nextLevel
-                    ? `${levelProgress.xpRemaining.toLocaleString()} XP remaining`
-                    : 'Max Tier reached'}
-                </span>
+                <div className={styles.progressMetaText}>
+                  <span>
+                    {levelProgress.nextLevelXp
+                      ? `${levelProgress.currentXp.toLocaleString()} / ${levelProgress.nextLevelXp.toLocaleString()} XP`
+                      : `${levelProgress.currentXp.toLocaleString()} XP`}
+                  </span>
+                  <span className={styles.progressRemaining}>
+                    {levelProgress.nextLevel
+                      ? `${levelProgress.xpRemaining.toLocaleString()} XP remaining`
+                      : 'Max Tier achieved'}
+                  </span>
+                </div>
               </div>
-            </div>
-          </div>
-        </section>
+            </section>
 
-        {/* 2-Column Section: Achievements & (Referrals + Withdrawals) */}
-        <div className="row g-4 mb-4">
-          {/* ======================================================== */}
-          {/* SECTION D: ACHIEVEMENTS & BADGES                         */}
-          {/* ======================================================== */}
-          <div className="col-12 col-lg-7">
+            {/* Section D: Achievements & Badges */}
             <section className={styles.dashboardCard} aria-labelledby="achievements-heading">
               <div className={styles.cardHeaderFlex}>
                 <div>
@@ -512,46 +665,54 @@ export function UserProfile() {
                 </div>
               </div>
 
-              <div className={styles.achievementList}>
+              <div className={styles.achievementGrid}>
                 {achievements.items && achievements.items.length > 0 ? (
                   achievements.items.map((ach) => {
                     const isEligibleToClaim = ach.unlocked && !ach.isClaimed
                     return (
                       <div
                         key={ach.id || ach.code}
-                        className={`${styles.achievementItem} ${
+                        className={`${styles.achievementCardItem} ${
                           ach.isClaimed
-                            ? styles.achClaimed
+                            ? styles.achClaimedItem
                             : ach.unlocked
-                            ? styles.achUnlocked
-                            : styles.achLocked
+                            ? styles.achUnlockedItem
+                            : styles.achLockedItem
                         }`}
                       >
-                        <div className={styles.achIconCol}>
-                          <div
-                            className={`${styles.achBadge} ${
-                              ach.unlocked ? styles.achBadgeUnlocked : styles.achBadgeLocked
-                            }`}
-                          >
-                            {ach.isClaimed ? '✓' : ach.unlocked ? '★' : '🔒'}
-                          </div>
+                        <div
+                          className={`${styles.achBadgeCircle} ${
+                            ach.isClaimed
+                              ? styles.badgeClaimedIcon
+                              : ach.unlocked
+                              ? styles.badgeUnlockedIcon
+                              : styles.badgeLockedIcon
+                          }`}
+                        >
+                          {ach.isClaimed ? '✓' : ach.unlocked ? '★' : '🔒'}
                         </div>
 
-                        <div className={styles.achDetailsCol}>
-                          <div className="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-1">
-                            <h3 className={styles.achTitle}>{ach.title}</h3>
+                        <div className={styles.achContent}>
+                          <div className={styles.achTitleRow}>
+                            <h3 className={styles.achItemTitle}>{ach.title}</h3>
                             {ach.isClaimed ? (
-                              <span className={styles.pillClaimed}>Claimed</span>
+                              <span className="badge bg-success-subtle text-success border border-success-subtle py-1 px-2">
+                                Claimed
+                              </span>
                             ) : ach.unlocked ? (
-                              <span className={styles.pillUnlocked}>Unlocked</span>
+                              <span className="badge bg-primary-subtle text-primary border border-primary-subtle py-1 px-2">
+                                Unlocked
+                              </span>
                             ) : (
-                              <span className={styles.pillLocked}>Locked</span>
+                              <span className="badge bg-secondary-subtle text-secondary py-1 px-2">
+                                Locked
+                              </span>
                             )}
                           </div>
-                          <p className={styles.achDescription}>{ach.description}</p>
+                          <p className={styles.achItemDescription}>{ach.description}</p>
 
-                          <div className="d-flex align-items-center justify-content-between flex-wrap gap-2 mt-2">
-                            <span className={styles.achCriteriaText}>
+                          <div className={styles.achMetaRow}>
+                            <span>
                               {ach.criteria?.type === 'XP_THRESHOLD'
                                 ? `Goal: ${ach.criteria.targetValue.toLocaleString()} XP (${ach.progress.toLocaleString()} earned)`
                                 : 'Requirement: Join platform'}
@@ -560,7 +721,7 @@ export function UserProfile() {
                             {isEligibleToClaim && (
                               <button
                                 type="button"
-                                className={`btn btn-sm ${styles.claimBtn}`}
+                                className={styles.claimBadgeBtn}
                                 onClick={() => handleClaimAchievement(ach.id, ach.title)}
                                 disabled={claimingId === ach.id}
                               >
@@ -569,9 +730,9 @@ export function UserProfile() {
                             )}
 
                             {ach.isClaimed && ach.claimedAt && (
-                              <small className={styles.claimTimestamp}>
+                              <span className="text-success fw-bold" style={{ fontSize: '0.75rem' }}>
                                 Claimed on {formatDate(ach.claimedAt)}
-                              </small>
+                              </span>
                             )}
                           </div>
                         </div>
@@ -579,69 +740,80 @@ export function UserProfile() {
                     )
                   })
                 ) : (
-                  <div className={styles.emptyCardState}>
-                    <p>No achievements configured.</p>
-                  </div>
+                  <p className="text-muted text-center py-3">No achievements configured.</p>
                 )}
               </div>
             </section>
-          </div>
 
-          {/* Right Column: Referrals + Withdrawals */}
-          <div className="col-12 col-lg-5">
-            {/* ======================================================== */}
-            {/* SECTION E: REFERRAL SNAPSHOT                             */}
-            {/* ======================================================== */}
-            <section className={`${styles.dashboardCard} mb-4`} aria-labelledby="referrals-heading">
+            {/* Section E: Recent Financial Activity (Persisted Ledger) */}
+            <section className={styles.dashboardCard} aria-labelledby="activity-heading">
               <div className={styles.cardHeaderFlex}>
                 <div>
-                  <span className={styles.cardEyebrow}>Grow Your Network</span>
-                  <h2 id="referrals-heading" className={styles.cardMainTitle}>
-                    Referral Snapshot
+                  <span className={styles.cardEyebrow}>Financial Ledger</span>
+                  <h2 id="activity-heading" className={styles.cardMainTitle}>
+                    Recent Financial Activity
                   </h2>
                 </div>
+                <span className="text-muted" style={{ fontSize: '0.8rem', fontWeight: 600 }}>
+                  Live backend audit records
+                </span>
               </div>
 
-              <div className={styles.referralBox}>
-                <span className={styles.referralBoxLabel}>Your Unique Invite Code</span>
-                <div className={styles.referralCodeRow}>
-                  <code className={styles.referralCodeDisplay}>
-                    {referrals.referralCode || profile.referralCode || 'N/A'}
-                  </code>
-                  <button
-                    type="button"
-                    className={`btn btn-sm ${styles.copyCodeBtn}`}
-                    onClick={() =>
-                      copyToClipboard(
-                        referrals.referralCode || profile.referralCode,
-                        'Referral code'
-                      )
-                    }
-                  >
-                    Copy Code
-                  </button>
-                </div>
-              </div>
+              {recentActivity && recentActivity.length > 0 ? (
+                <div className={styles.activityList}>
+                  {recentActivity.map((act) => {
+                    const isPositive = act.amount > 0 || act.type === 'CREDIT' || act.type === 'RELEASE'
+                    return (
+                      <div key={act.id} className={styles.activityRow}>
+                        <span
+                          className={`${styles.typeBadge} ${
+                            act.type === 'CREDIT'
+                              ? styles.typeCredit
+                              : act.type === 'HOLD'
+                              ? styles.typeHold
+                              : act.type === 'RELEASE'
+                              ? styles.typeRelease
+                              : act.type === 'SETTLE'
+                              ? styles.typeSettle
+                              : styles.typeDebit
+                          }`}
+                        >
+                          {act.type}
+                        </span>
 
-              <div className={styles.statGrid}>
-                <div className={styles.statCell}>
-                  <div className={styles.statNumber}>{referrals.totalReferrals || 0}</div>
-                  <div className={styles.statLabel}>Total Invites</div>
+                        <div className={styles.activityDetails}>
+                          <p className={styles.activityDesc}>{act.description}</p>
+                          <small className={styles.activityTime}>
+                            {formatDateTime(act.timestamp)}
+                          </small>
+                        </div>
+
+                        <div
+                          className={`${styles.activityAmount} ${
+                            isPositive ? styles.amountPositive : styles.amountNegative
+                          }`}
+                        >
+                          {act.amount > 0 ? `+${act.amount.toLocaleString()}` : act.amount.toLocaleString()}{' '}
+                          {act.assetType}
+                        </div>
+                      </div>
+                    )
+                  })}
                 </div>
-                <div className={styles.statCell}>
-                  <div className={styles.statNumber}>{referrals.successfulReferrals || 0}</div>
-                  <div className={styles.statLabel}>Successful</div>
+              ) : (
+                <div className="text-center py-4 text-muted">
+                  <p className="fw-bold mb-1">No Recent Activity</p>
+                  <small>Your transactions and earnings will be securely listed here.</small>
                 </div>
-                <div className={styles.statCell}>
-                  <div className={styles.statNumber}>{referrals.pendingReferrals || 0}</div>
-                  <div className={styles.statLabel}>Pending</div>
-                </div>
-              </div>
+              )}
             </section>
+          </div>
 
-            {/* ======================================================== */}
-            {/* SECTION F: WITHDRAWAL OVERVIEW                           */}
-            {/* ======================================================== */}
+          {/* ======================================================== */}
+          {/* RIGHT RAIL COLUMN (~32% width)                           */}
+          {/* ======================================================== */}
+          <div className="col-12 col-xl-4">
+            {/* Section F: Withdrawals Overview */}
             <section className={styles.dashboardCard} aria-labelledby="withdrawals-heading">
               <div className={styles.cardHeaderFlex}>
                 <div>
@@ -652,115 +824,136 @@ export function UserProfile() {
                 </div>
               </div>
 
-              <div className={styles.totalWithdrawnBox}>
-                <span className={styles.totalWithdrawnLabel}>
-                  Total Successfully Withdrawn
-                </span>
-                <div className={styles.totalWithdrawnNumber}>
-                  {withdrawals.totalWithdrawn.toLocaleString()}
-                  <span className={styles.assetUnit}>VEs</span>
+              {/* Total Successfully Withdrawn Box */}
+              <div className={styles.withdrawalSummaryCard}>
+                <span className={styles.withdrawalSummaryLabel}>Total Successfully Withdrawn</span>
+                <div className={styles.withdrawalSummaryValue}>
+                  {withdrawals.totalWithdrawn.toLocaleString()} VEs
                 </div>
-                <small className={styles.nonNegotiableNote}>
+                <small className={styles.withdrawalSummarySubtext}>
                   Excludes pending reservations strictly
                 </small>
               </div>
 
-              <div className={styles.statGrid}>
-                <div className={styles.statCell}>
-                  <div className={styles.statNumber}>{withdrawals.totalRequests || 0}</div>
-                  <div className={styles.statLabel}>Requests</div>
+              {/* 4-Stat Grid */}
+              <div className={styles.statGrid4}>
+                <div className={styles.statBox}>
+                  <div className={styles.statBoxValue}>{withdrawals.totalRequests || 0}</div>
+                  <div className={styles.statBoxLabel}>Total Requests</div>
                 </div>
-                <div className={styles.statCell}>
-                  <div className={`${styles.statNumber} ${styles.colorAmber}`}>
-                    {withdrawals.pending || 0}
-                  </div>
-                  <div className={styles.statLabel}>Pending</div>
+                <div className={styles.statBox}>
+                  <div className={`${styles.statBoxValue} text-warning`}>{withdrawals.pending || 0}</div>
+                  <div className={styles.statBoxLabel}>Pending</div>
                 </div>
-                <div className={styles.statCell}>
-                  <div className={`${styles.statNumber} ${styles.colorGreen}`}>
-                    {withdrawals.completed || 0}
-                  </div>
-                  <div className={styles.statLabel}>Completed</div>
+                <div className={styles.statBox}>
+                  <div className={`${styles.statBoxValue} text-success`}>{withdrawals.completed || 0}</div>
+                  <div className={styles.statBoxLabel}>Completed</div>
                 </div>
-                <div className={styles.statCell}>
-                  <div className={`${styles.statNumber} ${styles.colorRed}`}>
-                    {withdrawals.rejected || 0}
+                <div className={styles.statBox}>
+                  <div className={`${styles.statBoxValue} text-danger`}>{withdrawals.rejected || 0}</div>
+                  <div className={styles.statBoxLabel}>Rejected</div>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                className={`w-100 ${styles.btnPrimaryAction} justify-content-center`}
+                onClick={() => setIsWithdrawModalOpen(true)}
+              >
+                Request Withdrawal
+              </button>
+            </section>
+
+            {/* Section G: Referral Snapshot */}
+            <section className={styles.dashboardCard} aria-labelledby="referrals-heading">
+              <div className={styles.cardHeaderFlex}>
+                <div>
+                  <span className={styles.cardEyebrow}>Grow Your Network</span>
+                  <h2 id="referrals-heading" className={styles.cardMainTitle}>
+                    Referral Snapshot
+                  </h2>
+                </div>
+              </div>
+
+              <div className={styles.referralCardBox}>
+                <small className="text-muted text-uppercase fw-bold" style={{ fontSize: '0.7rem' }}>
+                  Your Unique Invite Code
+                </small>
+                <div className={styles.referralCodeDisplayRow}>
+                  <code className={styles.referralCodeNumber}>
+                    {referrals.referralCode || profile.referralCode || 'N/A'}
+                  </code>
+                  <button
+                    type="button"
+                    className={styles.copyCodeBtn}
+                    onClick={() =>
+                      copyToClipboard(
+                        referrals.referralCode || profile.referralCode,
+                        'Referral code'
+                      )
+                    }
+                  >
+                    Copy Code
+                  </button>
+                </div>
+
+                <div className={styles.referralStatsRow}>
+                  <div className={styles.referralStatItem}>
+                    <div className={styles.referralStatValue}>{referrals.totalReferrals || 0}</div>
+                    <div className={styles.referralStatLabel}>Total</div>
                   </div>
-                  <div className={styles.statLabel}>Rejected</div>
+                  <div className={styles.referralStatItem}>
+                    <div className={`${styles.referralStatValue} text-success`}>
+                      {referrals.successfulReferrals || 0}
+                    </div>
+                    <div className={styles.referralStatLabel}>Successful</div>
+                  </div>
+                  <div className={styles.referralStatItem}>
+                    <div className={`${styles.referralStatValue} text-warning`}>
+                      {referrals.pendingReferrals || 0}
+                    </div>
+                    <div className={styles.referralStatLabel}>Pending</div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* Section H: Security & Verification Profile */}
+            <section className={styles.dashboardCard} aria-labelledby="security-heading">
+              <div className={styles.cardHeaderFlex}>
+                <div>
+                  <span className={styles.cardEyebrow}>Account Verification</span>
+                  <h2 id="security-heading" className={styles.cardMainTitle}>
+                    Identity & Security
+                  </h2>
+                </div>
+              </div>
+
+              <div className="d-flex flex-column gap-3">
+                <div className="d-flex justify-content-between align-items-center">
+                  <span className="text-muted" style={{ fontSize: '0.85rem' }}>Account Status</span>
+                  <span className={styles.statusPill}>{profile.status}</span>
+                </div>
+                <div className="d-flex justify-content-between align-items-center">
+                  <span className="text-muted" style={{ fontSize: '0.85rem' }}>Platform Role</span>
+                  <span className={styles.rolePill}>{profile.role}</span>
+                </div>
+                <div className="d-flex justify-content-between align-items-center">
+                  <span className="text-muted" style={{ fontSize: '0.85rem' }}>Account ID</span>
+                  <code className="text-primary fw-bold" style={{ fontSize: '0.85rem' }}>
+                    {profile.id ? String(profile.id).slice(-8) : 'N/A'}
+                  </code>
+                </div>
+                <div className="d-flex justify-content-between align-items-center">
+                  <span className="text-muted" style={{ fontSize: '0.85rem' }}>Registration Date</span>
+                  <span className="fw-semibold" style={{ fontSize: '0.85rem' }}>
+                    {formatDate(profile.memberSince || profile.createdAt)}
+                  </span>
                 </div>
               </div>
             </section>
           </div>
         </div>
-
-        {/* ======================================================== */}
-        {/* SECTION G: RECENT ACTIVITY (PERSISTED EVENTS)             */}
-        {/* ======================================================== */}
-        <section className={styles.dashboardCard} aria-labelledby="activity-heading">
-          <div className={styles.cardHeaderFlex}>
-            <div>
-              <span className={styles.cardEyebrow}>Persisted Ledger Records</span>
-              <h2 id="activity-heading" className={styles.cardMainTitle}>
-                Recent Activity
-              </h2>
-            </div>
-            <span className={styles.sectionSubtext}>Real backend audit events</span>
-          </div>
-
-          {recentActivity && recentActivity.length > 0 ? (
-            <div className={styles.activityTimeline}>
-              {recentActivity.map((act) => {
-                const isPositive = act.amount > 0 || act.type === 'CREDIT' || act.type === 'RELEASE'
-                return (
-                  <div key={act.id} className={styles.activityItem}>
-                    <div className={styles.activityTypeCol}>
-                      <span
-                        className={`${styles.typePill} ${
-                          act.type === 'CREDIT'
-                            ? styles.pillCredit
-                            : act.type === 'HOLD'
-                            ? styles.pillHold
-                            : act.type === 'RELEASE'
-                            ? styles.pillRelease
-                            : act.type === 'SETTLE'
-                            ? styles.pillSettle
-                            : styles.pillDebit
-                        }`}
-                      >
-                        {act.type}
-                      </span>
-                    </div>
-
-                    <div className={styles.activityDescCol}>
-                      <p className={styles.activityDescription}>{act.description}</p>
-                      <small className={styles.activityTimestamp}>
-                        {formatDateTime(act.timestamp)}
-                      </small>
-                    </div>
-
-                    <div className={styles.activityAmountCol}>
-                      <span
-                        className={`${styles.activityAmount} ${
-                          isPositive ? styles.amountPositive : styles.amountNegative
-                        }`}
-                      >
-                        {act.amount > 0 ? `+${act.amount.toLocaleString()}` : act.amount.toLocaleString()}{' '}
-                        {act.assetType}
-                      </span>
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          ) : (
-            <div className={styles.emptyCardState}>
-              <p className={styles.emptyTitle}>No Recent Activity</p>
-              <p className={styles.emptyText}>
-                Your earnings, rewards, and withdrawal transactions will appear here once recorded.
-              </p>
-            </div>
-          )}
-        </section>
       </div>
     </div>
   )
