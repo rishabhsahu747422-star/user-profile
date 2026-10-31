@@ -4,7 +4,9 @@ export const connectDB = async () => {
   const mongoURI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/user-profile";
 
   try {
-    const conn = await mongoose.connect(mongoURI);
+    const conn = await mongoose.connect(mongoURI, {
+      serverSelectionTimeoutMS: 10000
+    });
     console.log(`MongoDB connected successfully: ${conn.connection.host}`);
     return conn;
   } catch (error) {

@@ -1,4 +1,10 @@
+import path from "path";
+import { fileURLToPath } from "url";
 import dotenv from "dotenv";
+
+// Load .env from backend directory as well as process.cwd()
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+dotenv.config({ path: path.resolve(__dirname, ".env") });
 dotenv.config();
 
 import app from "./src/app.js";
@@ -15,13 +21,20 @@ let server;
 
 const startServer = async () => {
   try {
-    await connectDB();
-    server = app.listen(port, () => {
-      console.log(`[INFO] Server running on port ${port} in '${env.NODE_ENV}' mode`);
+    // 1. Bind and listen immediately on 0.0.0.0 so Render port detection succeeds
+    server = app.listen(port, "0.0.0.0", () => {
+      console.log(`[INFO] Server running on http://0.0.0.0:${port} in '${env.NODE_ENV}' mode`);
     });
+
+    // 2. Connect to MongoDB
+    await connectDB();
   } catch (error) {
     console.error("[FATAL] Failed to start server due to database connection error:", error.message);
-    process.exit(1);
+    if (server) {
+      server.close(() => process.exit(1));
+    } else {
+      process.exit(1);
+    }
   }
 };
 
