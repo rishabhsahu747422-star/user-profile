@@ -16,17 +16,19 @@ import mongoose from "mongoose";
 const env = validateEnv();
 
 const port = env.PORT;
+const host = env.NODE_ENV === "production" ? "0.0.0.0" : "127.0.0.1";
 
 let server;
 
 const startServer = async () => {
   try {
-    // 1. Bind and listen immediately on 0.0.0.0 so Render port detection succeeds
-    server = app.listen(port, "0.0.0.0", () => {
-      console.log(`[INFO] Server running on http://0.0.0.0:${port} in '${env.NODE_ENV}' mode`);
+    // Bind to 127.0.0.1 in development for local safety, or 0.0.0.0 in production for Render
+    server = app.listen(port, host, () => {
+      const displayUrl = env.NODE_ENV === "production" ? `http://0.0.0.0:${port}` : `http://localhost:${port}`;
+      console.log(`[INFO] Server running on ${displayUrl} in '${env.NODE_ENV}' mode`);
     });
 
-    // 2. Connect to MongoDB
+    // Connect to MongoDB
     await connectDB();
   } catch (error) {
     console.error("[FATAL] Failed to start server due to database connection error:", error.message);
