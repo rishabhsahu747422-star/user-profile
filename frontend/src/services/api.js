@@ -1,4 +1,48 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "/api";
+/**
+ * Resolves the API base URL.
+ * - In local development: defaults to '/api' (proxied by Vite to http://localhost:3000).
+ * - In production: uses VITE_API_BASE_URL, defaulting to 'https://user-profile-03kp.onrender.com/api'.
+ * - Guarantees the base URL has the required '/api' suffix when an absolute URL is supplied.
+ */
+export const getApiBaseUrl = () => {
+  const configured = import.meta.env.VITE_API_BASE_URL;
+
+  if (configured && typeof configured === "string" && configured.trim()) {
+    let clean = configured.trim().replace(/\/+$/, "");
+    if (/^https?:\/\//i.test(clean) && !clean.endsWith("/api")) {
+      clean = `${clean}/api`;
+    }
+    return clean;
+  }
+
+  // Production fallback if VITE_API_BASE_URL was omitted in hosting dashboard
+  if (import.meta.env.PROD) {
+    return "https://user-profile-03kp.onrender.com/api";
+  }
+
+  // Local development default (proxied by Vite server)
+  return "/api";
+};
+
+/**
+ * Builds a clean, fully-qualified URL for API requests.
+ * Automatically prevents duplicate /api/api paths and handles leading/trailing slashes.
+ */
+export const buildApiUrl = (endpoint) => {
+  const base = getApiBaseUrl().replace(/\/+$/, "");
+  const path = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
+
+  // If base ends with /api and endpoint starts with /api/, strip duplicate /api
+  if (base.endsWith("/api") && path.startsWith("/api/")) {
+    return `${base}${path.slice(4)}`;
+  }
+
+  if (base.endsWith("/api") && path === "/api") {
+    return base;
+  }
+
+  return `${base}${path}`;
+};
 
 let authToken = localStorage.getItem("ve_loop_token") || null;
 
@@ -15,10 +59,10 @@ export const getAuthToken = () => authToken;
 
 /**
  * Reusable request helper for communicating with the backend API.
- * Uses the configured API_BASE_URL (defaults to /api via Vite proxy).
+ * Uses buildApiUrl to resolve endpoints cleanly in development and production.
  */
 export async function request(endpoint, options = {}) {
-  const url = `${API_BASE_URL}${endpoint.startsWith("/") ? endpoint : `/${endpoint}`}`;
+  const url = buildApiUrl(endpoint);
 
   const headers = {
     "Content-Type": "application/json",

@@ -38,11 +38,22 @@ app.use((req, res, next) => {
   next();
 });
 
-// Parse CORS allowed origins (supports comma-separated list)
-const rawClientUrl = process.env.CLIENT_URL || "http://localhost:5173";
-const allowedOrigins = rawClientUrl.includes(",")
+// Parse CORS allowed origins (supports comma-separated list and trims trailing slashes)
+const defaultClientOrigins = [
+  "http://localhost:5173",
+  "https://user-profile-azure.vercel.app"
+];
+
+const rawClientUrl = process.env.CLIENT_URL || "";
+const configuredOrigins = rawClientUrl.includes(",")
   ? rawClientUrl.split(",").map((o) => o.trim()).filter(Boolean)
-  : rawClientUrl;
+  : rawClientUrl.trim()
+  ? [rawClientUrl.trim()]
+  : [];
+
+const allowedOrigins = Array.from(
+  new Set([...defaultClientOrigins, ...configuredOrigins])
+).map((origin) => origin.replace(/\/+$/, ""));
 
 app.use(
   cors({
