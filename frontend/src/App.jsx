@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { AuthProvider } from './context/AuthProvider'
 import Sidebar from './components/Sidebar'
 import TopHeader from './components/TopHeader'
@@ -9,9 +9,12 @@ import AdminDashboard from './pages/Admin/AdminDashboard'
 import './App.css'
 
 function App() {
+  const location = useLocation()
+  const isProfileRoute = location.pathname === '/user-profile' || location.pathname === '/profile'
+
   return (
     <AuthProvider>
-      <div className="app-shell">
+      <div className={`app-shell ${isProfileRoute ? 'theme-dark-gaming' : ''}`}>
         {/* Compact Vertical Icon Sidebar */}
         <Sidebar />
 

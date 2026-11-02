@@ -203,7 +203,7 @@ export function UserProfile() {
 
   if (loading) {
     return (
-      <div className={styles.dashboardContainer}>
+      <div className={styles.dashboardContainer} data-theme="dark-gaming">
         <div className={styles.dashboardWrapper}>
           <div className={`${styles.skeletonCard} mb-4`}>
             <div className="d-flex align-items-center gap-3">
@@ -229,7 +229,7 @@ export function UserProfile() {
 
   if (error) {
     return (
-      <div className={styles.dashboardContainer}>
+      <div className={styles.dashboardContainer} data-theme="dark-gaming">
         <div className={styles.dashboardWrapper}>
           <div className="alert alert-danger p-4 text-center shadow-sm" role="alert">
             <h4 className="alert-heading fw-bold mb-2">Unable to Load Dashboard</h4>
@@ -269,7 +269,7 @@ export function UserProfile() {
   }
 
   return (
-    <div className={styles.dashboardContainer}>
+    <div className={styles.dashboardContainer} data-theme="dark-gaming">
       {/* Toast Notification */}
       {toastMessage && (
         <div
@@ -317,7 +317,7 @@ export function UserProfile() {
                 <div className="mb-3">
                   <div className="d-flex justify-content-between mb-1">
                     <span className={styles.formLabel}>Available Balance:</span>
-                    <strong className="text-primary">{balances.VE.available.toLocaleString()} VEs</strong>
+                    <strong style={{ color: '#34D399', fontWeight: 800 }}>{balances.VE.available.toLocaleString()} VEs</strong>
                   </div>
                   <small className="text-muted d-block mb-3">
                     Minimum withdrawal is 200 VE. Requested funds will be reserved immediately upon submission.
@@ -391,8 +391,14 @@ export function UserProfile() {
                 <h1 id="welcome-heading" className={styles.welcomeGreeting}>
                   Welcome back, {profile.name} 👋
                 </h1>
-                <span className={styles.statusPill}>{profile.status}</span>
+                <span className={styles.statusPill}>
+                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#34D399', display: 'inline-block' }} />
+                  {profile.status}
+                </span>
                 <span className={styles.rolePill}>{profile.role}</span>
+                <span className={styles.xpBadgeHighlight} style={{ fontSize: '0.75rem', padding: '0.2rem 0.65rem' }}>
+                  ★ {levelProgress.currentLevelName}
+                </span>
               </div>
               <div className={styles.subMetaLine}>
                 <span>{profile.email}</span>
@@ -621,7 +627,7 @@ export function UserProfile() {
                       <strong>Maximum Tier Mastered</strong>
                     )}
                   </span>
-                  <span className="fw-bold text-primary" style={{ fontSize: '0.95rem' }}>
+                  <span className="fw-bold" style={{ fontSize: '0.95rem', color: '#38BDF8' }}>
                     {levelProgress.progressPercentage}%
                   </span>
                 </div>
@@ -696,15 +702,15 @@ export function UserProfile() {
                           <div className={styles.achTitleRow}>
                             <h3 className={styles.achItemTitle}>{ach.title}</h3>
                             {ach.isClaimed ? (
-                              <span className="badge bg-success-subtle text-success border border-success-subtle py-1 px-2">
+                              <span className={styles.achStatusClaimed}>
                                 Claimed
                               </span>
                             ) : ach.unlocked ? (
-                              <span className="badge bg-primary-subtle text-primary border border-primary-subtle py-1 px-2">
+                              <span className={styles.achStatusUnlocked}>
                                 Unlocked
                               </span>
                             ) : (
-                              <span className="badge bg-secondary-subtle text-secondary py-1 px-2">
+                              <span className={styles.achStatusLocked}>
                                 Locked
                               </span>
                             )}
@@ -876,7 +882,7 @@ export function UserProfile() {
               </div>
 
               <div className={styles.referralCardBox}>
-                <small className="text-muted text-uppercase fw-bold" style={{ fontSize: '0.7rem' }}>
+                <small className="text-uppercase fw-bold" style={{ fontSize: '0.72rem', color: '#CBD5E1', letterSpacing: '0.5px' }}>
                   Your Unique Invite Code
                 </small>
                 <div className={styles.referralCodeDisplayRow}>
@@ -915,6 +921,10 @@ export function UserProfile() {
                     <div className={styles.referralStatLabel}>Pending</div>
                   </div>
                 </div>
+
+                <div style={{ fontSize: '0.75rem', color: '#94A3B8', marginTop: '0.85rem', lineHeight: '1.4', textAlign: 'center' }}>
+                  🎁 Share your invite code with friends to unlock bonus XP and rewards on their first quest completion!
+                </div>
               </div>
             </section>
 
@@ -927,6 +937,9 @@ export function UserProfile() {
                     Identity & Security
                   </h2>
                 </div>
+                <span className={styles.achStatusClaimed} style={{ fontSize: '0.72rem' }}>
+                  ✓ Ledger Verified
+                </span>
               </div>
 
               <div className="d-flex flex-column gap-3">
@@ -940,7 +953,7 @@ export function UserProfile() {
                 </div>
                 <div className="d-flex justify-content-between align-items-center">
                   <span className="text-muted" style={{ fontSize: '0.85rem' }}>Account ID</span>
-                  <code className="text-primary fw-bold" style={{ fontSize: '0.85rem' }}>
+                  <code style={{ fontSize: '0.85rem', color: '#818CF8', fontWeight: 800 }}>
                     {profile.id ? String(profile.id).slice(-8) : 'N/A'}
                   </code>
                 </div>
