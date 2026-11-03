@@ -736,7 +736,7 @@ export function UserProfile() {
                             )}
 
                             {ach.isClaimed && ach.claimedAt && (
-                              <span className="text-success fw-bold" style={{ fontSize: '0.75rem' }}>
+                              <span style={{ color: '#34D399', fontWeight: 700, fontSize: '0.75rem' }}>
                                 Claimed on {formatDate(ach.claimedAt)}
                               </span>
                             )}
@@ -848,15 +848,15 @@ export function UserProfile() {
                   <div className={styles.statBoxLabel}>Total Requests</div>
                 </div>
                 <div className={styles.statBox}>
-                  <div className={`${styles.statBoxValue} text-warning`}>{withdrawals.pending || 0}</div>
+                  <div className={`${styles.statBoxValue} ${styles.statBoxPending}`}>{withdrawals.pending || 0}</div>
                   <div className={styles.statBoxLabel}>Pending</div>
                 </div>
                 <div className={styles.statBox}>
-                  <div className={`${styles.statBoxValue} text-success`}>{withdrawals.completed || 0}</div>
+                  <div className={`${styles.statBoxValue} ${styles.statCompleted}`}>{withdrawals.completed || 0}</div>
                   <div className={styles.statBoxLabel}>Completed</div>
                 </div>
                 <div className={styles.statBox}>
-                  <div className={`${styles.statBoxValue} text-danger`}>{withdrawals.rejected || 0}</div>
+                  <div className={`${styles.statBoxValue} ${styles.statRejected}`}>{withdrawals.rejected || 0}</div>
                   <div className={styles.statBoxLabel}>Rejected</div>
                 </div>
               </div>
@@ -909,13 +909,13 @@ export function UserProfile() {
                     <div className={styles.referralStatLabel}>Total</div>
                   </div>
                   <div className={styles.referralStatItem}>
-                    <div className={`${styles.referralStatValue} text-success`}>
+                    <div className={`${styles.referralStatValue} ${styles.statCompleted}`}>
                       {referrals.successfulReferrals || 0}
                     </div>
                     <div className={styles.referralStatLabel}>Successful</div>
                   </div>
                   <div className={styles.referralStatItem}>
-                    <div className={`${styles.referralStatValue} text-warning`}>
+                    <div className={`${styles.referralStatValue} ${styles.statBoxPending}`}>
                       {referrals.pendingReferrals || 0}
                     </div>
                     <div className={styles.referralStatLabel}>Pending</div>
@@ -944,22 +944,22 @@ export function UserProfile() {
 
               <div className="d-flex flex-column gap-3">
                 <div className="d-flex justify-content-between align-items-center">
-                  <span className="text-muted" style={{ fontSize: '0.85rem' }}>Account Status</span>
+                  <span style={{ fontSize: '0.85rem', color: '#94A3B8' }}>Account Status</span>
                   <span className={styles.statusPill}>{profile.status}</span>
                 </div>
                 <div className="d-flex justify-content-between align-items-center">
-                  <span className="text-muted" style={{ fontSize: '0.85rem' }}>Platform Role</span>
+                  <span style={{ fontSize: '0.85rem', color: '#94A3B8' }}>Platform Role</span>
                   <span className={styles.rolePill}>{profile.role}</span>
                 </div>
                 <div className="d-flex justify-content-between align-items-center">
-                  <span className="text-muted" style={{ fontSize: '0.85rem' }}>Account ID</span>
+                  <span style={{ fontSize: '0.85rem', color: '#94A3B8' }}>Account ID</span>
                   <code style={{ fontSize: '0.85rem', color: '#818CF8', fontWeight: 800 }}>
                     {profile.id ? String(profile.id).slice(-8) : 'N/A'}
                   </code>
                 </div>
                 <div className="d-flex justify-content-between align-items-center">
-                  <span className="text-muted" style={{ fontSize: '0.85rem' }}>Registration Date</span>
-                  <span className="fw-semibold" style={{ fontSize: '0.85rem' }}>
+                  <span style={{ fontSize: '0.85rem', color: '#94A3B8' }}>Registration Date</span>
+                  <span className="fw-semibold" style={{ fontSize: '0.85rem', color: '#F8FAFC' }}>
                     {formatDate(profile.memberSince || profile.createdAt)}
                   </span>
                 </div>

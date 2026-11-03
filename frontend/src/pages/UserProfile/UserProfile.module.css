@@ -7,8 +7,8 @@
 .dashboardContainer {
   flex: 1;
   width: 100%;
-  background-color: var(--surface-main, #0B0F19);
-  color: var(--text-main, #F8FAFC);
+  background-color: #0B0F19 !important;
+  color: #F8FAFC !important;
   padding: 1.75rem 2rem 3.5rem 2rem;
   min-height: 100%;
 }
@@ -22,9 +22,9 @@
 /* SECTION A: WELCOME HERO & QUICK ACTIONS                  */
 /* ======================================================== */
 .welcomeSection {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
-  border: 1px solid var(--border-light, rgba(255, 255, 255, 0.08));
-  border-radius: var(--radius-lg, 18px);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 18px;
   padding: 1.75rem 2rem;
   display: flex;
   justify-content: space-between;
@@ -87,7 +87,7 @@
 .welcomeGreeting {
   font-size: 1.85rem;
   font-weight: 800;
-  color: #F8FAFC;
+  color: #F8FAFC !important;
   letter-spacing: -0.03em;
   margin: 0;
   line-height: 1.2;
@@ -97,12 +97,12 @@
   font-size: 0.75rem;
   font-weight: 700;
   padding: 0.25rem 0.75rem;
-  border-radius: var(--radius-full, 9999px);
+  border-radius: 9999px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  background-color: rgba(16, 185, 129, 0.15);
-  color: #34D399;
-  border: 1px solid rgba(16, 185, 129, 0.35);
+  background-color: rgba(16, 185, 129, 0.15) !important;
+  color: #34D399 !important;
+  border: 1px solid rgba(16, 185, 129, 0.35) !important;
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
@@ -112,26 +112,26 @@
   font-size: 0.72rem;
   font-weight: 700;
   padding: 0.25rem 0.75rem;
-  border-radius: var(--radius-full, 9999px);
+  border-radius: 9999px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  background-color: rgba(99, 102, 241, 0.15);
-  color: #A5B4FC;
-  border: 1px solid rgba(99, 102, 241, 0.35);
+  background-color: rgba(99, 102, 241, 0.15) !important;
+  color: #A5B4FC !important;
+  border: 1px solid rgba(99, 102, 241, 0.35) !important;
 }
 
 .subMetaLine {
   display: flex;
   align-items: center;
   gap: 0.65rem;
-  color: #94A3B8;
+  color: #94A3B8 !important;
   font-size: 0.85rem;
   font-weight: 500;
   flex-wrap: wrap;
 }
 
 .metaDot {
-  color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.2) !important;
 }
 
 .idBadge {
@@ -141,13 +141,13 @@
   background-color: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 0.15rem 0.55rem;
-  border-radius: var(--radius-sm, 6px);
+  border-radius: 6px;
   font-size: 0.8rem;
-  color: #CBD5E1;
+  color: #CBD5E1 !important;
 }
 
 .idBadge code {
-  color: #818CF8;
+  color: #818CF8 !important;
   font-weight: 700;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
@@ -178,12 +178,12 @@
 }
 
 .btnPrimaryAction {
-  background: linear-gradient(135deg, #4F46E5 0%, #6366F1 100%);
-  color: #FFFFFF;
+  background: linear-gradient(135deg, #4F46E5 0%, #6366F1 100%) !important;
+  color: #FFFFFF !important;
   font-size: 0.875rem;
   font-weight: 700;
-  border: none;
-  border-radius: var(--radius-md, 10px);
+  border: none !important;
+  border-radius: 10px;
   padding: 0.65rem 1.25rem;
   display: inline-flex;
   align-items: center;
@@ -197,8 +197,8 @@
 .btnPrimaryAction:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 6px 18px rgba(79, 70, 229, 0.55);
-  background: linear-gradient(135deg, #4338CA 0%, #4F46E5 100%);
-  color: #FFFFFF;
+  background: linear-gradient(135deg, #4338CA 0%, #4F46E5 100%) !important;
+  color: #FFFFFF !important;
 }
 
 .btnPrimaryAction:disabled {
@@ -208,12 +208,12 @@
 }
 
 .btnSecondaryAction {
-  background: rgba(255, 255, 255, 0.05);
-  color: #F8FAFC;
+  background: rgba(255, 255, 255, 0.05) !important;
+  color: #F8FAFC !important;
   font-size: 0.875rem;
   font-weight: 600;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: var(--radius-md, 10px);
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 10px;
   padding: 0.65rem 1.15rem;
   display: inline-flex;
   align-items: center;
@@ -223,9 +223,9 @@
 }
 
 .btnSecondaryAction:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.25);
-  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+  color: #FFFFFF !important;
   transform: translateY(-1px);
 }
 
@@ -235,30 +235,30 @@
 }
 
 .btnDangerAction {
-  background: rgba(239, 68, 68, 0.1);
-  color: #F87171;
+  background: rgba(239, 68, 68, 0.1) !important;
+  color: #F87171 !important;
   font-size: 0.875rem;
   font-weight: 600;
-  border: 1px solid rgba(239, 68, 68, 0.25);
-  border-radius: var(--radius-md, 10px);
+  border: 1px solid rgba(239, 68, 68, 0.25) !important;
+  border-radius: 10px;
   padding: 0.65rem 1.15rem;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .btnDangerAction:hover {
-  background: rgba(239, 68, 68, 0.2);
-  border-color: rgba(239, 68, 68, 0.45);
-  color: #FCA5A5;
+  background: rgba(239, 68, 68, 0.2) !important;
+  border-color: rgba(239, 68, 68, 0.45) !important;
+  color: #FCA5A5 !important;
 }
 
 /* ======================================================== */
 /* SECTION B: MULTI-ASSET FINANCIAL HUB                     */
 /* ======================================================== */
 .walletHubCard {
-  background: var(--surface-card, #111827);
-  border: 1px solid var(--border-light, rgba(255, 255, 255, 0.08));
-  border-radius: var(--radius-lg, 18px);
+  background: #111827 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 18px;
   padding: 1.75rem;
   box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.4);
   margin-bottom: 1.75rem;
@@ -274,7 +274,7 @@
 .hubTitle {
   font-size: 1.2rem;
   font-weight: 800;
-  color: #F8FAFC;
+  color: #F8FAFC !important;
   letter-spacing: -0.02em;
   margin: 0;
 }
@@ -282,7 +282,7 @@
 .hubSubtext {
   font-size: 0.75rem;
   font-weight: 700;
-  color: #34D399;
+  color: #34D399 !important;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   background: rgba(16, 185, 129, 0.1);
@@ -299,9 +299,9 @@
 
 /* Primary Executive Metal Card (VE) */
 .executiveCard {
-  background: linear-gradient(135deg, #1E1B4B 0%, #0F172A 50%, #172554 100%);
-  border: 1px solid rgba(129, 140, 248, 0.35);
-  border-radius: var(--radius-lg, 16px);
+  background: linear-gradient(135deg, #1E1B4B 0%, #0F172A 50%, #172554 100%) !important;
+  border: 1px solid rgba(129, 140, 248, 0.35) !important;
+  border-radius: 16px;
   padding: 1.75rem;
   min-height: 250px;
   display: flex;
@@ -354,7 +354,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  color: #CBD5E1;
+  color: #CBD5E1 !important;
   font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -373,7 +373,7 @@
 .cardBalanceLabel {
   font-size: 0.8rem;
   font-weight: 600;
-  color: #94A3B8;
+  color: #94A3B8 !important;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   display: block;
@@ -383,7 +383,7 @@
 .cardBalanceNumber {
   font-size: 2.65rem;
   font-weight: 800;
-  color: #FFFFFF;
+  color: #FFFFFF !important;
   letter-spacing: -0.03em;
   display: flex;
   align-items: baseline;
@@ -395,7 +395,7 @@
 .cardBalanceNumber span {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #FBBF24;
+  color: #FBBF24 !important;
 }
 
 .cardBottomRow {
@@ -410,7 +410,7 @@
 .cardHolderName {
   font-size: 0.9rem;
   font-weight: 800;
-  color: #F8FAFC;
+  color: #F8FAFC !important;
   letter-spacing: 1px;
 }
 
@@ -418,7 +418,7 @@
   display: flex;
   gap: 1rem;
   font-size: 0.75rem;
-  color: #94A3B8;
+  color: #94A3B8 !important;
 }
 
 .cardBreakdown div {
@@ -428,7 +428,7 @@
 }
 
 .cardBreakdown strong {
-  color: #F8FAFC;
+  color: #F8FAFC !important;
   font-size: 0.85rem;
   font-weight: 700;
 }
@@ -442,9 +442,9 @@
 }
 
 .subAssetTile {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: var(--radius-md, 14px);
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 14px;
   padding: 1rem 1.25rem;
   display: flex;
   align-items: center;
@@ -453,21 +453,21 @@
 }
 
 .subAssetTile:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.16) !important;
   transform: translateX(3px);
 }
 
 .subAssetSve {
-  border-left: 3px solid #8B5CF6;
+  border-left: 3px solid #8B5CF6 !important;
 }
 
 .subAssetGem {
-  border-left: 3px solid #06B6D4;
+  border-left: 3px solid #06B6D4 !important;
 }
 
 .subAssetToken {
-  border-left: 3px solid #F59E0B;
+  border-left: 3px solid #F59E0B !important;
 }
 
 .subAssetIdentity {
@@ -489,21 +489,21 @@
 }
 
 .subAssetSve .subAssetIcon {
-  background: rgba(139, 92, 246, 0.18);
-  color: #C084FC;
-  border: 1px solid rgba(139, 92, 246, 0.35);
+  background: rgba(139, 92, 246, 0.18) !important;
+  color: #C084FC !important;
+  border: 1px solid rgba(139, 92, 246, 0.35) !important;
 }
 
 .subAssetGem .subAssetIcon {
-  background: rgba(6, 182, 212, 0.18);
-  color: #38BDF8;
-  border: 1px solid rgba(6, 182, 212, 0.35);
+  background: rgba(6, 182, 212, 0.18) !important;
+  color: #38BDF8 !important;
+  border: 1px solid rgba(6, 182, 212, 0.35) !important;
 }
 
 .subAssetToken .subAssetIcon {
-  background: rgba(245, 158, 11, 0.18);
-  color: #FBBF24;
-  border: 1px solid rgba(245, 158, 11, 0.35);
+  background: rgba(245, 158, 11, 0.18) !important;
+  color: #FBBF24 !important;
+  border: 1px solid rgba(245, 158, 11, 0.35) !important;
 }
 
 .subAssetNameBlock {
@@ -514,14 +514,14 @@
 .subAssetName {
   font-size: 0.92rem;
   font-weight: 700;
-  color: #F8FAFC;
+  color: #F8FAFC !important;
   margin: 0;
   line-height: 1.2;
 }
 
 .subAssetSubtext {
   font-size: 0.72rem;
-  color: #94A3B8;
+  color: #94A3B8 !important;
   margin-top: 0.15rem;
 }
 
@@ -534,22 +534,22 @@
 .subAssetAvailable {
   font-size: 1.15rem;
   font-weight: 800;
-  color: #F8FAFC;
+  color: #F8FAFC !important;
   letter-spacing: -0.02em;
 }
 
 .subAssetLifetime {
   font-size: 0.72rem;
-  color: #94A3B8;
+  color: #94A3B8 !important;
 }
 
 /* ======================================================== */
 /* SECTION C: DASHBOARD CARD BASE STYLES                    */
 /* ======================================================== */
 .dashboardCard {
-  background: var(--surface-card, #111827);
-  border: 1px solid var(--border-light, rgba(255, 255, 255, 0.08));
-  border-radius: var(--radius-lg, 18px);
+  background: #111827 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 18px;
   padding: 1.75rem;
   margin-bottom: 1.75rem;
   box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.4);
@@ -570,23 +570,23 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.75px;
-  color: #818CF8;
+  color: #818CF8 !important;
   margin-bottom: 0.25rem;
 }
 
 .cardMainTitle {
   font-size: 1.25rem;
   font-weight: 800;
-  color: #F8FAFC;
+  color: #F8FAFC !important;
   letter-spacing: -0.02em;
   margin: 0;
 }
 
 /* Gamified Progression Card */
 .xpBadgeHighlight {
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(217, 119, 6, 0.1) 100%);
-  border: 1px solid rgba(245, 158, 11, 0.35);
-  color: #FBBF24;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(217, 119, 6, 0.1) 100%) !important;
+  border: 1px solid rgba(245, 158, 11, 0.35) !important;
+  color: #FBBF24 !important;
   font-size: 0.85rem;
   font-weight: 800;
   padding: 0.35rem 0.85rem;
@@ -603,8 +603,8 @@
 
 .progressBarWrapper {
   height: 12px;
-  background-color: rgba(255, 255, 255, 0.08);
-  border-radius: var(--radius-full, 9999px);
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  border-radius: 9999px;
   overflow: hidden;
   position: relative;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
@@ -612,8 +612,8 @@
 
 .progressBarFill {
   height: 100%;
-  background: linear-gradient(90deg, #4F46E5 0%, #7C3AED 50%, #EC4899 100%);
-  border-radius: var(--radius-full, 9999px);
+  background: linear-gradient(90deg, #4F46E5 0%, #7C3AED 50%, #EC4899 100%) !important;
+  border-radius: 9999px;
   box-shadow: 0 0 14px rgba(99, 102, 241, 0.6);
   transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -622,13 +622,13 @@
   display: flex;
   justify-content: space-between;
   font-size: 0.8rem;
-  color: #94A3B8;
+  color: #94A3B8 !important;
   font-weight: 600;
   margin-top: 0.25rem;
 }
 
 .progressRemaining {
-  color: #818CF8;
+  color: #818CF8 !important;
 }
 
 /* ======================================================== */
@@ -641,7 +641,7 @@
 }
 
 .achievementCardItem {
-  border-radius: var(--radius-md, 14px);
+  border-radius: 14px;
   padding: 1.25rem;
   display: flex;
   gap: 1rem;
@@ -650,25 +650,25 @@
 }
 
 .achUnlockedItem {
-  background: rgba(99, 102, 241, 0.07);
-  border: 1px solid rgba(99, 102, 241, 0.35);
+  background: rgba(99, 102, 241, 0.07) !important;
+  border: 1px solid rgba(99, 102, 241, 0.35) !important;
   box-shadow: 0 0 15px rgba(99, 102, 241, 0.12);
 }
 
 .achUnlockedItem:hover {
-  background: rgba(99, 102, 241, 0.12);
-  border-color: rgba(99, 102, 241, 0.5);
+  background: rgba(99, 102, 241, 0.12) !important;
+  border-color: rgba(99, 102, 241, 0.5) !important;
   transform: translateY(-2px);
 }
 
 .achClaimedItem {
-  background: rgba(16, 185, 129, 0.05);
-  border: 1px solid rgba(16, 185, 129, 0.25);
+  background: rgba(16, 185, 129, 0.05) !important;
+  border: 1px solid rgba(16, 185, 129, 0.25) !important;
 }
 
 .achLockedItem {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.02) !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
   opacity: 0.7;
 }
 
@@ -685,21 +685,21 @@
 }
 
 .badgeUnlockedIcon {
-  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
-  color: #FFFFFF;
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%) !important;
+  color: #FFFFFF !important;
   box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
 }
 
 .badgeClaimedIcon {
-  background: rgba(16, 185, 129, 0.2);
-  color: #34D399;
-  border: 1px solid rgba(16, 185, 129, 0.4);
+  background: rgba(16, 185, 129, 0.2) !important;
+  color: #34D399 !important;
+  border: 1px solid rgba(16, 185, 129, 0.4) !important;
 }
 
 .badgeLockedIcon {
-  background: rgba(255, 255, 255, 0.05);
-  color: #64748B;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.05) !important;
+  color: #64748B !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
 
 .achContent {
@@ -718,43 +718,13 @@
 .achItemTitle {
   font-size: 0.95rem;
   font-weight: 700;
-  color: #F8FAFC;
+  color: #F8FAFC !important;
   margin: 0;
-}
-
-.achStatusClaimed {
-  font-size: 0.72rem;
-  font-weight: 700;
-  padding: 0.2rem 0.6rem;
-  border-radius: 9999px;
-  background-color: rgba(16, 185, 129, 0.15);
-  color: #34D399;
-  border: 1px solid rgba(52, 211, 153, 0.35);
-}
-
-.achStatusUnlocked {
-  font-size: 0.72rem;
-  font-weight: 700;
-  padding: 0.2rem 0.6rem;
-  border-radius: 9999px;
-  background-color: rgba(245, 158, 11, 0.15);
-  color: #FBBF24;
-  border: 1px solid rgba(245, 158, 11, 0.35);
-}
-
-.achStatusLocked {
-  font-size: 0.72rem;
-  font-weight: 700;
-  padding: 0.2rem 0.6rem;
-  border-radius: 9999px;
-  background-color: rgba(255, 255, 255, 0.05);
-  color: #64748B;
-  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .achItemDescription {
   font-size: 0.8rem;
-  color: #94A3B8;
+  color: #94A3B8 !important;
   margin: 0 0 0.75rem 0;
   line-height: 1.4;
 }
@@ -766,18 +736,49 @@
   flex-wrap: wrap;
   gap: 0.5rem;
   font-size: 0.75rem;
-  color: #CBD5E1;
+  color: #CBD5E1 !important;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
   padding-top: 0.5rem;
 }
 
+/* Dedicated Non-Bootstrap Badge Status Classes */
+.achStatusClaimed {
+  background: rgba(16, 185, 129, 0.15) !important;
+  color: #34D399 !important;
+  border: 1px solid rgba(16, 185, 129, 0.35) !important;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.2rem 0.65rem;
+  border-radius: 9999px;
+}
+
+.achStatusUnlocked {
+  background: rgba(245, 158, 11, 0.15) !important;
+  color: #FBBF24 !important;
+  border: 1px solid rgba(245, 158, 11, 0.35) !important;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.2rem 0.65rem;
+  border-radius: 9999px;
+}
+
+.achStatusLocked {
+  background: rgba(255, 255, 255, 0.05) !important;
+  color: #94A3B8 !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.2rem 0.65rem;
+  border-radius: 9999px;
+}
+
 .claimBadgeBtn {
-  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
-  color: #FFFFFF;
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%) !important;
+  color: #FFFFFF !important;
   font-weight: 700;
   font-size: 0.78rem;
-  border: none;
-  border-radius: var(--radius-sm, 6px);
+  border: none !important;
+  border-radius: 6px;
   padding: 0.35rem 0.85rem;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
@@ -785,7 +786,7 @@
 }
 
 .claimBadgeBtn:hover:not(:disabled) {
-  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
   transform: translateY(-1px);
 }
 
@@ -804,9 +805,9 @@
 }
 
 .activityRow {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: var(--radius-md, 12px);
+  background: rgba(255, 255, 255, 0.02) !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  border-radius: 12px;
   padding: 0.85rem 1.15rem;
   display: flex;
   align-items: center;
@@ -815,7 +816,7 @@
 }
 
 .activityRow:hover {
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.04) !important;
 }
 
 .typeBadge {
@@ -829,33 +830,33 @@
 }
 
 .typeCredit {
-  background: rgba(16, 185, 129, 0.15);
-  color: #34D399;
-  border: 1px solid rgba(16, 185, 129, 0.3);
+  background: rgba(16, 185, 129, 0.15) !important;
+  color: #34D399 !important;
+  border: 1px solid rgba(16, 185, 129, 0.3) !important;
 }
 
 .typeDebit {
-  background: rgba(239, 68, 68, 0.15);
-  color: #F87171;
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.15) !important;
+  color: #F87171 !important;
+  border: 1px solid rgba(239, 68, 68, 0.3) !important;
 }
 
 .typeHold {
-  background: rgba(245, 158, 11, 0.15);
-  color: #FBBF24;
-  border: 1px solid rgba(245, 158, 11, 0.3);
+  background: rgba(245, 158, 11, 0.15) !important;
+  color: #FBBF24 !important;
+  border: 1px solid rgba(245, 158, 11, 0.3) !important;
 }
 
 .typeRelease {
-  background: rgba(6, 182, 212, 0.15);
-  color: #38BDF8;
-  border: 1px solid rgba(6, 182, 212, 0.3);
+  background: rgba(6, 182, 212, 0.15) !important;
+  color: #38BDF8 !important;
+  border: 1px solid rgba(6, 182, 212, 0.3) !important;
 }
 
 .typeSettle {
-  background: rgba(168, 85, 247, 0.15);
-  color: #C084FC;
-  border: 1px solid rgba(168, 85, 247, 0.3);
+  background: rgba(168, 85, 247, 0.15) !important;
+  color: #C084FC !important;
+  border: 1px solid rgba(168, 85, 247, 0.3) !important;
 }
 
 .activityDetails {
@@ -866,7 +867,7 @@
 .activityDesc {
   font-size: 0.875rem;
   font-weight: 600;
-  color: #F8FAFC;
+  color: #F8FAFC !important;
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -875,7 +876,7 @@
 
 .activityTime {
   font-size: 0.75rem;
-  color: #94A3B8;
+  color: #94A3B8 !important;
 }
 
 .activityAmount {
@@ -886,20 +887,20 @@
 }
 
 .amountPositive {
-  color: #34D399;
+  color: #34D399 !important;
 }
 
 .amountNegative {
-  color: #F87171;
+  color: #F87171 !important;
 }
 
 /* ======================================================== */
 /* SECTION F: WITHDRAWALS (RIGHT RAIL)                      */
 /* ======================================================== */
 .withdrawalSummaryCard {
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(5, 150, 105, 0.04) 100%);
-  border: 1px solid rgba(16, 185, 129, 0.25);
-  border-radius: var(--radius-md, 14px);
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(5, 150, 105, 0.04) 100%) !important;
+  border: 1px solid rgba(16, 185, 129, 0.25) !important;
+  border-radius: 14px;
   padding: 1.25rem;
   text-align: center;
   margin-bottom: 1.25rem;
@@ -909,7 +910,7 @@
   font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
-  color: #94A3B8;
+  color: #94A3B8 !important;
   letter-spacing: 0.5px;
   display: block;
 }
@@ -917,14 +918,14 @@
 .withdrawalSummaryValue {
   font-size: 1.85rem;
   font-weight: 800;
-  color: #34D399;
+  color: #34D399 !important;
   letter-spacing: -0.02em;
   margin: 0.35rem 0 0.15rem 0;
 }
 
 .withdrawalSummarySubtext {
   font-size: 0.72rem;
-  color: #94A3B8;
+  color: #94A3B8 !important;
 }
 
 .statGrid4 {
@@ -935,9 +936,9 @@
 }
 
 .statBox {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: var(--radius-md, 12px);
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  border-radius: 12px;
   padding: 0.85rem;
   text-align: center;
 }
@@ -945,14 +946,26 @@
 .statBoxValue {
   font-size: 1.35rem;
   font-weight: 800;
-  color: #F8FAFC;
+  color: #F8FAFC !important;
   line-height: 1.1;
+}
+
+.statBoxPending {
+  color: #FBBF24 !important;
+}
+
+.statCompleted {
+  color: #34D399 !important;
+}
+
+.statRejected {
+  color: #F87171 !important;
 }
 
 .statBoxLabel {
   font-size: 0.72rem;
   font-weight: 600;
-  color: #94A3B8;
+  color: #94A3B8 !important;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-top: 0.25rem;
@@ -962,9 +975,9 @@
 /* SECTION G: REFERRAL SNAPSHOT                             */
 /* ======================================================== */
 .referralCardBox {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(139, 92, 246, 0.04) 100%);
-  border: 1px dashed rgba(99, 102, 241, 0.4);
-  border-radius: var(--radius-md, 14px);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(139, 92, 246, 0.04) 100%) !important;
+  border: 1px dashed rgba(99, 102, 241, 0.4) !important;
+  border-radius: 14px;
   padding: 1.25rem;
 }
 
@@ -972,9 +985,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius-sm, 8px);
+  background: rgba(0, 0, 0, 0.4) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 8px;
   padding: 0.6rem 0.85rem;
   margin: 0.75rem 0 1rem 0;
 }
@@ -982,17 +995,17 @@
 .referralCodeNumber {
   font-size: 1.15rem;
   font-weight: 800;
-  color: #FBBF24;
+  color: #FBBF24 !important;
   letter-spacing: 1px;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
 .copyCodeBtn {
-  background: linear-gradient(135deg, #4F46E5 0%, #6366F1 100%);
-  color: #FFFFFF;
+  background: linear-gradient(135deg, #4F46E5 0%, #6366F1 100%) !important;
+  color: #FFFFFF !important;
   font-size: 0.75rem;
   font-weight: 700;
-  border: none;
+  border: none !important;
   border-radius: 6px;
   padding: 0.35rem 0.75rem;
   cursor: pointer;
@@ -1000,7 +1013,7 @@
 }
 
 .copyCodeBtn:hover {
-  background: linear-gradient(135deg, #4338CA 0%, #4F46E5 100%);
+  background: linear-gradient(135deg, #4338CA 0%, #4F46E5 100%) !important;
   transform: translateY(-1px);
 }
 
@@ -1021,13 +1034,13 @@
 .referralStatValue {
   font-size: 1.15rem;
   font-weight: 800;
-  color: #F8FAFC;
+  color: #F8FAFC !important;
 }
 
 .referralStatLabel {
   font-size: 0.7rem;
   font-weight: 600;
-  color: #94A3B8;
+  color: #94A3B8 !important;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -1038,7 +1051,7 @@
 .modalOverlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(3, 7, 18, 0.85);
+  background-color: rgba(3, 7, 18, 0.85) !important;
   backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
@@ -1048,9 +1061,9 @@
 }
 
 .modalContent {
-  background-color: #111827;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: var(--radius-lg, 18px);
+  background-color: #111827 !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 18px;
   width: 100%;
   max-width: 500px;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9);
@@ -1080,7 +1093,7 @@
 .modalTitle {
   font-size: 1.2rem;
   font-weight: 800;
-  color: #F8FAFC;
+  color: #F8FAFC !important;
   margin: 0;
 }
 
@@ -1106,26 +1119,26 @@
 .formLabel {
   font-size: 0.85rem;
   font-weight: 600;
-  color: #CBD5E1;
+  color: #CBD5E1 !important;
   display: block;
   margin-bottom: 0.4rem;
 }
 
 .formControl {
   width: 100%;
-  background-color: #0B0F19;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: var(--radius-md, 10px);
+  background-color: #0B0F19 !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 10px;
   padding: 0.65rem 0.85rem;
   font-size: 0.9rem;
-  color: #F8FAFC;
+  color: #F8FAFC !important;
   transition: all 0.2s ease;
 }
 
 .formControl:focus {
   outline: none;
-  border-color: #6366F1;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+  border-color: #6366F1 !important;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2) !important;
 }
 
 .modalFooter {
@@ -1147,7 +1160,7 @@
   right: 1.5rem;
   z-index: 2100;
   padding: 0.85rem 1.25rem;
-  border-radius: var(--radius-md, 12px);
+  border-radius: 12px;
   display: flex;
   align-items: center;
   gap: 0.85rem;
@@ -1169,21 +1182,21 @@
 }
 
 .toastSuccess {
-  background-color: #064E3B;
-  color: #6EE7B7;
-  border: 1px solid #059669;
+  background-color: #064E3B !important;
+  color: #6EE7B7 !important;
+  border: 1px solid #059669 !important;
 }
 
 .toastError {
-  background-color: #7F1D1D;
-  color: #FCA5A5;
-  border: 1px solid #DC2626;
+  background-color: #7F1D1D !important;
+  color: #FCA5A5 !important;
+  border: 1px solid #DC2626 !important;
 }
 
 .toastInfo {
-  background-color: #1E1B4B;
-  color: #C7D2FE;
-  border: 1px solid #4F46E5;
+  background-color: #1E1B4B !important;
+  color: #C7D2FE !important;
+  border: 1px solid #4F46E5 !important;
 }
 
 .toastCloseBtn {
@@ -1205,9 +1218,9 @@
 /* SKELETON LOADERS                                         */
 /* ======================================================== */
 .skeletonCard {
-  background: #111827;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: var(--radius-lg, 18px);
+  background: #111827 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 18px;
   padding: 1.75rem;
 }
 
@@ -1264,94 +1277,28 @@
 }
 
 @media (max-width: 576px) {
-  .dashboardContainer {
-    padding: 1rem 0.75rem 4rem 0.75rem;
-    overflow-x: hidden;
-  }
-
-  .dashboardWrapper {
-    width: 100%;
-    overflow-x: hidden;
-  }
-
   .welcomeUserArea {
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.85rem;
-    width: 100%;
+    gap: 1rem;
   }
 
   .welcomeGreeting {
-    font-size: 1.35rem;
-    line-height: 1.25;
-    word-break: break-word;
+    font-size: 1.45rem;
   }
 
   .greetingRow {
-    gap: 0.4rem;
-    width: 100%;
-  }
-
-  .subMetaLine {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.35rem;
-  }
-
-  .metaDot {
-    display: none;
-  }
-
-  .quickActionsRow {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    width: 100%;
     gap: 0.5rem;
   }
 
-  .quickActionsRow button {
-    width: 100%;
-    justify-content: center;
+  .quickActionsRow {
+    gap: 0.5rem;
   }
 
   .btnPrimaryAction,
   .btnSecondaryAction,
   .btnDangerAction {
-    padding: 0.55rem 0.75rem;
+    padding: 0.55rem 0.95rem;
     font-size: 0.8rem;
-  }
-
-  .cardBottomRow {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.75rem;
-  }
-
-  .cardBreakdown {
-    text-align: left;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .executiveCard {
-    padding: 1.25rem 1rem;
-    min-height: auto;
-  }
-
-  .cardBalanceNumber {
-    font-size: 1.85rem;
-  }
-
-  .statGrid4 {
-    gap: 0.5rem;
-  }
-
-  .statBox {
-    padding: 0.75rem 0.5rem;
-  }
-
-  .statBoxValue {
-    font-size: 1.2rem;
   }
 }

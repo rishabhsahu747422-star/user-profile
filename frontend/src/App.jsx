@@ -10,11 +10,15 @@ import './App.css'
 
 function App() {
   const location = useLocation()
-  const isProfileRoute = location.pathname === '/user-profile' || location.pathname === '/profile'
+  const cleanPath = location.pathname.replace(/\/+$/, '') || '/'
+  const isProfileRoute = cleanPath === '/user-profile' || cleanPath === '/profile'
 
   return (
     <AuthProvider>
-      <div className={`app-shell ${isProfileRoute ? 'theme-dark-gaming' : ''}`}>
+      <div
+        className={`app-shell ${isProfileRoute ? 'theme-dark-gaming' : ''}`}
+        data-theme={isProfileRoute ? 'dark-gaming' : 'light'}
+      >
         {/* Compact Vertical Icon Sidebar */}
         <Sidebar />
 
