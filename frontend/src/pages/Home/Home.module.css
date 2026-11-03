@@ -1,89 +1,1083 @@
-.homeMain {
-  flex-grow: 1;
+/* ======================================================== */
+/* Home.module.css — Premium Dark Rewards Landing Page      */
+/* ======================================================== */
+
+.landingContainer {
+  min-height: 100vh;
+  background-color: #07090E;
+  color: #F8FAFC;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: 3rem 1.5rem;
 }
 
-.welcomeBadge {
-  display: inline-block;
-  font-size: 0.8rem;
+/* ======================================================== */
+/* NAVBAR                                                   */
+/* ======================================================== */
+.landingNavbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: rgba(7, 9, 14, 0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.85rem 2rem;
+  transition: all 0.3s ease;
+}
+
+.navInner {
+  max-width: 1320px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.brandLink {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  text-decoration: none;
+}
+
+.brandBadge {
+  width: 38px;
+  height: 38px;
+  background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+  color: #FFFFFF;
+  font-weight: 900;
+  font-size: 1rem;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+}
+
+.brandTitle {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  letter-spacing: -0.3px;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.navLink {
+  color: #94A3B8;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.navLink:hover {
+  color: #FFFFFF;
+}
+
+.navActions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.signInLink {
+  color: #CBD5E1;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.signInLink:hover {
+  color: #FFFFFF;
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+.getStartedBtn {
+  background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+  color: #FFFFFF !important;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 0.6rem 1.35rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.getStartedBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.55);
+}
+
+/* ======================================================== */
+/* HERO SECTION                                             */
+/* ======================================================== */
+.heroSection {
+  position: relative;
+  padding: 5rem 2rem 6rem;
+  max-width: 1320px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  align-items: center;
+  gap: 3.5rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.heroContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  z-index: 2;
+}
+
+.heroEyebrowBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: rgba(99, 102, 241, 0.12);
+  color: #A5B4FC;
+  border: 1px solid rgba(99, 102, 241, 0.28);
+  font-size: 0.75rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.8px;
-  padding: 6px 16px;
-  border-radius: var(--radius-full, 9999px);
-  background-color: var(--primary-soft, #EEF2FF);
-  color: var(--primary-text, #3730A3);
-  border: 1px solid var(--primary-border, #C7D2FE);
-  margin-bottom: 1.25rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  width: fit-content;
 }
 
-.welcomeHeading {
-  font-size: 2.75rem;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  color: var(--text-main, #0F172A);
-  line-height: 1.2;
-  margin-bottom: 1.25rem;
+.pulseDot {
+  width: 8px;
+  height: 8px;
+  background-color: #34D399;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #34D399;
 }
 
-.textAccentGold {
-  color: var(--primary-600, #4F46E5);
-  background: linear-gradient(135deg, var(--primary-600, #4F46E5) 0%, #3730A3 100%);
+.heroTitle {
+  font-size: 3.25rem;
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: -1.2px;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.gradientText {
+  background: linear-gradient(135deg, #818CF8 0%, #C084FC 50%, #F472B6 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.welcomeDescription {
+.heroSubtitle {
   font-size: 1.15rem;
-  color: var(--text-secondary, #334155);
+  color: #94A3B8;
   line-height: 1.6;
-  max-width: 620px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 0;
+  margin: 0;
+  max-width: 580px;
 }
 
-.ctaBtn {
-  background: linear-gradient(135deg, var(--primary-600, #4F46E5) 0%, #3730A3 100%);
+.heroCtaGroup {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  padding-top: 0.5rem;
+}
+
+.primaryCta {
+  background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
   color: #FFFFFF !important;
-  font-weight: 700;
-  border-radius: var(--radius-md, 10px);
-  padding: 0.75rem 2rem;
-  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35);
-  border: none;
   text-decoration: none;
-  transition: all 0.2s ease;
+  font-size: 1.05rem;
+  font-weight: 800;
+  padding: 0.85rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(79, 70, 229, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.25s ease;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
 }
 
-.ctaBtn:hover {
-  opacity: 0.95;
-  transform: translateY(-1px);
-  box-shadow: 0 6px 18px rgba(79, 70, 229, 0.45);
+.primaryCta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(79, 70, 229, 0.65);
 }
 
-.diagnosticSection {
-  margin-top: 2.5rem;
-}
-
-.diagnosticHeader {
-  text-transform: uppercase;
+.secondaryCta {
+  background: rgba(255, 255, 255, 0.05);
+  color: #E2E8F0 !important;
+  text-decoration: none;
+  font-size: 1.05rem;
   font-weight: 700;
-  letter-spacing: 1px;
-  color: var(--text-muted, #64748B);
+  padding: 0.85rem 1.75rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.secondaryCta:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #FFFFFF !important;
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+.heroFeaturePills {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  padding-top: 0.75rem;
+  font-size: 0.82rem;
+  color: #94A3B8;
+}
+
+.featurePill {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.featureCheck {
+  color: #34D399;
+  font-weight: 800;
+}
+
+/* Hero Showcase Mockup Card */
+.heroShowcase {
+  position: relative;
+  z-index: 2;
+}
+
+.showcaseCard {
+  background: #111827;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 22px;
+  padding: 1.75rem;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.showcaseCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.showcaseHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.showcaseUserBadge {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.showcaseAvatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1rem;
+  color: #FFFFFF;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.4);
+}
+
+.showcaseUserMeta {
+  display: flex;
+  flex-direction: column;
+}
+
+.showcaseUserName {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #FFFFFF;
+}
+
+.showcaseUserLevel {
   font-size: 0.75rem;
+  color: #FBBF24;
+  font-weight: 700;
+}
+
+.showcaseStatusTag {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34D399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 0.2rem 0.55rem;
+  border-radius: 9999px;
+  text-transform: uppercase;
+}
+
+.showcaseAssetTiles {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+.showcaseTile {
+  background: #161F30;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.tileIcon {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.8rem;
+  color: #FFFFFF;
+}
+
+.tileVe {
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+}
+
+.tileSve {
+  background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%);
+}
+
+.tileGem {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+}
+
+.tileToken {
+  background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+}
+
+.tileMeta {
+  display: flex;
+  flex-direction: column;
+}
+
+.tileLabel {
+  font-size: 0.7rem;
+  color: #94A3B8;
+  font-weight: 700;
+}
+
+.tileValue {
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: #FFFFFF;
+}
+
+.showcaseProgress {
+  background: #161F30;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.showcaseProgressMeta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #CBD5E1;
+}
+
+.showcaseTrack {
+  height: 8px;
+  background-color: #1F2937;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.showcaseFill {
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, #4F46E5 0%, #8B5CF6 50%, #EC4899 100%);
+  border-radius: 9999px;
+}
+
+/* ======================================================== */
+/* SECTION COMMON WRAPPER                                   */
+/* ======================================================== */
+.sectionWrapper {
+  padding: 5rem 2rem;
+  max-width: 1320px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.sectionHeadingBlock {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto 3.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  align-items: center;
+}
+
+.sectionBadge {
+  background-color: rgba(99, 102, 241, 0.12);
+  color: #A5B4FC;
+  border: 1px solid rgba(99, 102, 241, 0.28);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding: 0.3rem 0.8rem;
+  border-radius: 9999px;
+  width: fit-content;
+}
+
+.sectionTitle {
+  font-size: 2.35rem;
+  font-weight: 900;
+  letter-spacing: -0.6px;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.sectionSubtitle {
+  font-size: 1.05rem;
+  color: #94A3B8;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ======================================================== */
+/* HOW IT WORKS (SECTION C)                                 */
+/* ======================================================== */
+.stepsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.stepCard {
+  background: #111827;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 1.75rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+.stepCard:hover {
+  transform: translateY(-4px);
+  border-color: rgba(99, 102, 241, 0.4);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+
+.stepNumber {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(99, 102, 241, 0.15);
+  color: #A5B4FC;
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.9rem;
+}
+
+.stepTitle {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.stepDescription {
+  font-size: 0.875rem;
+  color: #94A3B8;
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* ======================================================== */
+/* REWARDS ECOSYSTEM (SECTION D)                            */
+/* ======================================================== */
+.rewardsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.rewardCard {
+  background: #111827;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  transition: all 0.25s ease;
+}
+
+.rewardCard:hover {
+  transform: translateY(-4px);
+}
+
+.rewardVe {
+  border-color: rgba(245, 158, 11, 0.25);
+  background: linear-gradient(145deg, #181926 0%, #111827 100%);
+}
+
+.rewardVe:hover {
+  border-color: rgba(245, 158, 11, 0.6);
+  box-shadow: 0 12px 30px rgba(245, 158, 11, 0.15);
+}
+
+.rewardSve {
+  border-color: rgba(139, 92, 246, 0.25);
+  background: linear-gradient(145deg, #1C152B 0%, #111827 100%);
+}
+
+.rewardSve:hover {
+  border-color: rgba(139, 92, 246, 0.6);
+  box-shadow: 0 12px 30px rgba(139, 92, 246, 0.15);
+}
+
+.rewardGem {
+  border-color: rgba(16, 185, 129, 0.25);
+  background: linear-gradient(145deg, #0E2221 0%, #111827 100%);
+}
+
+.rewardGem:hover {
+  border-color: rgba(16, 185, 129, 0.6);
+  box-shadow: 0 12px 30px rgba(16, 185, 129, 0.15);
+}
+
+.rewardToken {
+  border-color: rgba(59, 130, 246, 0.25);
+  background: linear-gradient(145deg, #101B2B 0%, #111827 100%);
+}
+
+.rewardToken:hover {
+  border-color: rgba(59, 130, 246, 0.6);
+  box-shadow: 0 12px 30px rgba(59, 130, 246, 0.15);
+}
+
+.rewardIconBadge {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: #FFFFFF;
+}
+
+.rewardTitle {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.rewardTag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  width: fit-content;
+  background: rgba(255, 255, 255, 0.06);
+  color: #94A3B8;
+}
+
+.rewardDesc {
+  font-size: 0.875rem;
+  color: #94A3B8;
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* ======================================================== */
+/* LEVELS & ACHIEVEMENTS (SECTION E)                        */
+/* ======================================================== */
+.levelsAchievementsLayout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.featureCardBox {
+  background: #111827;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.tierTiersList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.tierRowItem {
+  background: #161F30;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 0.85rem 1.15rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tierNameGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.tierRankNum {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(245, 158, 11, 0.15);
+  color: #FBBF24;
+  font-weight: 800;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tierTitle {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.tierXpReq {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #818CF8;
+}
+
+.sampleAchievementsGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.sampleAchItem {
+  background: #161F30;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 0.85rem 1.15rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.sampleAchIcon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  color: #FFFFFF;
+  flex-shrink: 0;
+}
+
+.sampleAchMeta {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.sampleAchTitle {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.sampleAchDesc {
+  font-size: 0.78rem;
+  color: #94A3B8;
+  margin: 0;
+}
+
+.sampleAchXp {
+  background-color: rgba(16, 185, 129, 0.15);
+  color: #34D399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.2rem 0.55rem;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+/* ======================================================== */
+/* REFERRAL SECTION (SECTION F)                             */
+/* ======================================================== */
+.referralSectionBox {
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.12) 0%, rgba(124, 58, 237, 0.06) 100%);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  border-radius: 24px;
+  padding: 3.5rem 3rem;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  align-items: center;
+  gap: 3rem;
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+}
+
+.referralLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.referralTitle {
+  font-size: 2.25rem;
+  font-weight: 900;
+  color: #FFFFFF;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.referralText {
+  font-size: 1.05rem;
+  color: #94A3B8;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.referralBenefitsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.benefitItem {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 0.95rem;
+  color: #CBD5E1;
+}
+
+.benefitIcon {
+  color: #34D399;
+  font-weight: 800;
+}
+
+.referralPreviewBox {
+  background: #111827;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  text-align: center;
+}
+
+.referralSampleBadge {
+  font-family: monospace;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #818CF8;
+  background: #0B0F19;
+  border: 1px dashed rgba(99, 102, 241, 0.4);
+  padding: 0.75rem;
+  border-radius: 10px;
+  letter-spacing: 1px;
+}
+
+/* ======================================================== */
+/* PLATFORM TRANSPARENCY / HEALTH PROBE                     */
+/* ======================================================== */
+.diagnosticsSectionBox {
+  background: #111827;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ======================================================== */
+/* FINAL CTA BANNER (SECTION G)                             */
+/* ======================================================== */
+.finalCtaBox {
+  background: linear-gradient(135deg, #1E1B4B 0%, #111827 100%);
+  border: 1px solid rgba(99, 102, 241, 0.35);
+  border-radius: 24px;
+  padding: 4rem 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.6);
+}
+
+.finalCtaHeading {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: #FFFFFF;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.finalCtaDesc {
+  font-size: 1.1rem;
+  color: #94A3B8;
+  max-width: 600px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.finalCtaActions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+/* ======================================================== */
+/* FOOTER                                                   */
+/* ======================================================== */
+.landingFooter {
+  background-color: #05070B;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 3.5rem 2rem 2rem;
+  margin-top: auto;
+}
+
+.footerInner {
+  max-width: 1320px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 2.5rem;
+}
+
+.footerBrandCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.footerBrandDesc {
+  font-size: 0.875rem;
+  color: #64748B;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 340px;
+}
+
+.footerCol {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.footerColTitle {
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #CBD5E1;
+  letter-spacing: 0.5px;
+}
+
+.footerColLink {
+  color: #94A3B8;
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: color 0.15s ease;
+}
+
+.footerColLink:hover {
+  color: #FFFFFF;
+}
+
+.footerBottomBar {
+  max-width: 1320px;
+  margin: 0 auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 1.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.8rem;
+  color: #64748B;
+}
+
+/* ======================================================== */
+/* RESPONSIVE BREAKPOINTS                                   */
+/* ======================================================== */
+@media (max-width: 1024px) {
+  .heroSection {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    padding: 3rem 1.5rem;
+  }
+  .stepsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .rewardsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .levelsAchievementsLayout {
+    grid-template-columns: 1fr;
+  }
+  .referralSectionBox {
+    grid-template-columns: 1fr;
+    padding: 2.5rem 1.75rem;
+  }
+  .footerInner {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 @media (max-width: 768px) {
-  .welcomeHeading {
-    font-size: 2rem;
+  .navLinks {
+    display: none;
   }
-  .welcomeDescription {
-    font-size: 1rem;
+  .heroTitle {
+    font-size: 2.25rem;
+  }
+  .sectionTitle {
+    font-size: 1.85rem;
+  }
+  .stepsGrid {
+    grid-template-columns: 1fr;
+  }
+  .rewardsGrid {
+    grid-template-columns: 1fr;
+  }
+  .footerInner {
+    grid-template-columns: 1fr;
+    gap: 2rem;
   }
 }
+
+@media (max-width: 480px) {
+  .landingNavbar {
+    padding: 0.75rem 1rem;
+  }
+
+  .brandTitle {
+    font-size: 1.05rem;
+  }
+
+  .navAuth {
+    gap: 0.5rem;
+  }
+
+  .btnSignInNav {
+    font-size: 0.82rem;
+  }
+
+  .btnGetStartedNav {
+    padding: 0.45rem 0.8rem;
+    font-size: 0.82rem;
+  }
+
+  .heroTitle {
+    font-size: 1.85rem;
+  }
+
+  .heroCtas {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .btnPrimaryCta,
+  .btnSecondaryCta {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .ctaBannerCard {
+    padding: 2rem 1.25rem;
+  }
+
+  .bannerActions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .bannerPrimaryBtn,
+  .bannerSecondaryBtn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+

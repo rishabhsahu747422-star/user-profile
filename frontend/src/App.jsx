@@ -12,61 +12,72 @@ import './App.css'
 function App() {
   const location = useLocation()
   const cleanPath = location.pathname.replace(/\/+$/, '') || '/'
-  const isProfileRoute = cleanPath === '/user-profile' || cleanPath === '/profile'
+  const isDashboardRoute = cleanPath === '/user-profile' || cleanPath === '/profile' || cleanPath === '/admin'
+  const isAuthRoute = cleanPath === '/login' || cleanPath === '/register'
+  const isLandingRoute = cleanPath === '/'
 
   useEffect(() => {
-    if (isProfileRoute) {
-      document.documentElement.setAttribute('data-theme', 'dark-gaming')
-      document.body.style.backgroundColor = '#07090E'
-      document.body.style.color = '#F8FAFC'
-    } else {
-      document.documentElement.removeAttribute('data-theme')
-      document.body.style.backgroundColor = ''
-      document.body.style.color = ''
-    }
-  }, [isProfileRoute])
+    // Keep unified dark theme across all application pages
+    document.documentElement.setAttribute('data-theme', 'dark-gaming')
+    document.body.style.backgroundColor = '#07090E'
+    document.body.style.color = '#F8FAFC'
+  }, [])
 
   return (
     <AuthProvider>
-      <div
-        className={`app-shell ${isProfileRoute ? 'theme-dark-gaming' : ''}`}
-        data-theme={isProfileRoute ? 'dark-gaming' : 'light'}
-      >
-        {/* Compact Vertical Icon Sidebar */}
-        <Sidebar />
+      {isLandingRoute ? (
+        /* Standalone Public Landing Page */
+        <main className="landing-page-root">
+          <Home />
+        </main>
+      ) : isAuthRoute ? (
+        /* Clean Fullscreen Authentication Page (No Navbar / No Sidebar) */
+        <main className="auth-page-root">
+          <Routes>
+            <Route path="/login" element={<Login initialMode="login" />} />
+            <Route path="/register" element={<Login initialMode="register" />} />
+          </Routes>
+        </main>
+      ) : (
+        /* Authenticated Command Center Shell (Sidebar + TopHeader + Footer) */
+        <div
+          className={`app-shell ${isDashboardRoute ? 'theme-dark-gaming' : ''}`}
+          data-theme="dark-gaming"
+        >
+          {/* Compact Vertical Icon Sidebar */}
+          <Sidebar />
 
-        {/* Main Application Surface */}
-        <div className="app-main-surface">
-          <div className="app-surface-frame">
-            {/* Top Navigation Bar */}
-            <TopHeader />
+          {/* Main Application Surface */}
+          <div className="app-main-surface">
+            <div className="app-surface-frame">
+              {/* Top Navigation Bar */}
+              <TopHeader />
 
-            {/* Routed Page Content */}
-            <main className="app-content-body">
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/user-profile" element={<UserProfile />} />
-                <Route path="/profile" element={<UserProfile />} />
-                <Route path="/admin" element={<AdminDashboard />} />
-                <Route path="*" element={<Navigate to="/" replace />} />
-              </Routes>
-            </main>
+              {/* Routed Page Content */}
+              <main className="app-content-body">
+                <Routes>
+                  <Route path="/user-profile" element={<UserProfile />} />
+                  <Route path="/profile" element={<UserProfile />} />
+                  <Route path="/admin" element={<AdminDashboard />} />
+                  <Route path="*" element={<Navigate to="/" replace />} />
+                </Routes>
+              </main>
 
-            {/* Clean Footer */}
-            <footer className="app-footer">
-              <small className="footer-text">
-                &copy; {new Date().getFullYear()} VE Loop Rewards. Enterprise Loyalty & Wallet System.
-              </small>
-              <div className="footer-links">
-                <span className="footer-link">Privacy Policy</span>
-                <span className="footer-link">Terms of Service</span>
-                <span className="footer-link">Security</span>
-              </div>
-            </footer>
+              {/* Clean Footer */}
+              <footer className="app-footer">
+                <small className="footer-text">
+                  &copy; {new Date().getFullYear()} VE Loop Rewards. Enterprise Loyalty & Wallet System.
+                </small>
+                <div className="footer-links">
+                  <span className="footer-link">Privacy Policy</span>
+                  <span className="footer-link">Terms of Service</span>
+                  <span className="footer-link">Security</span>
+                </div>
+              </footer>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </AuthProvider>
   )
 }

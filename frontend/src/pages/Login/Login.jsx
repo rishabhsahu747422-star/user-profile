@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams, Link } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
 import styles from './Login.module.css'
 
-export function Login() {
-  const [isRegisterMode, setIsRegisterMode] = useState(false)
+export function Login({ initialMode = 'login' }) {
+  const [searchParams] = useSearchParams()
+  const [isRegisterMode, setIsRegisterMode] = useState(() => {
+    return initialMode === 'register' || searchParams.get('mode') === 'register'
+  })
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -66,16 +69,20 @@ export function Login() {
     <div className={styles.loginContainer}>
       <div className={styles.loginCard}>
         <div className={styles.cardHeader}>
+          <Link to="/" className={styles.brandBadgeLink} title="Back to Home">
+            <span className={styles.brandIcon}>VE</span>
+            <span className={styles.brandText}>VE Loop Rewards</span>
+          </Link>
           <span className={styles.authBadge}>
-            {isRegisterMode ? 'Registration' : 'Secure Login'}
+            {isRegisterMode ? 'New Account' : 'Secure Sign In'}
           </span>
           <h1 className={styles.title}>
             {isRegisterMode ? 'Create Account' : 'Welcome Back'}
           </h1>
           <p className={styles.subtitle}>
             {isRegisterMode
-              ? 'Join VE Loop Rewards to begin managing your profile.'
-              : 'Sign in to access your verified profile and rewards.'}
+              ? 'Join VE Loop Rewards to begin managing your profile and earnings.'
+              : 'Sign in to access your verified profile, wallet, and rewards.'}
           </p>
         </div>
 
@@ -88,7 +95,7 @@ export function Login() {
 
           <form onSubmit={handleSubmit} noValidate>
             {isRegisterMode && (
-              <div className="mb-3">
+              <div className={styles.formGroup}>
                 <label className={styles.formLabel} htmlFor="auth-name">
                   Full Name
                 </label>
@@ -106,7 +113,7 @@ export function Login() {
               </div>
             )}
 
-            <div className="mb-3">
+            <div className={styles.formGroup}>
               <label className={styles.formLabel} htmlFor="auth-email">
                 Email Address
               </label>
@@ -123,7 +130,7 @@ export function Login() {
               />
             </div>
 
-            <div className="mb-4">
+            <div className={styles.formGroup}>
               <label className={styles.formLabel} htmlFor="auth-password">
                 Password
               </label>
@@ -139,7 +146,7 @@ export function Login() {
                 autoComplete={isRegisterMode ? 'new-password' : 'current-password'}
               />
               {isRegisterMode && (
-                <small className="text-secondary d-block mt-1">
+                <small className={styles.passwordHint}>
                   Must be at least 6 characters long.
                 </small>
               )}
@@ -180,7 +187,7 @@ export function Login() {
             <div className={styles.demoBox} aria-label="Demo Credentials Panel">
               <div className={styles.demoTitle}>
                 <span>Demo Evaluation Access</span>
-                <span className={styles.demoBadge}>Demo Mode</span>
+                <span className={styles.demoBadge}>Quick Fill</span>
               </div>
               <div className={styles.demoRow}>
                 <div>
@@ -220,6 +227,12 @@ export function Login() {
               </div>
             </div>
           )}
+
+          <div className={styles.backHomeRow}>
+            <Link to="/" className={styles.backHomeLink}>
+              ← Back to Platform Home
+            </Link>
+          </div>
         </div>
       </div>
     </div>

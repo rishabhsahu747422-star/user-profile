@@ -1,18 +1,18 @@
 .statusCard {
   max-width: 520px;
   margin: 0.5rem auto;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
   border-radius: var(--radius-md, 12px);
   overflow: hidden;
-  border: 1px solid var(--border-light, #E2E8F0);
-  background-color: var(--surface-main, #FFFFFF);
-  color: var(--text-main, #0F172A);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: #161F30;
+  color: #F8FAFC;
 }
 
 .cardHeader {
-  background-color: var(--surface-alt, #F8FAFC);
-  border-bottom: 1px solid var(--border-light, #E2E8F0);
-  padding: 0.75rem 1rem;
+  background-color: #111827;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.75rem 1.25rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -21,7 +21,7 @@
 .headerTitle {
   font-weight: 700;
   font-size: 0.85rem;
-  color: var(--text-main, #0F172A);
+  color: #FFFFFF;
 }
 
 .refreshBtn {
@@ -29,29 +29,29 @@
   font-weight: 600;
   padding: 0.25rem 0.65rem;
   border-radius: var(--radius-sm, 6px);
-  background: #FFFFFF;
-  border: 1px solid var(--border-light, #E2E8F0);
-  color: var(--text-main, #0F172A);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #CBD5E1;
   transition: all 0.15s ease;
   cursor: pointer;
 }
 
 .refreshBtn:hover:not(:disabled) {
-  background: var(--primary-soft, #EEF2FF);
-  color: var(--primary-600, #4F46E5);
-  border-color: var(--primary-border, #C7D2FE);
+  background: #4F46E5;
+  color: #FFFFFF;
+  border-color: #6366F1;
 }
 
 .label {
   font-weight: 600;
   font-size: 0.825rem;
-  color: var(--text-secondary, #334155);
+  color: #94A3B8;
 }
 
 .badgeService {
-  background-color: var(--primary-soft, #EEF2FF);
-  color: var(--primary-text, #3730A3);
-  border: 1px solid var(--primary-border, #C7D2FE);
+  background-color: rgba(99, 102, 241, 0.18);
+  color: #A5B4FC;
+  border: 1px solid rgba(99, 102, 241, 0.35);
   font-weight: 700;
   padding: 0.25rem 0.6rem;
   border-radius: var(--radius-full, 9999px);
@@ -59,9 +59,9 @@
 }
 
 .badgeSuccess {
-  background-color: var(--status-success-bg, #DCFCE7);
-  color: var(--status-success-text, #166534);
-  border: 1px solid var(--status-success-border, #86EFAC);
+  background-color: rgba(16, 185, 129, 0.18);
+  color: #34D399;
+  border: 1px solid rgba(16, 185, 129, 0.35);
   font-weight: 700;
   padding: 0.25rem 0.6rem;
   border-radius: var(--radius-full, 9999px);
@@ -69,9 +69,9 @@
 }
 
 .badgeWarning {
-  background-color: var(--status-warning-bg, #FEF3C7);
-  color: var(--status-warning-text, #92400E);
-  border: 1px solid var(--status-warning-border, #FCD34D);
+  background-color: rgba(245, 158, 11, 0.18);
+  color: #FBBF24;
+  border: 1px solid rgba(245, 158, 11, 0.35);
   font-weight: 700;
   padding: 0.25rem 0.6rem;
   border-radius: var(--radius-full, 9999px);
@@ -80,5 +80,5 @@
 
 .timestamp {
   font-size: 0.75rem;
-  color: var(--text-muted, #64748B);
+  color: #64748B;
 }
