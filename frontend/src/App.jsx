@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { AuthProvider } from './context/AuthProvider'
 import Sidebar from './components/Sidebar'
@@ -12,6 +13,18 @@ function App() {
   const location = useLocation()
   const cleanPath = location.pathname.replace(/\/+$/, '') || '/'
   const isProfileRoute = cleanPath === '/user-profile' || cleanPath === '/profile'
+
+  useEffect(() => {
+    if (isProfileRoute) {
+      document.documentElement.setAttribute('data-theme', 'dark-gaming')
+      document.body.style.backgroundColor = '#07090E'
+      document.body.style.color = '#F8FAFC'
+    } else {
+      document.documentElement.removeAttribute('data-theme')
+      document.body.style.backgroundColor = ''
+      document.body.style.color = ''
+    }
+  }, [isProfileRoute])
 
   return (
     <AuthProvider>

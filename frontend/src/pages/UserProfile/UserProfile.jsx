@@ -205,22 +205,20 @@ export function UserProfile() {
     return (
       <div className={styles.dashboardContainer} data-theme="dark-gaming">
         <div className={styles.dashboardWrapper}>
-          <div className={`${styles.skeletonCard} mb-4`}>
-            <div className="d-flex align-items-center gap-3">
+          <div className={styles.skeletonCard}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
               <div className={styles.skeletonAvatar} />
               <div style={{ flex: 1 }}>
-                <div className={styles.skeletonLine} style={{ width: '35%', height: '1.5rem' }} />
-                <div className={styles.skeletonLine} style={{ width: '55%', height: '1rem', marginTop: '0.5rem' }} />
+                <div className={styles.skeletonLine} style={{ width: '30%', height: '1.5rem', marginBottom: '0.5rem' }} />
+                <div className={styles.skeletonLine} style={{ width: '50%', height: '1rem' }} />
               </div>
             </div>
           </div>
-          <div className="row g-4 mb-4">
-            <div className="col-12 col-xl-8">
-              <div className={styles.skeletonCard} style={{ height: '240px' }} />
-            </div>
-            <div className="col-12 col-xl-4">
-              <div className={styles.skeletonCard} style={{ height: '240px' }} />
-            </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1.25rem' }}>
+            <div className={styles.skeletonCard} style={{ height: '160px' }} />
+            <div className={styles.skeletonCard} style={{ height: '160px' }} />
+            <div className={styles.skeletonCard} style={{ height: '160px' }} />
+            <div className={styles.skeletonCard} style={{ height: '160px' }} />
           </div>
         </div>
       </div>
@@ -231,20 +229,20 @@ export function UserProfile() {
     return (
       <div className={styles.dashboardContainer} data-theme="dark-gaming">
         <div className={styles.dashboardWrapper}>
-          <div className="alert alert-danger p-4 text-center shadow-sm" role="alert">
-            <h4 className="alert-heading fw-bold mb-2">Unable to Load Dashboard</h4>
-            <p className="mb-3">{error}</p>
-            <div className="d-flex justify-content-center gap-2">
+          <div style={{ backgroundColor: '#1F1315', border: '1px solid #7F1D1D', padding: '2rem', borderRadius: '16px', textAlign: 'center' }}>
+            <h3 style={{ color: '#F87171', fontWeight: 800, marginBottom: '0.5rem' }}>Unable to Load Dashboard</h3>
+            <p style={{ color: '#FECACA', marginBottom: '1.5rem' }}>{error}</p>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem' }}>
               <button
                 type="button"
-                className="btn btn-danger btn-sm px-4"
+                className={styles.btnDangerAction}
                 onClick={() => loadOverview(true)}
               >
                 Retry
               </button>
               <button
                 type="button"
-                className="btn btn-outline-secondary btn-sm px-4"
+                className={styles.btnSecondaryAction}
                 onClick={handleLogout}
               >
                 Sign In Again
@@ -314,16 +312,16 @@ export function UserProfile() {
             </div>
             <form onSubmit={handleCreateWithdrawal}>
               <div className={styles.modalBody}>
-                <div className="mb-3">
-                  <div className="d-flex justify-content-between mb-1">
+                <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.25rem' }}>
                     <span className={styles.formLabel}>Available Balance:</span>
                     <strong style={{ color: '#34D399', fontWeight: 800 }}>{balances.VE.available.toLocaleString()} VEs</strong>
                   </div>
-                  <small className="text-muted d-block mb-3">
+                  <small style={{ color: '#94A3B8', fontSize: '0.75rem', display: 'block', lineHeight: 1.4 }}>
                     Minimum withdrawal is 200 VE. Requested funds will be reserved immediately upon submission.
                   </small>
                 </div>
-                <div className="mb-3">
+                <div>
                   <label htmlFor="withdraw-amount-input" className={styles.formLabel}>
                     Withdrawal Amount (VE):
                   </label>
@@ -340,7 +338,7 @@ export function UserProfile() {
                     required
                   />
                 </div>
-                <div className="mb-2">
+                <div>
                   <label htmlFor="withdraw-dest-input" className={styles.formLabel}>
                     Destination Address / Account:
                   </label>
@@ -348,7 +346,7 @@ export function UserProfile() {
                     id="withdraw-dest-input"
                     type="text"
                     className={styles.formControl}
-                    placeholder="e.g. 0x71C... or user account"
+                    placeholder="e.g. 0x71C... or bank account"
                     value={withdrawDestination}
                     onChange={(e) => setWithdrawDestination(e.target.value)}
                     required
@@ -378,7 +376,7 @@ export function UserProfile() {
 
       <div className={styles.dashboardWrapper}>
         {/* ======================================================== */}
-        {/* SECTION A: WELCOME HERO & HORIZONTAL QUICK ACTIONS       */}
+        {/* SECTION B: PROFILE HERO HEADER                           */}
         {/* ======================================================== */}
         <section className={styles.welcomeSection} aria-labelledby="welcome-heading">
           <div className={styles.welcomeUserArea}>
@@ -396,7 +394,7 @@ export function UserProfile() {
                   {profile.status}
                 </span>
                 <span className={styles.rolePill}>{profile.role}</span>
-                <span className={styles.xpBadgeHighlight} style={{ fontSize: '0.75rem', padding: '0.2rem 0.65rem' }}>
+                <span className={styles.tierPill}>
                   ★ {levelProgress.currentLevelName}
                 </span>
               </div>
@@ -421,7 +419,7 @@ export function UserProfile() {
             </div>
           </div>
 
-          {/* Horizontal Quick Actions */}
+          {/* Quick Actions */}
           <div className={styles.quickActionsRow}>
             <button
               type="button"
@@ -474,293 +472,291 @@ export function UserProfile() {
         </section>
 
         {/* ======================================================== */}
-        {/* ASYMMETRIC 2-COLUMN DASHBOARD GRID (70% / 30%)           */}
+        {/* SECTION C: 4 DISTINCT MULTI-ASSET WALLET CARDS           */}
         {/* ======================================================== */}
-        <div className="row g-4">
-          {/* ======================================================== */}
-          {/* LEFT / CENTER MAIN COLUMN (~68% width)                   */}
-          {/* ======================================================== */}
-          <div className="col-12 col-xl-8">
-            {/* Section B: Layered Financial Card & Asset Hub */}
-            <section className={styles.walletHubCard} aria-labelledby="wallet-hub-heading">
-              <div className={styles.hubHeader}>
-                <h2 id="wallet-hub-heading" className={styles.hubTitle}>
-                  Multi-Asset Financial Hub
-                </h2>
-                <span className={styles.hubSubtext}>Immutable Ledger Backed</span>
-              </div>
+        <section className={styles.walletGridSection} aria-labelledby="wallet-section-title">
+          <div className={styles.sectionHeaderRow}>
+            <div className={styles.sectionTitleBlock}>
+              <span className={styles.sectionEyebrow}>Multi-Asset Financial Hub</span>
+              <h2 id="wallet-section-title" className={styles.sectionHeading}>
+                Wallet & Digital Assets
+              </h2>
+            </div>
+            <span className={styles.ledgerBadge}>Immutable Ledger Backed</span>
+          </div>
 
-              <div className={styles.walletComposition}>
-                {/* Primary Executive Metal Card (VE) */}
-                <div className={styles.executiveCard}>
-                  <div className={styles.cardDecorativeCircle} aria-hidden="true" />
-                  <div className={styles.cardTopRow}>
-                    <div className={styles.cardChipGraphic} aria-hidden="true" />
-                    <span className={styles.cardNetworkLabel}>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <circle cx="12" cy="12" r="10" />
-                        <path d="m4.93 4.93 4.24 4.24" />
-                        <path d="m14.83 9.17 4.24-4.24" />
-                        <path d="m14.83 14.83 4.24 4.24" />
-                        <path d="m9.17 14.83-4.24 4.24" />
-                      </svg>
-                      VE Rewards
-                    </span>
-                  </div>
-
-                  <div className={styles.cardBalanceBlock}>
-                    <span className={styles.cardBalanceLabel}>Available Balance</span>
-                    <div className={styles.cardBalanceNumber}>
-                      {balances.VE.available.toLocaleString()}
-                      <span>VEs</span>
-                    </div>
-                  </div>
-
-                  <div className={styles.cardBottomRow}>
-                    <div>
-                      <div className={styles.cardHolderName}>{profile.name.toUpperCase()}</div>
-                      <small style={{ fontSize: '0.72rem', color: '#C7D2FE' }}>Tier: {levelProgress.currentLevelName}</small>
-                    </div>
-                    <div className={styles.cardBreakdown}>
-                      <div>
-                        <span>Reserved: </span>
-                        <strong>{balances.VE.reserved.toLocaleString()}</strong>
-                      </div>
-                      <div>
-                        <span>Lifetime: </span>
-                        <strong>{balances.VE.totalEarned.toLocaleString()}</strong>
-                      </div>
-                    </div>
-                  </div>
+          <div className={styles.walletCardsGrid}>
+            {/* Card 1: VE Rewards */}
+            <div className={`${styles.walletAssetCard} ${styles.cardVeTheme}`}>
+              <div className={styles.cardHeaderRow}>
+                <div className={`${styles.cardIconBadge} ${styles.iconVe}`} title="VE Rewards">
+                  VE
                 </div>
-
-                {/* Secondary Asset Stack (SVE, GEM, TOKEN) */}
-                <div className={styles.secondaryAssetsCol}>
-                  {/* SVE Asset */}
-                  <div className={`${styles.subAssetTile} ${styles.subAssetSve}`}>
-                    <div className={styles.subAssetIdentity}>
-                      <div className={styles.subAssetIcon}>SVE</div>
-                      <div className={styles.subAssetNameBlock}>
-                        <h4 className={styles.subAssetName}>Staked Units</h4>
-                        <span className={styles.subAssetSubtext}>
-                          Reserved: {balances.SVE.reserved.toLocaleString()}
-                        </span>
-                      </div>
-                    </div>
-                    <div className={styles.subAssetNumbers}>
-                      <div className={styles.subAssetAvailable}>
-                        {balances.SVE.available.toLocaleString()}
-                      </div>
-                      <span className={styles.subAssetLifetime}>
-                        Lifetime: {balances.SVE.totalEarned.toLocaleString()}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* GEM Asset */}
-                  <div className={`${styles.subAssetTile} ${styles.subAssetGem}`}>
-                    <div className={styles.subAssetIdentity}>
-                      <div className={styles.subAssetIcon}>GEM</div>
-                      <div className={styles.subAssetNameBlock}>
-                        <h4 className={styles.subAssetName}>Quest Gems</h4>
-                        <span className={styles.subAssetSubtext}>
-                          Reserved: {balances.GEM.reserved.toLocaleString()}
-                        </span>
-                      </div>
-                    </div>
-                    <div className={styles.subAssetNumbers}>
-                      <div className={styles.subAssetAvailable}>
-                        {balances.GEM.available.toLocaleString()}
-                      </div>
-                      <span className={styles.subAssetLifetime}>
-                        Lifetime: {balances.GEM.totalEarned.toLocaleString()}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* TOKEN Asset */}
-                  <div className={`${styles.subAssetTile} ${styles.subAssetToken}`}>
-                    <div className={styles.subAssetIdentity}>
-                      <div className={styles.subAssetIcon}>TKN</div>
-                      <div className={styles.subAssetNameBlock}>
-                        <h4 className={styles.subAssetName}>Platform Tokens</h4>
-                        <span className={styles.subAssetSubtext}>
-                          Reserved: {balances.TOKEN.reserved.toLocaleString()}
-                        </span>
-                      </div>
-                    </div>
-                    <div className={styles.subAssetNumbers}>
-                      <div className={styles.subAssetAvailable}>
-                        {balances.TOKEN.available.toLocaleString()}
-                      </div>
-                      <span className={styles.subAssetLifetime}>
-                        Lifetime: {balances.TOKEN.totalEarned.toLocaleString()}
-                      </span>
-                    </div>
-                  </div>
+                <span className={styles.cardTypeBadge}>Primary Asset</span>
+              </div>
+              <div className={styles.cardMainBalanceBlock}>
+                <span className={styles.cardAssetLabel}>VE Rewards Balance</span>
+                <div className={styles.cardBalanceNumber}>
+                  {balances.VE.available.toLocaleString()}
+                  <span className={styles.cardTicker}>VEs</span>
                 </div>
               </div>
-            </section>
-
-            {/* Section C: Progression & Level Tier */}
-            <section className={styles.dashboardCard} aria-labelledby="progression-heading">
-              <div className={styles.cardHeaderFlex}>
-                <div>
-                  <span className={styles.cardEyebrow}>Gamified Progression</span>
-                  <h2 id="progression-heading" className={styles.cardMainTitle}>
-                    Level {String(levelProgress.currentLevel).padStart(2, '0')} — {levelProgress.currentLevelName}
-                  </h2>
+              <div className={styles.cardSubMetricsRow}>
+                <div className={styles.metricItem}>
+                  <span>Reserved</span>
+                  <strong>{balances.VE.reserved.toLocaleString()} VE</strong>
                 </div>
-                <div className={styles.xpBadgeHighlight}>
-                  {levelProgress.currentXp.toLocaleString()} Total XP
+                <div className={styles.metricItem} style={{ textAlign: 'right' }}>
+                  <span>Lifetime</span>
+                  <strong>{balances.VE.totalEarned.toLocaleString()} VE</strong>
                 </div>
               </div>
+            </div>
 
-              <div className={styles.progressContainer}>
-                <div className="d-flex justify-content-between align-items-center mb-1">
-                  <span className="fw-semibold" style={{ fontSize: '0.875rem' }}>
-                    {levelProgress.nextLevel ? (
-                      <>
-                        Progress toward <strong>Level {levelProgress.nextLevel} ({levelProgress.nextLevelName})</strong>
-                      </>
-                    ) : (
-                      <strong>Maximum Tier Mastered</strong>
-                    )}
-                  </span>
-                  <span className="fw-bold" style={{ fontSize: '0.95rem', color: '#38BDF8' }}>
-                    {levelProgress.progressPercentage}%
-                  </span>
+            {/* Card 2: Staked VE (SVE) */}
+            <div className={`${styles.walletAssetCard} ${styles.cardSveTheme}`}>
+              <div className={styles.cardHeaderRow}>
+                <div className={`${styles.cardIconBadge} ${styles.iconSve}`} title="Staked VE">
+                  SVE
                 </div>
-
-                <div
-                  className={styles.progressBarWrapper}
-                  role="progressbar"
-                  aria-valuenow={levelProgress.progressPercentage}
-                  aria-valuemin="0"
-                  aria-valuemax="100"
-                >
-                  <div
-                    className={styles.progressBarFill}
-                    style={{ width: `${levelProgress.progressPercentage}%` }}
-                  />
-                </div>
-
-                <div className={styles.progressMetaText}>
-                  <span>
-                    {levelProgress.nextLevelXp
-                      ? `${levelProgress.currentXp.toLocaleString()} / ${levelProgress.nextLevelXp.toLocaleString()} XP`
-                      : `${levelProgress.currentXp.toLocaleString()} XP`}
-                  </span>
-                  <span className={styles.progressRemaining}>
-                    {levelProgress.nextLevel
-                      ? `${levelProgress.xpRemaining.toLocaleString()} XP remaining`
-                      : 'Max Tier achieved'}
-                  </span>
+                <span className={styles.cardTypeBadge}>Yield Staked</span>
+              </div>
+              <div className={styles.cardMainBalanceBlock}>
+                <span className={styles.cardAssetLabel}>Staked Units</span>
+                <div className={styles.cardBalanceNumber}>
+                  {balances.SVE.available.toLocaleString()}
+                  <span className={styles.cardTicker}>SVE</span>
                 </div>
               </div>
-            </section>
-
-            {/* Section D: Achievements & Badges */}
-            <section className={styles.dashboardCard} aria-labelledby="achievements-heading">
-              <div className={styles.cardHeaderFlex}>
-                <div>
-                  <span className={styles.cardEyebrow}>Milestones & Badges</span>
-                  <h2 id="achievements-heading" className={styles.cardMainTitle}>
-                    Achievements ({achievements.unlocked} of {achievements.total} Unlocked)
-                  </h2>
+              <div className={styles.cardSubMetricsRow}>
+                <div className={styles.metricItem}>
+                  <span>Reserved</span>
+                  <strong>{balances.SVE.reserved.toLocaleString()} SVE</strong>
+                </div>
+                <div className={styles.metricItem} style={{ textAlign: 'right' }}>
+                  <span>Lifetime</span>
+                  <strong>{balances.SVE.totalEarned.toLocaleString()} SVE</strong>
                 </div>
               </div>
+            </div>
 
-              <div className={styles.achievementGrid}>
-                {achievements.items && achievements.items.length > 0 ? (
-                  achievements.items.map((ach) => {
-                    const isEligibleToClaim = ach.unlocked && !ach.isClaimed
-                    return (
-                      <div
-                        key={ach.id || ach.code}
-                        className={`${styles.achievementCardItem} ${
-                          ach.isClaimed
-                            ? styles.achClaimedItem
-                            : ach.unlocked
-                            ? styles.achUnlockedItem
-                            : styles.achLockedItem
-                        }`}
-                      >
-                        <div
-                          className={`${styles.achBadgeCircle} ${
-                            ach.isClaimed
-                              ? styles.badgeClaimedIcon
-                              : ach.unlocked
-                              ? styles.badgeUnlockedIcon
-                              : styles.badgeLockedIcon
-                          }`}
-                        >
-                          {ach.isClaimed ? '✓' : ach.unlocked ? '★' : '🔒'}
-                        </div>
+            {/* Card 3: Quest Gems (GEM) */}
+            <div className={`${styles.walletAssetCard} ${styles.cardGemTheme}`}>
+              <div className={styles.cardHeaderRow}>
+                <div className={`${styles.cardIconBadge} ${styles.iconGem}`} title="Quest Gems">
+                  💎
+                </div>
+                <span className={styles.cardTypeBadge}>Quest Currency</span>
+              </div>
+              <div className={styles.cardMainBalanceBlock}>
+                <span className={styles.cardAssetLabel}>Quest Gems</span>
+                <div className={styles.cardBalanceNumber}>
+                  {balances.GEM.available.toLocaleString()}
+                  <span className={styles.cardTicker}>GEM</span>
+                </div>
+              </div>
+              <div className={styles.cardSubMetricsRow}>
+                <div className={styles.metricItem}>
+                  <span>Reserved</span>
+                  <strong>{balances.GEM.reserved.toLocaleString()} GEM</strong>
+                </div>
+                <div className={styles.metricItem} style={{ textAlign: 'right' }}>
+                  <span>Lifetime</span>
+                  <strong>{balances.GEM.totalEarned.toLocaleString()} GEM</strong>
+                </div>
+              </div>
+            </div>
 
-                        <div className={styles.achContent}>
-                          <div className={styles.achTitleRow}>
-                            <h3 className={styles.achItemTitle}>{ach.title}</h3>
-                            {ach.isClaimed ? (
-                              <span className={styles.achStatusClaimed}>
-                                Claimed
-                              </span>
-                            ) : ach.unlocked ? (
-                              <span className={styles.achStatusUnlocked}>
-                                Unlocked
-                              </span>
-                            ) : (
-                              <span className={styles.achStatusLocked}>
-                                Locked
-                              </span>
-                            )}
-                          </div>
-                          <p className={styles.achItemDescription}>{ach.description}</p>
+            {/* Card 4: Platform Tokens (TOKEN) */}
+            <div className={`${styles.walletAssetCard} ${styles.cardTokenTheme}`}>
+              <div className={styles.cardHeaderRow}>
+                <div className={`${styles.cardIconBadge} ${styles.iconToken}`} title="Platform Tokens">
+                  🪙
+                </div>
+                <span className={styles.cardTypeBadge}>Ecosystem Utility</span>
+              </div>
+              <div className={styles.cardMainBalanceBlock}>
+                <span className={styles.cardAssetLabel}>Platform Tokens</span>
+                <div className={styles.cardBalanceNumber}>
+                  {balances.TOKEN.available.toLocaleString()}
+                  <span className={styles.cardTicker}>TKN</span>
+                </div>
+              </div>
+              <div className={styles.cardSubMetricsRow}>
+                <div className={styles.metricItem}>
+                  <span>Reserved</span>
+                  <strong>{balances.TOKEN.reserved.toLocaleString()} TKN</strong>
+                </div>
+                <div className={styles.metricItem} style={{ textAlign: 'right' }}>
+                  <span>Lifetime</span>
+                  <strong>{balances.TOKEN.totalEarned.toLocaleString()} TKN</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
 
-                          <div className={styles.achMetaRow}>
-                            <span>
-                              {ach.criteria?.type === 'XP_THRESHOLD'
-                                ? `Goal: ${ach.criteria.targetValue.toLocaleString()} XP (${ach.progress.toLocaleString()} earned)`
-                                : 'Requirement: Join platform'}
-                            </span>
+        {/* ======================================================== */}
+        {/* SECTION D: GAMIFIED PROGRESSION & XP                     */}
+        {/* ======================================================== */}
+        <section className={styles.progressionCard} aria-labelledby="progression-heading">
+          <div className={styles.progressionHeaderRow}>
+            <div className={styles.levelTitleBlock}>
+              <span className={styles.sectionEyebrow}>Gamified Progression</span>
+              <h2 id="progression-heading" className={styles.levelHeading}>
+                Level {String(levelProgress.currentLevel).padStart(2, '0')} — {levelProgress.currentLevelName}
+              </h2>
+            </div>
+            <div className={styles.xpBadgeHighlight}>
+              {levelProgress.currentXp.toLocaleString()} Total XP
+            </div>
+          </div>
 
-                            {isEligibleToClaim && (
-                              <button
-                                type="button"
-                                className={styles.claimBadgeBtn}
-                                onClick={() => handleClaimAchievement(ach.id, ach.title)}
-                                disabled={claimingId === ach.id}
-                              >
-                                {claimingId === ach.id ? 'Claiming...' : 'Claim Badge'}
-                              </button>
-                            )}
-
-                            {ach.isClaimed && ach.claimedAt && (
-                              <span style={{ color: '#34D399', fontWeight: 700, fontSize: '0.75rem' }}>
-                                Claimed on {formatDate(ach.claimedAt)}
-                              </span>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    )
-                  })
+          <div className={styles.progressTrackContainer}>
+            <div className={styles.progressInfoRow}>
+              <span style={{ fontWeight: 600 }}>
+                {levelProgress.nextLevel ? (
+                  <>Progress toward <strong>Level {levelProgress.nextLevel} ({levelProgress.nextLevelName})</strong></>
                 ) : (
-                  <p className="text-muted text-center py-3">No achievements configured.</p>
+                  <strong>Maximum Tier Mastered</strong>
                 )}
-              </div>
-            </section>
+              </span>
+              <span style={{ fontWeight: 800, color: '#38BDF8', fontSize: '1rem' }}>
+                {levelProgress.progressPercentage}%
+              </span>
+            </div>
 
-            {/* Section E: Recent Financial Activity (Persisted Ledger) */}
-            <section className={styles.dashboardCard} aria-labelledby="activity-heading">
-              <div className={styles.cardHeaderFlex}>
-                <div>
-                  <span className={styles.cardEyebrow}>Financial Ledger</span>
-                  <h2 id="activity-heading" className={styles.cardMainTitle}>
+            <div
+              className={styles.progressBarWrapper}
+              role="progressbar"
+              aria-valuenow={levelProgress.progressPercentage}
+              aria-valuemin="0"
+              aria-valuemax="100"
+            >
+              <div
+                className={styles.progressBarFill}
+                style={{ width: `${levelProgress.progressPercentage}%` }}
+              />
+            </div>
+
+            <div className={styles.progressMetaText}>
+              <span>
+                {levelProgress.nextLevelXp
+                  ? `${levelProgress.currentXp.toLocaleString()} / ${levelProgress.nextLevelXp.toLocaleString()} XP`
+                  : `${levelProgress.currentXp.toLocaleString()} XP`}
+              </span>
+              <span className={styles.progressRemaining}>
+                {levelProgress.nextLevel
+                  ? `${levelProgress.xpRemaining.toLocaleString()} XP remaining to Level ${levelProgress.nextLevel}`
+                  : 'Max Tier achieved'}
+              </span>
+            </div>
+          </div>
+        </section>
+
+        {/* ======================================================== */}
+        {/* SECTION E: ACHIEVEMENTS & BADGES                         */}
+        {/* ======================================================== */}
+        <section className={styles.achievementsCard} aria-labelledby="achievements-heading">
+          <div className={styles.sectionHeaderRow}>
+            <div className={styles.sectionTitleBlock}>
+              <span className={styles.sectionEyebrow}>Milestones & Badges</span>
+              <h2 id="achievements-heading" className={styles.sectionHeading}>
+                Achievements ({achievements.unlocked} of {achievements.total} Unlocked)
+              </h2>
+            </div>
+          </div>
+
+          <div className={styles.achievementGrid}>
+            {achievements.items && achievements.items.length > 0 ? (
+              achievements.items.map((ach) => {
+                const isEligibleToClaim = ach.unlocked && !ach.isClaimed
+                return (
+                  <div
+                    key={ach.id || ach.code}
+                    className={`${styles.achievementCardItem} ${
+                      ach.isClaimed
+                        ? styles.achClaimedItem
+                        : ach.unlocked
+                        ? styles.achUnlockedItem
+                        : styles.achLockedItem
+                    }`}
+                  >
+                    <div
+                      className={`${styles.achBadgeCircle} ${
+                        ach.isClaimed
+                          ? styles.badgeClaimedIcon
+                          : ach.unlocked
+                          ? styles.badgeUnlockedIcon
+                          : styles.badgeLockedIcon
+                      }`}
+                    >
+                      {ach.isClaimed ? '✓' : ach.unlocked ? '★' : '🔒'}
+                    </div>
+
+                    <div className={styles.achContent}>
+                      <div className={styles.achTitleRow}>
+                        <h3 className={styles.achItemTitle}>{ach.title}</h3>
+                        {ach.isClaimed ? (
+                          <span className={styles.achStatusClaimed}>Claimed</span>
+                        ) : ach.unlocked ? (
+                          <span className={styles.achStatusUnlocked}>Unlocked</span>
+                        ) : (
+                          <span className={styles.achStatusLocked}>Locked</span>
+                        )}
+                      </div>
+                      <p className={styles.achItemDescription}>{ach.description}</p>
+
+                      <div className={styles.achMetaRow}>
+                        <span>
+                          {ach.criteria?.type === 'XP_THRESHOLD'
+                            ? `Goal: ${ach.criteria.targetValue.toLocaleString()} XP (${ach.progress.toLocaleString()} earned)`
+                            : 'Requirement: Join platform'}
+                        </span>
+
+                        {isEligibleToClaim && (
+                          <button
+                            type="button"
+                            className={styles.claimBadgeBtn}
+                            onClick={() => handleClaimAchievement(ach.id, ach.title)}
+                            disabled={claimingId === ach.id}
+                          >
+                            {claimingId === ach.id ? 'Claiming...' : 'Claim Badge'}
+                          </button>
+                        )}
+
+                        {ach.isClaimed && ach.claimedAt && (
+                          <span style={{ color: '#34D399', fontWeight: 700, fontSize: '0.75rem' }}>
+                            Claimed on {formatDate(ach.claimedAt)}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )
+              })
+            ) : (
+              <p style={{ color: '#94A3B8', textAlign: 'center', padding: '1.5rem' }}>No achievements configured.</p>
+            )}
+          </div>
+        </section>
+
+        {/* ======================================================== */}
+        {/* LOWER SECTION: ASYMMETRIC 2-COLUMN HUB (F, G, H)         */}
+        {/* ======================================================== */}
+        <div className={styles.lowerHubGrid}>
+          {/* Left Column Stack */}
+          <div className={styles.leftColumnStack}>
+            {/* Recent Financial Activity (Ledger) */}
+            <section className={styles.hubSectionCard} aria-labelledby="activity-heading">
+              <div className={styles.sectionHeaderRow}>
+                <div className={styles.sectionTitleBlock}>
+                  <span className={styles.sectionEyebrow}>Financial Ledger</span>
+                  <h2 id="activity-heading" className={styles.sectionHeading}>
                     Recent Financial Activity
                   </h2>
                 </div>
-                <span className="text-muted" style={{ fontSize: '0.8rem', fontWeight: 600 }}>
+                <span style={{ fontSize: '0.78rem', color: '#64748B', fontWeight: 600 }}>
                   Live backend audit records
                 </span>
               </div>
@@ -807,36 +803,72 @@ export function UserProfile() {
                   })}
                 </div>
               ) : (
-                <div className="text-center py-4 text-muted">
-                  <p className="fw-bold mb-1">No Recent Activity</p>
+                <div style={{ textAlign: 'center', padding: '2rem 1rem', color: '#94A3B8' }}>
+                  <p style={{ fontWeight: 700, marginBottom: '0.25rem', color: '#CBD5E1' }}>No Recent Activity</p>
                   <small>Your transactions and earnings will be securely listed here.</small>
                 </div>
               )}
             </section>
+
+            {/* Account Verification & Security (Section H) */}
+            <section className={styles.hubSectionCard} aria-labelledby="security-heading">
+              <div className={styles.sectionHeaderRow}>
+                <div className={styles.sectionTitleBlock}>
+                  <span className={styles.sectionEyebrow}>Account Verification</span>
+                  <h2 id="security-heading" className={styles.sectionHeading}>
+                    Identity & Security
+                  </h2>
+                </div>
+                <span className={styles.achStatusClaimed} style={{ fontSize: '0.72rem' }}>
+                  ✓ Ledger Verified
+                </span>
+              </div>
+
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <div className={styles.securityRow}>
+                  <span className={styles.securityLabel}>Account Status</span>
+                  <span className={styles.statusPill}>{profile.status}</span>
+                </div>
+                <div className={styles.securityRow}>
+                  <span className={styles.securityLabel}>Platform Role</span>
+                  <span className={styles.rolePill}>{profile.role}</span>
+                </div>
+                <div className={styles.securityRow}>
+                  <span className={styles.securityLabel}>Account ID</span>
+                  <code style={{ fontSize: '0.85rem', color: '#818CF8', fontWeight: 800 }}>
+                    {profile.id ? String(profile.id).slice(-8) : 'N/A'}
+                  </code>
+                </div>
+                <div className={styles.securityRow}>
+                  <span className={styles.securityLabel}>Registration Date</span>
+                  <span className={styles.securityValue}>
+                    {formatDate(profile.memberSince || profile.createdAt)}
+                  </span>
+                </div>
+              </div>
+            </section>
           </div>
 
-          {/* ======================================================== */}
-          {/* RIGHT RAIL COLUMN (~32% width)                           */}
-          {/* ======================================================== */}
-          <div className="col-12 col-xl-4">
-            {/* Section F: Withdrawals Overview */}
-            <section className={styles.dashboardCard} aria-labelledby="withdrawals-heading">
-              <div className={styles.cardHeaderFlex}>
-                <div>
-                  <span className={styles.cardEyebrow}>Redemption Overview</span>
-                  <h2 id="withdrawals-heading" className={styles.cardMainTitle}>
+          {/* Right Column Stack */}
+          <div className={styles.rightColumnStack}>
+            {/* Section G: Withdrawals Overview */}
+            <section className={styles.hubSectionCard} aria-labelledby="withdrawals-heading">
+              <div className={styles.sectionHeaderRow}>
+                <div className={styles.sectionTitleBlock}>
+                  <span className={styles.sectionEyebrow}>Redemption Overview</span>
+                  <h2 id="withdrawals-heading" className={styles.sectionHeading}>
                     Withdrawals
                   </h2>
                 </div>
               </div>
 
               {/* Total Successfully Withdrawn Box */}
-              <div className={styles.withdrawalSummaryCard}>
-                <span className={styles.withdrawalSummaryLabel}>Total Successfully Withdrawn</span>
-                <div className={styles.withdrawalSummaryValue}>
+              <div className={styles.withdrawalHeroBox}>
+                <span className={styles.withdrawalHeroLabel}>Total Successfully Withdrawn</span>
+                <div className={styles.withdrawalHeroNumber}>
                   {withdrawals.totalWithdrawn.toLocaleString()} VEs
                 </div>
-                <small className={styles.withdrawalSummarySubtext}>
+                <small className={styles.withdrawalHeroSub}>
                   Excludes pending reservations strictly
                 </small>
               </div>
@@ -852,41 +884,42 @@ export function UserProfile() {
                   <div className={styles.statBoxLabel}>Pending</div>
                 </div>
                 <div className={styles.statBox}>
-                  <div className={`${styles.statBoxValue} ${styles.statCompleted}`}>{withdrawals.completed || 0}</div>
+                  <div className={`${styles.statBoxValue} ${styles.statBoxCompleted}`}>{withdrawals.completed || 0}</div>
                   <div className={styles.statBoxLabel}>Completed</div>
                 </div>
                 <div className={styles.statBox}>
-                  <div className={`${styles.statBoxValue} ${styles.statRejected}`}>{withdrawals.rejected || 0}</div>
+                  <div className={`${styles.statBoxValue} ${styles.statBoxRejected}`}>{withdrawals.rejected || 0}</div>
                   <div className={styles.statBoxLabel}>Rejected</div>
                 </div>
               </div>
 
               <button
                 type="button"
-                className={`w-100 ${styles.btnPrimaryAction} justify-content-center`}
+                className={styles.btnPrimaryAction}
+                style={{ width: '100%', justifyContent: 'center' }}
                 onClick={() => setIsWithdrawModalOpen(true)}
               >
                 Request Withdrawal
               </button>
             </section>
 
-            {/* Section G: Referral Snapshot */}
-            <section className={styles.dashboardCard} aria-labelledby="referrals-heading">
-              <div className={styles.cardHeaderFlex}>
-                <div>
-                  <span className={styles.cardEyebrow}>Grow Your Network</span>
-                  <h2 id="referrals-heading" className={styles.cardMainTitle}>
+            {/* Section F: Referral Snapshot */}
+            <section className={styles.hubSectionCard} aria-labelledby="referrals-heading">
+              <div className={styles.sectionHeaderRow}>
+                <div className={styles.sectionTitleBlock}>
+                  <span className={styles.sectionEyebrow}>Grow Your Network</span>
+                  <h2 id="referrals-heading" className={styles.sectionHeading}>
                     Referral Snapshot
                   </h2>
                 </div>
               </div>
 
-              <div className={styles.referralCardBox}>
-                <small className="text-uppercase fw-bold" style={{ fontSize: '0.72rem', color: '#CBD5E1', letterSpacing: '0.5px' }}>
+              <div className={styles.referralContainer}>
+                <small style={{ fontSize: '0.72rem', color: '#C7D2FE', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '0.5px' }}>
                   Your Unique Invite Code
                 </small>
-                <div className={styles.referralCodeDisplayRow}>
-                  <code className={styles.referralCodeNumber}>
+                <div className={styles.inviteCodeDisplayRow}>
+                  <code className={styles.inviteCodeText}>
                     {referrals.referralCode || profile.referralCode || 'N/A'}
                   </code>
                   <button
@@ -903,65 +936,27 @@ export function UserProfile() {
                   </button>
                 </div>
 
-                <div className={styles.referralStatsRow}>
+                <div className={styles.referralStatsGrid}>
                   <div className={styles.referralStatItem}>
-                    <div className={styles.referralStatValue}>{referrals.totalReferrals || 0}</div>
-                    <div className={styles.referralStatLabel}>Total</div>
+                    <div className={styles.refVal}>{referrals.totalReferrals || 0}</div>
+                    <div className={styles.refLabel}>Total</div>
                   </div>
                   <div className={styles.referralStatItem}>
-                    <div className={`${styles.referralStatValue} ${styles.statCompleted}`}>
+                    <div className={`${styles.refVal}`} style={{ color: '#34D399' }}>
                       {referrals.successfulReferrals || 0}
                     </div>
-                    <div className={styles.referralStatLabel}>Successful</div>
+                    <div className={styles.refLabel}>Successful</div>
                   </div>
                   <div className={styles.referralStatItem}>
-                    <div className={`${styles.referralStatValue} ${styles.statBoxPending}`}>
+                    <div className={`${styles.refVal}`} style={{ color: '#FBBF24' }}>
                       {referrals.pendingReferrals || 0}
                     </div>
-                    <div className={styles.referralStatLabel}>Pending</div>
+                    <div className={styles.refLabel}>Pending</div>
                   </div>
                 </div>
 
-                <div style={{ fontSize: '0.75rem', color: '#94A3B8', marginTop: '0.85rem', lineHeight: '1.4', textAlign: 'center' }}>
+                <div className={styles.referralNotice}>
                   🎁 Share your invite code with friends to unlock bonus XP and rewards on their first quest completion!
-                </div>
-              </div>
-            </section>
-
-            {/* Section H: Security & Verification Profile */}
-            <section className={styles.dashboardCard} aria-labelledby="security-heading">
-              <div className={styles.cardHeaderFlex}>
-                <div>
-                  <span className={styles.cardEyebrow}>Account Verification</span>
-                  <h2 id="security-heading" className={styles.cardMainTitle}>
-                    Identity & Security
-                  </h2>
-                </div>
-                <span className={styles.achStatusClaimed} style={{ fontSize: '0.72rem' }}>
-                  ✓ Ledger Verified
-                </span>
-              </div>
-
-              <div className="d-flex flex-column gap-3">
-                <div className="d-flex justify-content-between align-items-center">
-                  <span style={{ fontSize: '0.85rem', color: '#94A3B8' }}>Account Status</span>
-                  <span className={styles.statusPill}>{profile.status}</span>
-                </div>
-                <div className="d-flex justify-content-between align-items-center">
-                  <span style={{ fontSize: '0.85rem', color: '#94A3B8' }}>Platform Role</span>
-                  <span className={styles.rolePill}>{profile.role}</span>
-                </div>
-                <div className="d-flex justify-content-between align-items-center">
-                  <span style={{ fontSize: '0.85rem', color: '#94A3B8' }}>Account ID</span>
-                  <code style={{ fontSize: '0.85rem', color: '#818CF8', fontWeight: 800 }}>
-                    {profile.id ? String(profile.id).slice(-8) : 'N/A'}
-                  </code>
-                </div>
-                <div className="d-flex justify-content-between align-items-center">
-                  <span style={{ fontSize: '0.85rem', color: '#94A3B8' }}>Registration Date</span>
-                  <span className="fw-semibold" style={{ fontSize: '0.85rem', color: '#F8FAFC' }}>
-                    {formatDate(profile.memberSince || profile.createdAt)}
-                  </span>
                 </div>
               </div>
             </section>
