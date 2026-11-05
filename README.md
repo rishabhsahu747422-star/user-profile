@@ -1,172 +1,369 @@
-# VE Loop Rewards — Task 14: User Profile & Admin Management System
+# VE Loop Rewards — Full Stack Rewards Management Platform
 
-A production-grade, full-stack rewards command center and administrative management portal built on the **MERN** stack (MongoDB, Express, React, Node.js).
+A full-stack rewards management platform built using the MERN stack. VE Loop Rewards provides users with a centralized dashboard to manage their profiles, track multiple reward assets, earn XP, unlock achievements, manage referrals, and request withdrawals.
 
-Developed strictly in accordance with the **Task 14 Assignment Specification** for VE Loop Rewards.
+The platform also includes an administrative dashboard for managing users and monitoring platform activities.
 
----
+**Live Application:** https://user-profile-azure.vercel.app
 
-## 1. Project Overview
+**Backend API:** https://user-profile-03kp.onrender.com
 
-VE Loop Rewards is a gamified rewards and digital asset platform. This system implements:
-1. **User Rewards Command Center (`/profile`, `/user-profile`):**
-   - Personal identity and verified account security statuses.
-   - Multi-asset digital wallet: **VE**, **SVE**, **Gems**, and **Tokens** stored in integer units.
-   - Gamified level progression engine with real-time XP thresholds and progress bars.
-   - Platform achievement catalog with unlock conditions and claimable rewards.
-   - Withdrawal request management with atomic balance reservation and settlement.
-   - Referral snapshot with unique referral code generation and privacy-masked tracking.
-   - Persisted recent activity feed derived directly from the immutable transaction ledger.
-2. **Platform Administration Dashboard (`/admin`):**
-   - Role-Based Access Control (RBAC) protecting all administrative capabilities.
-   - Live platform overview metrics: user counts, circulation metrics, and withdrawal aggregates.
-   - User directory with search, status/role filtering, and pagination.
-   - User account status management (`active`, `suspended`, `inactive`) with mandatory audit reasons and self-suspension guards.
-   - Two-step withdrawal lifecycle management: Review (Approve/Reject) and Settlement.
-   - Append-only, tamper-proof audit trail (`AdminAuditLog`) with Mongoose immutability pre-hooks.
-3. **Enterprise Security & Reliability:**
-   - Server is the single source of truth; zero trust in client-submitted balances or roles.
-   - Standalone MongoDB Two-Phase Compensating Ledger Protocol ensuring 100% financial integrity.
-   - OWASP security headers, JWT validation with bcrypt password hashing, and NoSQL injection guards.
-   - Cloud observability probes (`GET /health` and `GET /ready`) and distributed request correlation tracing (`X-Request-Id`).
+**API Health Check:** https://user-profile-03kp.onrender.com/health
 
 ---
 
-## 2. Technology Stack
+## Overview
 
-- **Frontend:** React 19, Vite, Bootstrap 5, CSS Modules (`.module.css`), Lucide React
-- **Backend:** Node.js 18+, Express 5, Mongoose ODM
-- **Database:** MongoDB (Supports Standalone MongoDB, Replica Sets, and MongoDB Atlas)
-- **Authentication:** JSON Web Tokens (JWT) & bcrypt.js password hashing
-- **Testing:** Native Node.js Automated Test Harness (472 automated assertions, 100% pass rate)
+VE Loop Rewards is designed to provide a structured rewards ecosystem with user account management, multiple digital reward assets, gamification, referrals, and withdrawal management.
+
+The application focuses on:
+
+- Secure authentication and role-based access.
+- User profile and account management.
+- Multiple reward wallets with transaction history.
+- XP-based levels and achievement tracking.
+- Referral management.
+- Withdrawal request management.
+- Administrative controls and audit logging.
+- Responsive and user-friendly interfaces.
+
+## Features
+
+### 1. Authentication & User Management
+- User registration and login.
+- Secure password hashing.
+- JWT-based authentication.
+- Role-based access control.
+- User account status management.
+- Profile information management.
+
+### 2. Multi-Asset Wallet System
+
+The platform supports four reward asset types:
+
+| Asset | Description |
+|---|---|
+| VE | Primary reward currency |
+| SVE | Staked reward units |
+| GEM | Achievement and quest-related reward asset |
+| TOKEN | Platform reward tokens |
+
+Wallet functionality includes:
+- Available balance tracking.
+- Reserved balance tracking where supported.
+- Lifetime earnings.
+- Immutable transaction ledger.
+- Credit and debit records.
+- Transaction integrity and duplicate-operation protection.
+
+### 3. XP & Level Progression
+- XP accumulation.
+- Level progression.
+- Progress tracking toward the next level.
+- Level-based membership representation.
+- Gamification experience.
+
+### 4. Achievement System
+- Achievement catalog.
+- Locked and unlocked achievements.
+- Reward tracking.
+- Achievement claiming functionality.
+- Achievement progress monitoring.
+
+### 5. Referral System
+- Unique referral codes.
+- Referral tracking.
+- Referral statistics.
+- Successful and pending referral tracking.
+- Referral-based reward management.
+
+### 6. Withdrawal Management
+- Withdrawal request creation.
+- Available balance validation.
+- Withdrawal status tracking.
+- Pending, completed, and rejected withdrawal records.
+- Financial transaction integrity checks.
+
+### 7. Admin Dashboard
+- Administrative authentication and authorization.
+- Role-based permissions.
+- User management.
+- Account status management.
+- Administrative audit logging.
+- Protected administrative operations.
+
+### 8. Security & Production Readiness
+- Password hashing using bcrypt.
+- JWT authentication.
+- Protected routes and RBAC.
+- Request validation and security controls.
+- Security headers.
+- Request ID tracking.
+- Health and readiness endpoints.
+- Graceful server shutdown.
+- Financial ledger integrity protections.
+
+### 9. UI/UX
+- Premium dark-themed rewards dashboard.
+- Responsive user profile interface.
+- Dedicated wallet cards.
+- XP and achievement visualization.
+- Referral and withdrawal sections.
+- Redesigned landing page and authentication experience.
+- Responsive desktop and mobile layouts.
 
 ---
 
-## 3. Quick Start & Local Setup
+## Technology Stack
+
+| Layer | Technologies |
+|---|---|
+| Frontend | React, Vite, JavaScript |
+| Styling | Bootstrap, CSS Modules, CSS |
+| Backend | Node.js, Express.js |
+| Database | MongoDB, Mongoose |
+| Authentication | JWT, bcrypt |
+| API Communication | Fetch API |
+| Deployment | Vercel, Render |
+| Testing | Node.js test scripts, frontend lint and build checks |
+
+---
+
+## Project Architecture
+
+The application follows a frontend/backend architecture.
+
+```text
+user-profile/
+│
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   │   ├── UserProfile/
+│   │   │   ├── Login/
+│   │   │   └── Admin/
+│   │   ├── services/
+│   │   ├── hooks/
+│   │   ├── context/
+│   │   ├── assets/
+│   │   └── utils/
+│   ├── package.json
+│   └── vite.config.js
+│
+├── backend/
+│   ├── src/
+│   ├── package.json
+│   └── server.js
+│
+└── README.md
+```
+
+*The structure above is a high-level overview; refer to the repository for the complete implementation.*
+
+---
+
+## Getting Started
 
 ### Prerequisites
-- **Node.js:** v18.0.0 or higher
-- **MongoDB:** Active instance running on `localhost:27017` or a MongoDB Atlas URI
 
-### 1. Clone & Install Dependencies
+Make sure you have installed:
+
+- Node.js (LTS recommended).
+- npm.
+- MongoDB local installation or MongoDB Atlas account.
+- Git.
+
+### 1. Clone the Repository
+
 ```bash
-# Clone the repository
 git clone https://github.com/rishabhsahu747422-star/user-profile.git
 cd user-profile
+```
 
-# Install backend dependencies
+### 2. Install Backend Dependencies
+
+```bash
 cd backend
-npm install
-
-# Install frontend dependencies
-cd ../frontend
 npm install
 ```
 
-### 2. Environment Configuration
-Backend `.env` (located in `backend/.env`):
+### 3. Configure Backend Environment
+
+Create a `.env` file inside the `backend` directory.
+
+Example configuration:
+
 ```env
 PORT=3000
-MONGODB_URI=mongodb://127.0.0.1:27017/user-profile
+NODE_ENV=development
+
+MONGODB_URI=your_mongodb_connection_string
+JWT_SECRET=your_secure_jwt_secret
+
 CLIENT_URL=http://localhost:5173
-JWT_SECRET=dev_jwt_secret_key_ve_loop_rewards_2026_secure
-JWT_EXPIRES_IN=24h
+TRUST_PROXY=false
 ```
 
-Frontend `.env` (located in `frontend/.env`):
-```env
-VITE_API_BASE_URL=/api
-```
+Use the exact environment variable names expected by your current backend configuration. Keep real credentials and secrets out of GitHub.
 
-### 3. Seed Database with Evaluation Accounts
+### 4. Start the Backend
+
 ```bash
-cd backend
-npm run seed
-```
-*Seeds default level tiers, achievements, a pre-configured Administrator, and an active User with complete wallet, referral, and withdrawal records.*
-
-### 4. Start Development Servers
-In terminal 1 (Backend):
-```bash
-cd backend
-npm run dev
-# Express server starts on http://localhost:3000
+npm start
 ```
 
-In terminal 2 (Frontend):
+The backend should run locally on the configured port.
+
+### 5. Install Frontend Dependencies
+
+Open another terminal:
+
 ```bash
 cd frontend
+npm install
+```
+
+### 6. Configure Frontend Environment
+
+Create a `.env` file inside the `frontend` directory:
+
+```env
+VITE_API_BASE_URL=http://localhost:3000/api
+```
+
+### 7. Start the Frontend
+
+```bash
 npm run dev
-# Vite dev server starts on http://localhost:5173
+```
+
+Vite will display the local development URL in the terminal, typically:
+
+```text
+http://localhost:5173
 ```
 
 ---
 
-## 4. Evaluation & Demo Access Credentials
+## Important API Routes
 
-Detailed access instructions are available in [`DEMO_ACCESS.md`](file:///C:/Rishabh/Internship%20A/user-profile/DEMO_ACCESS.md).
+The backend exposes REST API endpoints for authentication, profile management, wallets, XP, achievements, referrals, withdrawals, and administrative operations.
 
-| Role | Email | Password | Primary Capabilities |
-| :--- | :--- | :--- | :--- |
-| **Administrator** | `demo-admin@example.com` | `AdminPassword123!` | Full admin dashboard, user directory, status changes, withdrawal approvals & settlements, audit log inspection. |
-| **Regular User** | `demo-user@example.com` | `UserPassword123!` | User rewards dashboard, multi-asset balances, level 2 progress, achievement claiming, referral link sharing, withdrawal submission. |
+Known profile endpoints include:
 
-*Tip: The `/login` page includes a interactive **Demo Evaluation Access** box with **Quick Fill** buttons for immediate sign-in without manual typing.*
+| Method | Endpoint | Purpose |
+|---|---|---|
+| GET | `/health` | Backend health check |
+| GET | `/ready` | Backend readiness check |
+| GET | `/api/users/me/profile` | Retrieve authenticated user profile |
+| GET | `/api/users/me/overview` | Retrieve user overview and rewards information |
+
+Refer to the backend implementation for the complete API route list.
 
 ---
 
-## 5. Verification & Testing
+## Testing & Quality Checks
 
-The project maintains **10 comprehensive test suites with 472 automated tests**, all passing with a 100% success rate:
+### Frontend Lint
 
 ```bash
-# Run the complete Milestone 8 Final Acceptance QA Suite
-node backend/test_milestone_8_acceptance.js
-
-# Run all test suites
-node backend/test_milestone_3b.js
-node backend/test_milestone_3c.js
-node backend/test_milestone_3d.js
-node backend/test_milestone_3e.js
-node backend/test_milestone_3f.js
-node backend/test_milestone_4_frontend_integration.js
-node backend/test_milestone_5_admin.js
-node backend/test_milestone_6_security.js
-node backend/test_milestone_7_production.js
-node backend/test_milestone_8_acceptance.js
-
-# Run Frontend Linting & Production Build
 npm --prefix frontend run lint
+```
+
+### Frontend Production Build
+
+```bash
 npm --prefix frontend run build
 ```
 
+### Backend Production Tests
+
+```bash
+node backend/test_milestone_7_production.js
+```
+
+### Backend Acceptance Tests
+
+```bash
+node backend/test_milestone_8_acceptance.js
+```
+
+**Previously reported test results:**
+
+| Test Suite | Reported Result |
+|---|---:|
+| Milestone 7 Production Suite | 33/33 passed |
+| Milestone 8 Acceptance Suite | 103/103 passed |
+| Frontend Lint | 0 errors, 0 warnings |
+| Frontend Build | Successful |
+
+These are results from the reported development runs; execute the commands against the latest repository version to confirm them.
+
 ---
 
-## 6. Documentation Directory
+## Deployment
 
-| Document | Purpose |
-| :--- | :--- |
-| [`DEMO_ACCESS.md`](file:///C:/Rishabh/Internship%20A/user-profile/DEMO_ACCESS.md) | Mandatory evaluation accounts, quick-fill guides, and database reset instructions. |
-| [`docs/ASSIGNMENT_COMPLIANCE.md`](file:///C:/Rishabh/Internship%20A/user-profile/docs/ASSIGNMENT_COMPLIANCE.md) | Requirement-by-requirement verification matrix against the Task 14 specification. |
-| [`docs/API_REFERENCE.md`](file:///C:/Rishabh/Internship%20A/user-profile/docs/API_REFERENCE.md) | Exhaustive API reference detailing all endpoints, authentication, bodies, and responses. |
-| [`docs/ARCHITECTURE.md`](file:///C:/Rishabh/Internship%20A/user-profile/docs/ARCHITECTURE.md) | System architecture, component models, and two-phase compensating ledger protocols. |
-| [`docs/ENVIRONMENT.md`](file:///C:/Rishabh/Internship%20A/user-profile/docs/ENVIRONMENT.md) | Environment configuration reference and fail-fast startup validator rules. |
-| [`docs/TESTING.md`](file:///C:/Rishabh/Internship%20A/user-profile/docs/TESTING.md) | Test breakdown, concurrency stress results, and quality metrics. |
-| [`docs/DEPLOYMENT.md`](file:///C:/Rishabh/Internship%20A/user-profile/docs/DEPLOYMENT.md) | Production deployment instructions, health probes, Nginx configs, and recovery procedures. |
-| [`docs/postman_collection.json`](file:///C:/Rishabh/Internship%20A/user-profile/docs/postman_collection.json) | Complete Postman collection for all user and admin workflows. |
+The application is deployed using:
+
+**Frontend — Vercel**
+
+https://user-profile-azure.vercel.app
+
+**Backend — Render**
+
+https://user-profile-03kp.onrender.com
+
+For production deployment, configure the appropriate environment variables in Vercel and Render.
+
+Never commit production secrets, database credentials, or private JWT keys.
 
 ---
 
-## 7. Submission Checklist & Final Status
+## Security Notes
 
-- [x] Full-Stack MERN implementation (zero hardcoded mockups or simulated delays).
-- [x] All 21 Task 14 core requirements verified and compliant (`docs/ASSIGNMENT_COMPLIANCE.md`).
-- [x] 472 / 472 automated backend tests passing across 10 milestone test suites.
-- [x] Frontend lint passing with 0 errors / 0 warnings.
-- [x] Production Vite build succeeds cleanly (`dist/` generated in 422ms).
-- [x] Working seeded demo credentials provided in `DEMO_ACCESS.md` and login UI.
-- [x] Working Postman collection provided in `docs/postman_collection.json`.
-- [x] Zero secrets, real API keys, or `.env` credential files committed.
+- Store passwords as secure hashes, never as plain text.
+- Keep JWT secrets and database credentials in environment variables.
+- Restrict administrative access through role-based authorization.
+- Validate financial operations on the backend.
+- Protect sensitive routes and operations.
+- Use HTTPS in production.
+- Do not expose demo credentials or private user information in public repositories.
 
-**Final Status:** **READY FOR SUBMISSION**
+---
+
+## Future Improvements
+
+Potential areas for future enhancement include:
+
+- Advanced rewards analytics.
+- More detailed transaction reporting.
+- Additional achievement and gamification experiences.
+- Enhanced administrative insights.
+- Further performance and scalability improvements.
+
+---
+
+## Project Status
+
+**Development:** Core functionality and UI implementation reported complete.
+
+**Current Phase:** Final acceptance testing and submission readiness.
+
+---
+
+## Author
+
+**Rishabh Sahu**
+
+Full Stack Developer
+
+- GitHub: [rishabhsahu747422-star](https://github.com/rishabhsahu747422-star)
+- LinkedIn: [Rishabh Sahu](https://www.linkedin.com/in/rishabh-sahu-b93053386/)
+
+---
+
+## Acknowledgement
+
+Developed as part of the VE Loop internship project.
 
