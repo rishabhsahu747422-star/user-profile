@@ -17,6 +17,8 @@ export function UserProfile() {
   const [withdrawAmount, setWithdrawAmount] = useState('')
   const [withdrawDestination, setWithdrawDestination] = useState('')
   const [withdrawing, setWithdrawing] = useState(false)
+  const [withdrawalHistory, setWithdrawalHistory] = useState([])
+  const [loadingHistory, setLoadingHistory] = useState(false)
 
   const { isAuthenticated, logout } = useAuth()
   const navigate = useNavigate()
@@ -132,6 +134,24 @@ export function UserProfile() {
     }
   }
 
+  // Fetch paginated withdrawal history
+  const fetchWithdrawalHistory = useCallback(async () => {
+    setLoadingHistory(true)
+    try {
+      const res = await api.user.getWithdrawals({ limit: 10 })
+      setWithdrawalHistory(res?.withdrawals || [])
+    } catch (err) {
+      console.error('Failed to load withdrawal history:', err)
+    } finally {
+      setLoadingHistory(false)
+    }
+  }, [])
+
+  const openWithdrawModal = () => {
+    setIsWithdrawModalOpen(true)
+    fetchWithdrawalHistory()
+  }
+
   // Request withdrawal submit
   const handleCreateWithdrawal = async (e) => {
     e.preventDefault()
@@ -140,6 +160,18 @@ export function UserProfile() {
       showToast('Please enter a valid withdrawal amount.', 'error')
       return
     }
+
+    if (!Number.isInteger(amountNum)) {
+      showToast('Withdrawal amount must be a whole integer.', 'error')
+      return
+    }
+
+    const availableVE = overview?.wallet?.balances?.VE?.available ?? 0
+    if (amountNum > availableVE) {
+      showToast(`Requested amount (${amountNum.toLocaleString()} VE) exceeds available balance (${availableVE.toLocaleString()} VE).`, 'error')
+      return
+    }
+
     if (!withdrawDestination.trim()) {
       showToast('Please provide a payout destination address.', 'error')
       return
@@ -147,15 +179,21 @@ export function UserProfile() {
 
     setWithdrawing(true)
     try {
+      const idempotencyKey = `wd_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`
       await api.user.createWithdrawal({
         amount: amountNum,
-        destination: withdrawDestination.trim()
+        assetType: 'VE',
+        destination: withdrawDestination.trim(),
+        payoutMethod: 'MANUAL',
+        payoutDetails: {
+          accountIdentifier: withdrawDestination.trim()
+        },
+        idempotencyKey
       })
       showToast('Withdrawal request submitted successfully!', 'success')
-      setIsWithdrawModalOpen(false)
       setWithdrawAmount('')
       setWithdrawDestination('')
-      await loadOverview(false)
+      await Promise.all([loadOverview(false), fetchWithdrawalHistory()])
     } catch (err) {
       showToast(err.message || 'Failed to submit withdrawal request.', 'error')
     } finally {
@@ -352,6 +390,90 @@ export function UserProfile() {
                     required
                   />
                 </div>
+
+                {/* Recent Withdrawal Requests History in Modal */}
+                <div style={{ marginTop: '0.5rem', borderTop: '1px solid rgba(255, 255, 255, 0.08)', paddingTop: '0.85rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                    <span className={styles.formLabel} style={{ margin: 0, fontSize: '0.8rem' }}>Recent Requests:</span>
+                    <button
+                      type="button"
+                      onClick={fetchWithdrawalHistory}
+                      disabled={loadingHistory}
+                      style={{ background: 'none', border: 'none', color: '#818CF8', cursor: 'pointer', fontSize: '0.72rem', fontWeight: 600 }}
+                    >
+                      {loadingHistory ? 'Refreshing...' : '↻ Refresh History'}
+                    </button>
+                  </div>
+                  {loadingHistory && withdrawalHistory.length === 0 ? (
+                    <div style={{ fontSize: '0.78rem', color: '#94A3B8', padding: '0.35rem 0' }}>Loading history...</div>
+                  ) : withdrawalHistory.length === 0 ? (
+                    <div style={{ fontSize: '0.78rem', color: '#64748B', fontStyle: 'italic', padding: '0.25rem 0' }}>
+                      No prior withdrawal requests recorded.
+                    </div>
+                  ) : (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem', maxHeight: '150px', overflowY: 'auto' }}>
+                      {withdrawalHistory.slice(0, 5).map((w) => (
+                        <div
+                          key={w._id || w.withdrawalId}
+                          style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            backgroundColor: '#161F30',
+                            padding: '0.45rem 0.65rem',
+                            borderRadius: '8px',
+                            border: '1px solid rgba(255, 255, 255, 0.06)'
+                          }}
+                        >
+                          <div>
+                            <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#F8FAFC' }}>
+                              {w.amount?.toLocaleString()} {w.assetType || 'VE'}
+                            </div>
+                            <div style={{ fontSize: '0.68rem', color: '#94A3B8' }}>
+                              {w.payoutDetails?.accountIdentifier || w.destination || 'Manual'} • {formatDate(w.createdAt)}
+                            </div>
+                          </div>
+                          <span
+                            style={{
+                              fontSize: '0.65rem',
+                              fontWeight: 800,
+                              textTransform: 'uppercase',
+                              padding: '0.15rem 0.45rem',
+                              borderRadius: '9999px',
+                              backgroundColor:
+                                w.status === 'completed'
+                                  ? 'rgba(16, 185, 129, 0.2)'
+                                  : w.status === 'approved'
+                                  ? 'rgba(59, 130, 246, 0.2)'
+                                  : w.status === 'rejected' || w.status === 'cancelled'
+                                  ? 'rgba(239, 68, 68, 0.2)'
+                                  : 'rgba(245, 158, 11, 0.2)',
+                              color:
+                                w.status === 'completed'
+                                  ? '#34D399'
+                                  : w.status === 'approved'
+                                  ? '#60A5FA'
+                                  : w.status === 'rejected' || w.status === 'cancelled'
+                                  ? '#F87171'
+                                  : '#FBBF24',
+                              border: `1px solid ${
+                                w.status === 'completed'
+                                  ? 'rgba(16, 185, 129, 0.3)'
+                                  : w.status === 'approved'
+                                  ? 'rgba(59, 130, 246, 0.3)'
+                                  : w.status === 'rejected' || w.status === 'cancelled'
+                                  ? 'rgba(239, 68, 68, 0.3)'
+                                  : 'rgba(245, 158, 11, 0.3)'
+                              }`
+                            }}
+                          >
+                            {w.status}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
               <div className={styles.modalFooter}>
                 <button
@@ -437,7 +559,7 @@ export function UserProfile() {
             <button
               type="button"
               className={styles.btnPrimaryAction}
-              onClick={() => setIsWithdrawModalOpen(true)}
+              onClick={openWithdrawModal}
               title="Request funds withdrawal"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -897,7 +1019,7 @@ export function UserProfile() {
                 type="button"
                 className={styles.btnPrimaryAction}
                 style={{ width: '100%', justifyContent: 'center' }}
-                onClick={() => setIsWithdrawModalOpen(true)}
+                onClick={openWithdrawModal}
               >
                 Request Withdrawal
               </button>

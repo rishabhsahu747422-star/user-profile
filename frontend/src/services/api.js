@@ -64,8 +64,11 @@ export const getAuthToken = () => authToken;
 export async function request(endpoint, options = {}) {
   const url = buildApiUrl(endpoint);
 
+  const isMutation = options.method && options.method.toUpperCase() !== "GET" && options.method.toUpperCase() !== "HEAD";
+  const hasBody = Boolean(options.body);
+
   const headers = {
-    "Content-Type": "application/json",
+    ...(isMutation || hasBody ? { "Content-Type": "application/json" } : {}),
     ...options.headers,
   };
 
@@ -142,10 +145,27 @@ export const api = {
       const query = new URLSearchParams(params).toString();
       return request(`/users/me/referrals/history${query ? `?${query}` : ""}`);
     },
-    createWithdrawal: (data) => request("/users/me/withdrawals", { method: "POST", body: data }),
+    createWithdrawal: (data) => {
+      const dest = data.destination || data.accountIdentifier || data.payoutDetails?.accountIdentifier || "";
+      const payload = {
+        assetType: data.assetType || "VE",
+        amount: Number(data.amount),
+        destination: dest,
+        payoutMethod: data.payoutMethod || "MANUAL",
+        payoutDetails: {
+          accountIdentifier: dest,
+          ...(data.payoutDetails || {})
+        },
+        idempotencyKey: data.idempotencyKey || `wd_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`
+      };
+      return request("/users/me/withdrawals", { method: "POST", body: payload });
+    },
     getWithdrawalSummary: () => request("/users/me/withdrawals/summary"),
     getWithdrawals: (params = {}) => {
-      const query = new URLSearchParams(params).toString();
+      const cleanParams = Object.fromEntries(
+        Object.entries(params).filter(([, v]) => v !== undefined && v !== null && String(v).trim() !== "" && String(v).trim().toLowerCase() !== "all")
+      );
+      const query = new URLSearchParams(cleanParams).toString();
       return request(`/users/me/withdrawals${query ? `?${query}` : ""}`);
     },
     getWithdrawal: (id) => request(`/users/me/withdrawals/${id}`),

@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import crypto from "crypto";
 import {
   createWithdrawalRequest,
   getUserWithdrawalSummary,
@@ -7,6 +8,7 @@ import {
   cancelWithdrawalRequest
 } from "../services/withdrawal.service.js";
 import { SUPPORTED_ASSETS } from "../models/Wallet.js";
+import { WITHDRAWAL_STATUSES } from "../models/Withdrawal.js";
 
 /**
  * Creates a new withdrawal request for the authenticated user.
@@ -14,9 +16,17 @@ import { SUPPORTED_ASSETS } from "../models/Wallet.js";
  */
 export const createWithdrawal = async (req, res) => {
   try {
-    const { amount, assetType = "VE", payoutMethod, payoutDetails, idempotencyKey } = req.body;
+    const {
+      amount,
+      assetType = "VE",
+      payoutMethod = "MANUAL",
+      payoutDetails,
+      destination,
+      accountIdentifier,
+      idempotencyKey
+    } = req.body;
 
-    if (amount === undefined || amount === null) {
+    if (amount === undefined || amount === null || String(amount).trim() === "") {
       return res.status(400).json({ message: "Amount is required." });
     }
 
@@ -29,17 +39,47 @@ export const createWithdrawal = async (req, res) => {
       return res.status(400).json({ message: `Unsupported asset type: ${assetType}. Must be one of: ${SUPPORTED_ASSETS.join(", ")}` });
     }
 
-    if (!idempotencyKey || typeof idempotencyKey !== "string" || !idempotencyKey.trim()) {
-      return res.status(400).json({ message: "idempotencyKey is required for withdrawal requests." });
+    // Extract and validate destination account/address
+    const destinationAccount = (
+      destination ||
+      accountIdentifier ||
+      (payoutDetails && typeof payoutDetails === "object" ? payoutDetails.accountIdentifier : "") ||
+      ""
+    ).trim();
+
+    if (!destinationAccount) {
+      return res.status(400).json({ message: "Destination account or payout address is required." });
     }
+
+    if (destinationAccount.length > 100) {
+      return res.status(400).json({ message: "Destination account cannot exceed 100 characters." });
+    }
+
+    // Resolve idempotencyKey from body, headers, or generate unique fallback
+    let resolvedKey = (
+      idempotencyKey ||
+      req.headers["idempotency-key"] ||
+      req.headers["x-idempotency-key"] ||
+      ""
+    );
+    if (typeof resolvedKey === "string" && resolvedKey.trim()) {
+      resolvedKey = resolvedKey.trim();
+    } else {
+      resolvedKey = `wd_${req.user._id}_${Date.now()}_${crypto.randomBytes(4).toString("hex")}`;
+    }
+
+    const mergedPayoutDetails = {
+      accountIdentifier: destinationAccount,
+      ...(payoutDetails && typeof payoutDetails === "object" ? payoutDetails : {})
+    };
 
     const result = await createWithdrawalRequest({
       userId: req.user._id,
       assetType,
       amount: numAmount,
       payoutMethod: payoutMethod ? String(payoutMethod).trim() : "MANUAL",
-      payoutDetails: typeof payoutDetails === "object" && payoutDetails !== null ? payoutDetails : {},
-      idempotencyKey: idempotencyKey.trim()
+      payoutDetails: mergedPayoutDetails,
+      idempotencyKey: resolvedKey
     });
 
     res.status(result.isDuplicate ? 200 : 201).json(result);
@@ -48,7 +88,9 @@ export const createWithdrawal = async (req, res) => {
       error.message.includes("Insufficient") ||
       error.message.includes("locked") ||
       error.message.includes("integer") ||
-      error.message.includes("Unsupported")
+      error.message.includes("Unsupported") ||
+      error.message.includes("required") ||
+      error.message.includes("Destination")
     ) {
       return res.status(400).json({ message: error.message });
     }
@@ -77,7 +119,34 @@ export const getMyWithdrawalSummary = async (req, res) => {
  */
 export const getMyWithdrawalHistory = async (req, res) => {
   try {
-    const { page, limit, status } = req.query;
+    let { page, limit, status } = req.query;
+
+    if (page !== undefined && page !== null && String(page).trim() !== "") {
+      const p = Number(page);
+      if (isNaN(p) || !Number.isInteger(p) || p < 1) {
+        return res.status(400).json({ message: "Page must be a positive integer." });
+      }
+    }
+
+    if (limit !== undefined && limit !== null && String(limit).trim() !== "") {
+      const l = Number(limit);
+      if (isNaN(l) || !Number.isInteger(l) || l < 1 || l > 100) {
+        return res.status(400).json({ message: "Limit must be a positive integer between 1 and 100." });
+      }
+    }
+
+    if (status !== undefined && status !== null && String(status).trim() !== "" && String(status).trim().toLowerCase() !== "all") {
+      const s = String(status).trim().toLowerCase();
+      if (!WITHDRAWAL_STATUSES.includes(s)) {
+        return res.status(400).json({
+          message: `Invalid status filter '${status}'. Allowed statuses: ${WITHDRAWAL_STATUSES.join(", ")}`
+        });
+      }
+      status = s;
+    } else {
+      status = null;
+    }
+
     const history = await getUserWithdrawalHistory(req.user._id, { page, limit, status });
     res.status(200).json(history);
   } catch (error) {
