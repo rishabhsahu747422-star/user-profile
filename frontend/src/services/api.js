@@ -55,7 +55,16 @@ export const setAuthToken = (token) => {
   }
 };
 
-export const getAuthToken = () => authToken;
+export const getAuthToken = () => {
+  if (!authToken) {
+    try {
+      authToken = localStorage.getItem("ve_loop_token") || null;
+    } catch {
+      // ignore
+    }
+  }
+  return authToken;
+};
 
 /**
  * Reusable request helper for communicating with the backend API.

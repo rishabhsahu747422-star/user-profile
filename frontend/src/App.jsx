@@ -17,10 +17,10 @@ function App() {
   const isLandingRoute = cleanPath === '/'
 
   useEffect(() => {
-    // Keep unified dark theme across all application pages
+    // Keep unified dark theme across all application pages matching velooprewards.in
     document.documentElement.setAttribute('data-theme', 'dark-gaming')
-    document.body.style.backgroundColor = '#07090E'
-    document.body.style.color = '#F8FAFC'
+    document.body.style.backgroundColor = '#0d0f1d'
+    document.body.style.color = '#ffffff'
   }, [])
 
   return (
