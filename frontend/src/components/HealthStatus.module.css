@@ -1,84 +1,101 @@
+/* HealthStatus.module.css — Harmonized with VE Loop Dark Gaming Theme */
+
 .statusCard {
-  max-width: 520px;
+  max-width: 560px;
+  width: 100%;
   margin: 0.5rem auto;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
-  border-radius: var(--radius-md, 12px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45), 0 0 24px rgba(22, 220, 235, 0.08);
+  border-radius: 20px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  background-color: #161F30;
-  color: #F8FAFC;
+  background: linear-gradient(145deg, #20213f 0%, #151628 100%);
+  color: #ffffff;
 }
 
 .cardHeader {
-  background-color: #111827;
+  background: rgba(17, 18, 31, 0.75);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 0.75rem 1.25rem;
+  padding: 0.95rem 1.35rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
 .headerTitle {
-  font-weight: 700;
-  font-size: 0.85rem;
-  color: #FFFFFF;
+  font-family: 'Poppins', 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: #ffffff;
+  letter-spacing: 0.2px;
 }
 
 .refreshBtn {
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 0.25rem 0.65rem;
-  border-radius: var(--radius-sm, 6px);
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #CBD5E1;
-  transition: all 0.15s ease;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 0.35rem 0.85rem;
+  border-radius: 10px;
+  background: #252747;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  transition: all 0.2s ease;
   cursor: pointer;
 }
 
 .refreshBtn:hover:not(:disabled) {
-  background: #4F46E5;
-  color: #FFFFFF;
-  border-color: #6366F1;
+  background: #438eff;
+  color: #ffffff;
+  border-color: #16dceb;
+  box-shadow: 0 4px 14px rgba(67, 142, 255, 0.35);
+}
+
+.refreshBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .label {
-  font-weight: 600;
-  font-size: 0.825rem;
-  color: #94A3B8;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #a8abc5;
 }
 
 .badgeService {
-  background-color: rgba(99, 102, 241, 0.18);
-  color: #A5B4FC;
-  border: 1px solid rgba(99, 102, 241, 0.35);
+  background-color: rgba(67, 142, 255, 0.16);
+  color: #93c5fd;
+  border: 1px solid rgba(67, 142, 255, 0.35);
+  font-family: 'Outfit', sans-serif;
   font-weight: 700;
-  padding: 0.25rem 0.6rem;
-  border-radius: var(--radius-full, 9999px);
+  padding: 0.25rem 0.7rem;
+  border-radius: 9999px;
   font-size: 0.75rem;
 }
 
 .badgeSuccess {
-  background-color: rgba(16, 185, 129, 0.18);
-  color: #34D399;
-  border: 1px solid rgba(16, 185, 129, 0.35);
-  font-weight: 700;
-  padding: 0.25rem 0.6rem;
-  border-radius: var(--radius-full, 9999px);
+  background-color: rgba(0, 230, 160, 0.15);
+  color: #00e6a0;
+  border: 1px solid rgba(0, 230, 160, 0.38);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  padding: 0.25rem 0.7rem;
+  border-radius: 9999px;
   font-size: 0.75rem;
 }
 
 .badgeWarning {
-  background-color: rgba(245, 158, 11, 0.18);
-  color: #FBBF24;
-  border: 1px solid rgba(245, 158, 11, 0.35);
-  font-weight: 700;
-  padding: 0.25rem 0.6rem;
-  border-radius: var(--radius-full, 9999px);
+  background-color: rgba(255, 213, 0, 0.16);
+  color: #ffd500;
+  border: 1px solid rgba(255, 213, 0, 0.4);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  padding: 0.25rem 0.7rem;
+  border-radius: 9999px;
   font-size: 0.75rem;
 }
 
 .timestamp {
-  font-size: 0.75rem;
-  color: #64748B;
+  font-family: 'Chivo Mono', monospace;
+  font-size: 0.74rem;
+  color: #a8abc5;
 }
