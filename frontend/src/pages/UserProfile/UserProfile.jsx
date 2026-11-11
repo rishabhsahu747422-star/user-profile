@@ -11,6 +11,7 @@ export function UserProfile() {
   const [error, setError] = useState(null)
   const [toastMessage, setToastMessage] = useState(null)
   const [claimingId, setClaimingId] = useState(null)
+  const [copiedKey, setCopiedKey] = useState(null)
 
   // Withdrawal Request Modal State
   const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false)
@@ -98,23 +99,41 @@ export function UserProfile() {
     navigate('/login')
   }
 
-  // Copy to clipboard helper
-  const copyToClipboard = async (text, label) => {
+  // Copy to clipboard helper with inline feedback and execCommand fallback
+  const copyToClipboard = async (text, label, keyName = null) => {
     if (!text) return
+    let copied = false
     try {
       if (navigator.clipboard && navigator.clipboard.writeText) {
         await navigator.clipboard.writeText(text)
-        showToast(`${label} copied to clipboard!`, 'success')
-      } else {
-        const input = document.createElement('textarea')
-        input.value = text
-        document.body.appendChild(input)
-        input.select()
-        document.execCommand('copy')
-        document.body.removeChild(input)
-        showToast(`${label} copied to clipboard!`, 'success')
+        copied = true
       }
     } catch {
+      copied = false
+    }
+
+    if (!copied) {
+      try {
+        const input = document.createElement('textarea')
+        input.value = text
+        input.style.position = 'fixed'
+        input.style.opacity = '0'
+        document.body.appendChild(input)
+        input.select()
+        copied = document.execCommand('copy')
+        document.body.removeChild(input)
+      } catch {
+        copied = false
+      }
+    }
+
+    if (copied) {
+      if (keyName) {
+        setCopiedKey(keyName)
+        setTimeout(() => setCopiedKey(null), 2000)
+      }
+      showToast(`${label} copied to clipboard!`, 'success')
+    } else {
       showToast(`Failed to copy ${label}`, 'error')
     }
   }
@@ -252,7 +271,7 @@ export function UserProfile() {
               </div>
             </div>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1.25rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.25rem' }}>
             <div className={styles.skeletonCard} style={{ height: '160px' }} />
             <div className={styles.skeletonCard} style={{ height: '160px' }} />
             <div className={styles.skeletonCard} style={{ height: '160px' }} />
@@ -267,7 +286,7 @@ export function UserProfile() {
     return (
       <div className={styles.dashboardContainer} data-theme="dark-gaming">
         <div className={styles.dashboardWrapper}>
-          <div style={{ backgroundColor: '#1F1315', border: '1px solid #7F1D1D', padding: '2rem', borderRadius: '16px', textAlign: 'center' }}>
+          <div style={{ backgroundColor: '#1F1315', border: '1px solid #7F1D1D', padding: '2rem', borderRadius: '18px', textAlign: 'center' }}>
             <h3 style={{ color: '#F87171', fontWeight: 800, marginBottom: '0.5rem' }}>Unable to Load Dashboard</h3>
             <p style={{ color: '#FECACA', marginBottom: '1.5rem' }}>{error}</p>
             <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem' }}>
@@ -304,8 +323,17 @@ export function UserProfile() {
     TOKEN: { available: 0, reserved: 0, totalEarned: 0, totalWithdrawn: 0 }
   }
 
+  const formattedLevel = String(levelProgress.currentLevel).padStart(2, '0')
+
   return (
     <div className={styles.dashboardContainer} data-theme="dark-gaming">
+      {/* Subtle Animated Ambient Lighting Background */}
+      <div className={styles.ambientLayer} aria-hidden="true">
+        <div className={styles.ambientOrbPurple} />
+        <div className={styles.ambientOrbYellow} />
+        <div className={styles.ambientOrbCyan} />
+      </div>
+
       {/* Toast Notification */}
       {toastMessage && (
         <div
@@ -353,9 +381,9 @@ export function UserProfile() {
                 <div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.25rem' }}>
                     <span className={styles.formLabel}>Available Balance:</span>
-                    <strong style={{ color: '#34D399', fontWeight: 800 }}>{balances.VE.available.toLocaleString()} VEs</strong>
+                    <strong style={{ color: '#00E6A0', fontWeight: 800 }}>{balances.VE.available.toLocaleString()} VEs</strong>
                   </div>
-                  <small style={{ color: '#94A3B8', fontSize: '0.75rem', display: 'block', lineHeight: 1.4 }}>
+                  <small style={{ color: '#A8ABC5', fontSize: '0.75rem', display: 'block', lineHeight: 1.4 }}>
                     Minimum withdrawal is 200 VE. Requested funds will be reserved immediately upon submission.
                   </small>
                 </div>
@@ -399,15 +427,15 @@ export function UserProfile() {
                       type="button"
                       onClick={fetchWithdrawalHistory}
                       disabled={loadingHistory}
-                      style={{ background: 'none', border: 'none', color: '#818CF8', cursor: 'pointer', fontSize: '0.72rem', fontWeight: 600 }}
+                      style={{ background: 'none', border: 'none', color: '#16DCEB', cursor: 'pointer', fontSize: '0.72rem', fontWeight: 700 }}
                     >
                       {loadingHistory ? 'Refreshing...' : '↻ Refresh History'}
                     </button>
                   </div>
                   {loadingHistory && withdrawalHistory.length === 0 ? (
-                    <div style={{ fontSize: '0.78rem', color: '#94A3B8', padding: '0.35rem 0' }}>Loading history...</div>
+                    <div style={{ fontSize: '0.78rem', color: '#A8ABC5', padding: '0.35rem 0' }}>Loading history...</div>
                   ) : withdrawalHistory.length === 0 ? (
-                    <div style={{ fontSize: '0.78rem', color: '#64748B', fontStyle: 'italic', padding: '0.25rem 0' }}>
+                    <div style={{ fontSize: '0.78rem', color: '#A8ABC5', fontStyle: 'italic', padding: '0.25rem 0' }}>
                       No prior withdrawal requests recorded.
                     </div>
                   ) : (
@@ -419,17 +447,17 @@ export function UserProfile() {
                             display: 'flex',
                             justifyContent: 'space-between',
                             alignItems: 'center',
-                            backgroundColor: '#161F30',
+                            backgroundColor: '#20213F',
                             padding: '0.45rem 0.65rem',
-                            borderRadius: '8px',
-                            border: '1px solid rgba(255, 255, 255, 0.06)'
+                            borderRadius: '10px',
+                            border: '1px solid rgba(255, 255, 255, 0.08)'
                           }}
                         >
                           <div>
-                            <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#F8FAFC' }}>
+                            <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#FFFFFF' }}>
                               {w.amount?.toLocaleString()} {w.assetType || 'VE'}
                             </div>
-                            <div style={{ fontSize: '0.68rem', color: '#94A3B8' }}>
+                            <div style={{ fontSize: '0.68rem', color: '#A8ABC5' }}>
                               {w.payoutDetails?.accountIdentifier || w.destination || 'Manual'} • {formatDate(w.createdAt)}
                             </div>
                           </div>
@@ -438,32 +466,32 @@ export function UserProfile() {
                               fontSize: '0.65rem',
                               fontWeight: 800,
                               textTransform: 'uppercase',
-                              padding: '0.15rem 0.45rem',
+                              padding: '0.15rem 0.5rem',
                               borderRadius: '9999px',
                               backgroundColor:
                                 w.status === 'completed'
-                                  ? 'rgba(16, 185, 129, 0.2)'
+                                  ? 'rgba(0, 230, 160, 0.16)'
                                   : w.status === 'approved'
-                                  ? 'rgba(59, 130, 246, 0.2)'
+                                  ? 'rgba(67, 142, 255, 0.18)'
                                   : w.status === 'rejected' || w.status === 'cancelled'
                                   ? 'rgba(239, 68, 68, 0.2)'
-                                  : 'rgba(245, 158, 11, 0.2)',
+                                  : 'rgba(255, 213, 0, 0.16)',
                               color:
                                 w.status === 'completed'
-                                  ? '#34D399'
+                                  ? '#00E6A0'
                                   : w.status === 'approved'
-                                  ? '#60A5FA'
+                                  ? '#438EFF'
                                   : w.status === 'rejected' || w.status === 'cancelled'
-                                  ? '#F87171'
-                                  : '#FBBF24',
+                                  ? '#FCA5A5'
+                                  : '#FFD500',
                               border: `1px solid ${
                                 w.status === 'completed'
-                                  ? 'rgba(16, 185, 129, 0.3)'
+                                  ? 'rgba(0, 230, 160, 0.35)'
                                   : w.status === 'approved'
-                                  ? 'rgba(59, 130, 246, 0.3)'
+                                  ? 'rgba(67, 142, 255, 0.35)'
                                   : w.status === 'rejected' || w.status === 'cancelled'
-                                  ? 'rgba(239, 68, 68, 0.3)'
-                                  : 'rgba(245, 158, 11, 0.3)'
+                                  ? 'rgba(239, 68, 68, 0.35)'
+                                  : 'rgba(255, 213, 0, 0.35)'
                               }`
                             }}
                           >
@@ -498,89 +526,142 @@ export function UserProfile() {
 
       <div className={styles.dashboardWrapper}>
         {/* ======================================================== */}
-        {/* SECTION B: PROFILE HERO HEADER                           */}
+        {/* SECTION A: PROFILE HERO SHOWCASE                         */}
         {/* ======================================================== */}
-        <section className={styles.welcomeSection} aria-labelledby="welcome-heading">
-          <div className={styles.welcomeUserArea}>
-            <div className={styles.userAvatar} aria-hidden="true">
-              {getInitials(profile.name)}
-              <span className={styles.onlineIndicator} title="Active Account" />
+        <section className={`${styles.welcomeSection} ${styles.animSection1}`} aria-labelledby="welcome-heading">
+          {/* Subtle Floating Decorative Reward Sparkles */}
+          <span className={`${styles.heroSparkle} ${styles.sparkleGold1}`} aria-hidden="true" />
+          <span className={`${styles.heroSparkle} ${styles.sparkleCyan1}`} aria-hidden="true" />
+          <span className={`${styles.heroSparkle} ${styles.sparkleGold2}`} aria-hidden="true" />
+
+          <div className={styles.heroTopRow}>
+            <div className={styles.welcomeUserArea}>
+              <div className={styles.avatarWrapper}>
+                <div className={styles.userAvatar} aria-hidden="true">
+                  {getInitials(profile.name)}
+                </div>
+                <span className={styles.onlineIndicator} title="Active Account" />
+              </div>
+
+              <div className={styles.welcomeTextMeta}>
+                <div className={styles.greetingRow}>
+                  <h1 id="welcome-heading" className={styles.welcomeGreeting}>
+                    Welcome back, <span className={styles.welcomeNameAccent}>{profile.name}</span>
+                  </h1>
+                  <span className={styles.statusPill}>
+                    <span className={styles.statusDotInner} />
+                    {profile.status}
+                  </span>
+                  <span className={styles.rolePill}>{profile.role}</span>
+                  <span className={styles.tierPill}>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                    </svg>
+                    Level {formattedLevel} &bull; {levelProgress.currentLevelName}
+                  </span>
+                </div>
+
+                <div className={styles.subMetaLine}>
+                  <span>{profile.email}</span>
+                  <span className={styles.metaDot}>&bull;</span>
+                  <span>Member since {formatDate(profile.memberSince || profile.createdAt)}</span>
+                  <span className={styles.metaDot}>&bull;</span>
+                  <span className={styles.idBadge}>
+                    ID: <code>{profile.id ? String(profile.id).slice(-8) : 'N/A'}</code>
+                    <button
+                      type="button"
+                      className={`${styles.copyMiniBtn} ${copiedKey === 'id' ? styles.copyMiniBtnSuccess : ''}`}
+                      onClick={() => copyToClipboard(profile.id, 'User ID', 'id')}
+                      title="Copy full user ID"
+                      aria-label="Copy User ID"
+                    >
+                      {copiedKey === 'id' ? 'Copied!' : 'Copy'}
+                    </button>
+                  </span>
+                </div>
+              </div>
             </div>
-            <div className={styles.welcomeTextMeta}>
-              <div className={styles.greetingRow}>
-                <h1 id="welcome-heading" className={styles.welcomeGreeting}>
-                  Welcome back, {profile.name} 👋
-                </h1>
-                <span className={styles.statusPill}>
-                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#34D399', display: 'inline-block' }} />
-                  {profile.status}
-                </span>
-                <span className={styles.rolePill}>{profile.role}</span>
-                <span className={styles.tierPill}>
-                  ★ {levelProgress.currentLevelName}
+
+            {/* Integrated Level Shield & Mini XP Progress Showcase */}
+            <div className={styles.heroLevelPanel}>
+              <div className={styles.heroLevelTop}>
+                <div className={styles.heroShieldBadge}>
+                  <div className={styles.heroShieldIcon} aria-hidden="true">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                      <path d="M12 8v4l2.5 2.5" />
+                    </svg>
+                  </div>
+                  <div>
+                    <div className={styles.heroLevelLabel}>Current Rank</div>
+                    <div className={styles.heroLevelValue}>{levelProgress.currentLevelName}</div>
+                  </div>
+                </div>
+                <span className={styles.heroXpPill}>
+                  {levelProgress.currentXp.toLocaleString()} XP
                 </span>
               </div>
-              <div className={styles.subMetaLine}>
-                <span>{profile.email}</span>
-                <span className={styles.metaDot}>•</span>
-                <span>Member since {formatDate(profile.memberSince || profile.createdAt)}</span>
-                <span className={styles.metaDot}>•</span>
-                <span className={styles.idBadge}>
-                  ID: <code>{profile.id ? String(profile.id).slice(-8) : 'N/A'}</code>
-                  <button
-                    type="button"
-                    className={styles.copyMiniBtn}
-                    onClick={() => copyToClipboard(profile.id, 'User ID')}
-                    title="Copy full user ID"
-                    aria-label="Copy User ID"
-                  >
-                    Copy
-                  </button>
+
+              <div className={styles.heroMiniTrack}>
+                <div
+                  className={styles.heroMiniFill}
+                  style={{ width: `${levelProgress.progressPercentage}%` }}
+                />
+              </div>
+
+              <div className={styles.heroMiniMeta}>
+                <span>{levelProgress.progressPercentage}% to next tier</span>
+                <span style={{ color: '#FFD500', fontWeight: 700 }}>
+                  {levelProgress.nextLevel
+                    ? `${levelProgress.xpRemaining.toLocaleString()} XP left`
+                    : 'Max Level'}
                 </span>
               </div>
             </div>
           </div>
 
-          {/* Quick Actions */}
-          <div className={styles.quickActionsRow}>
-            <button
-              type="button"
-              className={styles.btnSecondaryAction}
-              onClick={() => loadOverview(true)}
-              disabled={refreshing}
-              title="Refresh dashboard from server"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67" />
-              </svg>
-              <span>{refreshing ? 'Refreshing...' : 'Refresh'}</span>
-            </button>
+          {/* Quick Actions Bar */}
+          <div className={styles.heroBottomBar}>
+            <div className={styles.quickActionsRow}>
+              <button
+                type="button"
+                className={styles.btnPrimaryAction}
+                onClick={openWithdrawModal}
+                title="Request funds withdrawal"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="12" y1="5" x2="12" y2="19" />
+                  <polyline points="19 12 12 19 5 12" />
+                </svg>
+                <span>Request Withdrawal</span>
+              </button>
 
-            <button
-              type="button"
-              className={styles.btnPrimaryAction}
-              onClick={openWithdrawModal}
-              title="Request funds withdrawal"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="12" y1="5" x2="12" y2="19" />
-                <polyline points="19 12 12 19 5 12" />
-              </svg>
-              <span>Request Withdrawal</span>
-            </button>
+              <button
+                type="button"
+                className={styles.btnSecondaryAction}
+                onClick={() => loadOverview(true)}
+                disabled={refreshing}
+                title="Refresh dashboard from server"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67" />
+                </svg>
+                <span>{refreshing ? 'Refreshing...' : 'Refresh'}</span>
+              </button>
 
-            <button
-              type="button"
-              className={styles.btnSecondaryAction}
-              onClick={() => copyToClipboard(referrals.referralCode || profile.referralCode, 'Invite Code')}
-              title="Copy your referral invite code"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
-                <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
-              </svg>
-              <span>Invite Friends</span>
-            </button>
+              <button
+                type="button"
+                className={styles.btnSecondaryAction}
+                onClick={() => copyToClipboard(referrals.referralCode || profile.referralCode, 'Invite Code', 'inviteTop')}
+                title="Copy your referral invite code"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+                  <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
+                </svg>
+                <span>{copiedKey === 'inviteTop' ? 'Code Copied!' : 'Invite Friends'}</span>
+              </button>
+            </div>
 
             <button
               type="button"
@@ -588,20 +669,93 @@ export function UserProfile() {
               onClick={handleLogout}
               title="Sign out of platform"
             >
-              Sign Out
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                <polyline points="16 17 21 12 16 7" />
+                <line x1="21" y1="12" x2="9" y2="12" />
+              </svg>
+              <span>Sign Out</span>
             </button>
           </div>
         </section>
 
         {/* ======================================================== */}
-        {/* SECTION C: 4 DISTINCT MULTI-ASSET WALLET CARDS           */}
+        {/* SECTION B: ACCOUNT STATISTICS KPI CARDS                  */}
         {/* ======================================================== */}
-        <section className={styles.walletGridSection} aria-labelledby="wallet-section-title">
+        <section className={`${styles.statsStripGrid} ${styles.animSection2}`} aria-label="Account Statistics">
+          <div className={`${styles.kpiStatCard} ${styles.kpiVe}`}>
+            <div className={`${styles.kpiIconBox} ${styles.kpiIconYellow}`} aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="9" />
+                <path d="M9 9l3 6 3-6" />
+              </svg>
+            </div>
+            <div className={styles.kpiContent}>
+              <span className={styles.kpiLabel}>Available VEs</span>
+              <span className={styles.kpiValue}>{balances.VE.available.toLocaleString()} VEs</span>
+              <span className={styles.kpiSub}>{balances.VE.reserved.toLocaleString()} VE reserved</span>
+            </div>
+          </div>
+
+          <div className={`${styles.kpiStatCard} ${styles.kpiXp}`}>
+            <div className={`${styles.kpiIconBox} ${styles.kpiIconCyan}`} aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+              </svg>
+            </div>
+            <div className={styles.kpiContent}>
+              <span className={styles.kpiLabel}>Current XP</span>
+              <span className={styles.kpiValue}>{levelProgress.currentXp.toLocaleString()} XP</span>
+              <span className={styles.kpiSub}>
+                {levelProgress.nextLevel
+                  ? `${levelProgress.xpRemaining.toLocaleString()} XP to Level ${levelProgress.nextLevel}`
+                  : 'Maximum tier unlocked'}
+              </span>
+            </div>
+          </div>
+
+          <div className={`${styles.kpiStatCard} ${styles.kpiTier}`}>
+            <div className={`${styles.kpiIconBox} ${styles.kpiIconPurple}`} aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+              </svg>
+            </div>
+            <div className={styles.kpiContent}>
+              <span className={styles.kpiLabel}>Tier &amp; Badges</span>
+              <span className={styles.kpiValue}>Level {formattedLevel}</span>
+              <span className={styles.kpiSub}>
+                {levelProgress.currentLevelName} &bull; {achievements.unlocked}/{achievements.total} Badges
+              </span>
+            </div>
+          </div>
+
+          <div className={`${styles.kpiStatCard} ${styles.kpiWithdraw}`}>
+            <div className={`${styles.kpiIconBox} ${styles.kpiIconGreen}`} aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 12V7H5a2 2 0 0 1 0-4h14v4" />
+                <path d="M3 5v14a2 2 0 0 0 2 2h16v-5" />
+                <path d="M18 12a2 2 0 0 0 0 4h4v-4Z" />
+              </svg>
+            </div>
+            <div className={styles.kpiContent}>
+              <span className={styles.kpiLabel}>Withdrawals</span>
+              <span className={styles.kpiValue}>{withdrawals.totalWithdrawn.toLocaleString()} VEs</span>
+              <span className={styles.kpiSub}>
+                {withdrawals.completed || 0} settled &bull; {withdrawals.pending || 0} pending
+              </span>
+            </div>
+          </div>
+        </section>
+
+        {/* ======================================================== */}
+        {/* SECTION C: EARNINGS & WALLET OVERVIEW (4 REAL ASSETS)    */}
+        {/* ======================================================== */}
+        <section className={`${styles.walletGridSection} ${styles.animSection3}`} aria-labelledby="wallet-section-title">
           <div className={styles.sectionHeaderRow}>
             <div className={styles.sectionTitleBlock}>
               <span className={styles.sectionEyebrow}>Multi-Asset Financial Hub</span>
               <h2 id="wallet-section-title" className={styles.sectionHeading}>
-                Wallet & Digital Assets
+                Earnings &amp; Wallet Overview
               </h2>
             </div>
             <span className={styles.ledgerBadge}>Immutable Ledger Backed</span>
@@ -611,13 +765,16 @@ export function UserProfile() {
             {/* Card 1: VE Rewards */}
             <div className={`${styles.walletAssetCard} ${styles.cardVeTheme}`}>
               <div className={styles.cardHeaderRow}>
-                <div className={`${styles.cardIconBadge} ${styles.iconVe}`} title="VE Rewards">
-                  VE
+                <div className={`${styles.cardIconBadge} ${styles.iconVe}`} title="VE Rewards" aria-hidden="true">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="9" />
+                    <path d="M8.5 9.5L12 16l3.5-6.5" />
+                  </svg>
                 </div>
                 <span className={styles.cardTypeBadge}>Primary Asset</span>
               </div>
               <div className={styles.cardMainBalanceBlock}>
-                <span className={styles.cardAssetLabel}>VE Rewards Balance</span>
+                <span className={styles.cardAssetLabel}>Available VEs</span>
                 <div className={styles.cardBalanceNumber}>
                   {balances.VE.available.toLocaleString()}
                   <span className={styles.cardTicker}>VEs</span>
@@ -629,7 +786,7 @@ export function UserProfile() {
                   <strong>{balances.VE.reserved.toLocaleString()} VE</strong>
                 </div>
                 <div className={styles.metricItem} style={{ textAlign: 'right' }}>
-                  <span>Lifetime</span>
+                  <span>Lifetime Earned</span>
                   <strong>{balances.VE.totalEarned.toLocaleString()} VE</strong>
                 </div>
               </div>
@@ -638,8 +795,12 @@ export function UserProfile() {
             {/* Card 2: Staked VE (SVE) */}
             <div className={`${styles.walletAssetCard} ${styles.cardSveTheme}`}>
               <div className={styles.cardHeaderRow}>
-                <div className={`${styles.cardIconBadge} ${styles.iconSve}`} title="Staked VE">
-                  SVE
+                <div className={`${styles.cardIconBadge} ${styles.iconSve}`} title="Staked VE" aria-hidden="true">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round">
+                    <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                    <polyline points="2 17 12 22 22 17" />
+                    <polyline points="2 12 12 17 22 12" />
+                  </svg>
                 </div>
                 <span className={styles.cardTypeBadge}>Yield Staked</span>
               </div>
@@ -656,7 +817,7 @@ export function UserProfile() {
                   <strong>{balances.SVE.reserved.toLocaleString()} SVE</strong>
                 </div>
                 <div className={styles.metricItem} style={{ textAlign: 'right' }}>
-                  <span>Lifetime</span>
+                  <span>Lifetime Earned</span>
                   <strong>{balances.SVE.totalEarned.toLocaleString()} SVE</strong>
                 </div>
               </div>
@@ -665,13 +826,17 @@ export function UserProfile() {
             {/* Card 3: Quest Gems (GEM) */}
             <div className={`${styles.walletAssetCard} ${styles.cardGemTheme}`}>
               <div className={styles.cardHeaderRow}>
-                <div className={`${styles.cardIconBadge} ${styles.iconGem}`} title="Quest Gems">
-                  💎
+                <div className={`${styles.cardIconBadge} ${styles.iconGem}`} title="Available Gems" aria-hidden="true">
+                  <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M6 3h12l4 6-10 13L2 9z" />
+                    <path d="M11 3l-4 6 5 13 5-13-4-6" />
+                    <path d="M2 9h20" />
+                  </svg>
                 </div>
                 <span className={styles.cardTypeBadge}>Quest Currency</span>
               </div>
               <div className={styles.cardMainBalanceBlock}>
-                <span className={styles.cardAssetLabel}>Quest Gems</span>
+                <span className={styles.cardAssetLabel}>Available Gems</span>
                 <div className={styles.cardBalanceNumber}>
                   {balances.GEM.available.toLocaleString()}
                   <span className={styles.cardTicker}>GEM</span>
@@ -683,7 +848,7 @@ export function UserProfile() {
                   <strong>{balances.GEM.reserved.toLocaleString()} GEM</strong>
                 </div>
                 <div className={styles.metricItem} style={{ textAlign: 'right' }}>
-                  <span>Lifetime</span>
+                  <span>Lifetime Earned</span>
                   <strong>{balances.GEM.totalEarned.toLocaleString()} GEM</strong>
                 </div>
               </div>
@@ -692,8 +857,15 @@ export function UserProfile() {
             {/* Card 4: Platform Tokens (TOKEN) */}
             <div className={`${styles.walletAssetCard} ${styles.cardTokenTheme}`}>
               <div className={styles.cardHeaderRow}>
-                <div className={`${styles.cardIconBadge} ${styles.iconToken}`} title="Platform Tokens">
-                  🪙
+                <div className={`${styles.cardIconBadge} ${styles.iconToken}`} title="Platform Tokens" aria-hidden="true">
+                  <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="8" />
+                    <circle cx="12" cy="12" r="3" />
+                    <line x1="12" y1="2" x2="12" y2="4" />
+                    <line x1="12" y1="20" x2="12" y2="22" />
+                    <line x1="2" y1="12" x2="4" y2="12" />
+                    <line x1="20" y1="12" x2="22" y2="12" />
+                  </svg>
                 </div>
                 <span className={styles.cardTypeBadge}>Ecosystem Utility</span>
               </div>
@@ -710,7 +882,7 @@ export function UserProfile() {
                   <strong>{balances.TOKEN.reserved.toLocaleString()} TKN</strong>
                 </div>
                 <div className={styles.metricItem} style={{ textAlign: 'right' }}>
-                  <span>Lifetime</span>
+                  <span>Lifetime Earned</span>
                   <strong>{balances.TOKEN.totalEarned.toLocaleString()} TKN</strong>
                 </div>
               </div>
@@ -719,16 +891,25 @@ export function UserProfile() {
         </section>
 
         {/* ======================================================== */}
-        {/* SECTION D: GAMIFIED PROGRESSION & XP                     */}
+        {/* SECTION D: LEVEL & XP PROGRESSION                        */}
         {/* ======================================================== */}
-        <section className={styles.progressionCard} aria-labelledby="progression-heading">
+        <section className={`${styles.progressionCard} ${styles.animSection4}`} aria-labelledby="progression-heading">
           <div className={styles.progressionHeaderRow}>
-            <div className={styles.levelTitleBlock}>
-              <span className={styles.sectionEyebrow}>Gamified Progression</span>
-              <h2 id="progression-heading" className={styles.levelHeading}>
-                Level {String(levelProgress.currentLevel).padStart(2, '0')} — {levelProgress.currentLevelName}
-              </h2>
+            <div className={styles.progressionLeftCluster}>
+              <div className={styles.levelShieldEmblem} aria-hidden="true">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                  <polygon points="12 8 13.5 11 17 11.5 14.5 14 15 17.5 12 16 9 17.5 9.5 14 7 11.5 10.5 11 12 8" />
+                </svg>
+              </div>
+              <div className={styles.levelTitleBlock}>
+                <span className={styles.sectionEyebrow}>Level &amp; XP Progression</span>
+                <h2 id="progression-heading" className={styles.levelHeading}>
+                  Level {formattedLevel} &mdash; {levelProgress.currentLevelName}
+                </h2>
+              </div>
             </div>
+
             <div className={styles.xpBadgeHighlight}>
               {levelProgress.currentXp.toLocaleString()} Total XP
             </div>
@@ -743,7 +924,7 @@ export function UserProfile() {
                   <strong>Maximum Tier Mastered</strong>
                 )}
               </span>
-              <span style={{ fontWeight: 800, color: '#38BDF8', fontSize: '1rem' }}>
+              <span className={styles.progressPercentGlow}>
                 {levelProgress.progressPercentage}%
               </span>
             </div>
@@ -774,25 +955,58 @@ export function UserProfile() {
               </span>
             </div>
           </div>
+
+          <div className={styles.milestoneStripGrid}>
+            <div className={styles.milestoneMiniCard}>
+              <span className={styles.milestoneMiniLabel}>Active Level Badge</span>
+              <span className={styles.milestoneMiniValue} style={{ color: '#FFD500' }}>
+                Level {formattedLevel} &bull; {levelProgress.currentLevelName}
+              </span>
+            </div>
+            <div className={styles.milestoneMiniCard}>
+              <span className={styles.milestoneMiniLabel}>Next Milestone Target</span>
+              <span className={styles.milestoneMiniValue} style={{ color: '#16DCEB' }}>
+                {levelProgress.nextLevel
+                  ? `Level ${String(levelProgress.nextLevel).padStart(2, '0')} (${levelProgress.nextLevelXp?.toLocaleString()} XP)`
+                  : 'Top Tier Achieved'}
+              </span>
+            </div>
+            <div className={styles.milestoneMiniCard}>
+              <span className={styles.milestoneMiniLabel}>Achievement Progress</span>
+              <span className={styles.milestoneMiniValue} style={{ color: '#00E6A0' }}>
+                {achievements.claimed} Claimed / {achievements.unlocked} Unlocked
+              </span>
+            </div>
+          </div>
         </section>
 
         {/* ======================================================== */}
         {/* SECTION E: ACHIEVEMENTS & BADGES                         */}
         {/* ======================================================== */}
-        <section className={styles.achievementsCard} aria-labelledby="achievements-heading">
+        <section className={`${styles.achievementsCard} ${styles.animSection5}`} aria-labelledby="achievements-heading">
           <div className={styles.sectionHeaderRow}>
             <div className={styles.sectionTitleBlock}>
-              <span className={styles.sectionEyebrow}>Milestones & Badges</span>
+              <span className={styles.sectionEyebrow}>Milestones &amp; Badges</span>
               <h2 id="achievements-heading" className={styles.sectionHeading}>
                 Achievements ({achievements.unlocked} of {achievements.total} Unlocked)
               </h2>
             </div>
+            <span className={styles.tierPill}>
+              {achievements.claimed} Rewarded
+            </span>
           </div>
 
           <div className={styles.achievementGrid}>
             {achievements.items && achievements.items.length > 0 ? (
               achievements.items.map((ach) => {
                 const isEligibleToClaim = ach.unlocked && !ach.isClaimed
+                const isXpCriteria = ach.criteria?.type === 'XP_THRESHOLD' && ach.criteria?.targetValue > 0
+                const achPercent = isXpCriteria
+                  ? Math.min(100, Math.round(((ach.progress || 0) / ach.criteria.targetValue) * 100))
+                  : ach.unlocked
+                  ? 100
+                  : 0
+
                 return (
                   <div
                     key={ach.id || ach.code}
@@ -812,8 +1026,22 @@ export function UserProfile() {
                           ? styles.badgeUnlockedIcon
                           : styles.badgeLockedIcon
                       }`}
+                      aria-hidden="true"
                     >
-                      {ach.isClaimed ? '✓' : ach.unlocked ? '★' : '🔒'}
+                      {ach.isClaimed ? (
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                      ) : ach.unlocked ? (
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                        </svg>
+                      ) : (
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                          <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                          <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                        </svg>
+                      )}
                     </div>
 
                     <div className={styles.achContent}>
@@ -829,10 +1057,16 @@ export function UserProfile() {
                       </div>
                       <p className={styles.achItemDescription}>{ach.description}</p>
 
+                      {!ach.unlocked && isXpCriteria && (
+                        <div className={styles.achMiniBarTrack} title={`${achPercent}% complete`}>
+                          <div className={styles.achMiniBarFill} style={{ width: `${achPercent}%` }} />
+                        </div>
+                      )}
+
                       <div className={styles.achMetaRow}>
                         <span>
-                          {ach.criteria?.type === 'XP_THRESHOLD'
-                            ? `Goal: ${ach.criteria.targetValue.toLocaleString()} XP (${ach.progress.toLocaleString()} earned)`
+                          {isXpCriteria
+                            ? `Goal: ${ach.criteria.targetValue.toLocaleString()} XP (${(ach.progress || 0).toLocaleString()} earned)`
                             : 'Requirement: Join platform'}
                         </span>
 
@@ -848,7 +1082,7 @@ export function UserProfile() {
                         )}
 
                         {ach.isClaimed && ach.claimedAt && (
-                          <span style={{ color: '#34D399', fontWeight: 700, fontSize: '0.75rem' }}>
+                          <span style={{ color: '#00E6A0', fontWeight: 700, fontSize: '0.74rem' }}>
                             Claimed on {formatDate(ach.claimedAt)}
                           </span>
                         )}
@@ -858,15 +1092,15 @@ export function UserProfile() {
                 )
               })
             ) : (
-              <p style={{ color: '#94A3B8', textAlign: 'center', padding: '1.5rem' }}>No achievements configured.</p>
+              <p style={{ color: '#A8ABC5', textAlign: 'center', padding: '1.5rem' }}>No achievements configured.</p>
             )}
           </div>
         </section>
 
         {/* ======================================================== */}
-        {/* LOWER SECTION: ASYMMETRIC 2-COLUMN HUB (F, G, H)         */}
+        {/* SECTION F: REWARDS, ACTIVITY, WITHDRAWALS & REFERRALS    */}
         {/* ======================================================== */}
-        <div className={styles.lowerHubGrid}>
+        <div className={`${styles.lowerHubGrid} ${styles.animSection6}`}>
           {/* Left Column Stack */}
           <div className={styles.leftColumnStack}>
             {/* Recent Financial Activity (Ledger) */}
@@ -878,7 +1112,7 @@ export function UserProfile() {
                     Recent Financial Activity
                   </h2>
                 </div>
-                <span style={{ fontSize: '0.78rem', color: '#64748B', fontWeight: 600 }}>
+                <span style={{ fontSize: '0.78rem', color: '#A8ABC5', fontWeight: 600 }}>
                   Live backend audit records
                 </span>
               </div>
@@ -925,20 +1159,20 @@ export function UserProfile() {
                   })}
                 </div>
               ) : (
-                <div style={{ textAlign: 'center', padding: '2rem 1rem', color: '#94A3B8' }}>
-                  <p style={{ fontWeight: 700, marginBottom: '0.25rem', color: '#CBD5E1' }}>No Recent Activity</p>
-                  <small>Your transactions and earnings will be securely listed here.</small>
+                <div className={styles.emptyStateBox}>
+                  <p style={{ fontWeight: 800, marginBottom: '0.25rem', color: '#FFFFFF' }}>No Recent Activity</p>
+                  <small>Your verified transactions and reward earnings will appear here automatically.</small>
                 </div>
               )}
             </section>
 
-            {/* Account Verification & Security (Section H) */}
+            {/* Account Verification & Security */}
             <section className={styles.hubSectionCard} aria-labelledby="security-heading">
               <div className={styles.sectionHeaderRow}>
                 <div className={styles.sectionTitleBlock}>
                   <span className={styles.sectionEyebrow}>Account Verification</span>
                   <h2 id="security-heading" className={styles.sectionHeading}>
-                    Identity & Security
+                    Identity &amp; Security
                   </h2>
                 </div>
                 <span className={styles.achStatusClaimed} style={{ fontSize: '0.72rem' }}>
@@ -957,7 +1191,7 @@ export function UserProfile() {
                 </div>
                 <div className={styles.securityRow}>
                   <span className={styles.securityLabel}>Account ID</span>
-                  <code style={{ fontSize: '0.85rem', color: '#818CF8', fontWeight: 800 }}>
+                  <code style={{ fontSize: '0.85rem', color: '#16DCEB', fontWeight: 800, fontFamily: 'Chivo Mono, monospace' }}>
                     {profile.id ? String(profile.id).slice(-8) : 'N/A'}
                   </code>
                 </div>
@@ -973,7 +1207,7 @@ export function UserProfile() {
 
           {/* Right Column Stack */}
           <div className={styles.rightColumnStack}>
-            {/* Section G: Withdrawals Overview */}
+            {/* Withdrawals Overview */}
             <section className={styles.hubSectionCard} aria-labelledby="withdrawals-heading">
               <div className={styles.sectionHeaderRow}>
                 <div className={styles.sectionTitleBlock}>
@@ -1025,7 +1259,7 @@ export function UserProfile() {
               </button>
             </section>
 
-            {/* Section F: Referral Snapshot */}
+            {/* Referral Snapshot */}
             <section className={styles.hubSectionCard} aria-labelledby="referrals-heading">
               <div className={styles.sectionHeaderRow}>
                 <div className={styles.sectionTitleBlock}>
@@ -1037,7 +1271,7 @@ export function UserProfile() {
               </div>
 
               <div className={styles.referralContainer}>
-                <small style={{ fontSize: '0.72rem', color: '#C7D2FE', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '0.5px' }}>
+                <small style={{ fontSize: '0.72rem', color: '#A8ABC5', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '0.6px' }}>
                   Your Unique Invite Code
                 </small>
                 <div className={styles.inviteCodeDisplayRow}>
@@ -1050,11 +1284,12 @@ export function UserProfile() {
                     onClick={() =>
                       copyToClipboard(
                         referrals.referralCode || profile.referralCode,
-                        'Referral code'
+                        'Referral code',
+                        'referralCard'
                       )
                     }
                   >
-                    Copy Code
+                    {copiedKey === 'referralCard' ? 'Copied!' : 'Copy Code'}
                   </button>
                 </div>
 
@@ -1064,13 +1299,13 @@ export function UserProfile() {
                     <div className={styles.refLabel}>Total</div>
                   </div>
                   <div className={styles.referralStatItem}>
-                    <div className={`${styles.refVal}`} style={{ color: '#34D399' }}>
+                    <div className={styles.refVal} style={{ color: '#00E6A0' }}>
                       {referrals.successfulReferrals || 0}
                     </div>
                     <div className={styles.refLabel}>Successful</div>
                   </div>
                   <div className={styles.referralStatItem}>
-                    <div className={`${styles.refVal}`} style={{ color: '#FBBF24' }}>
+                    <div className={styles.refVal} style={{ color: '#FFD500' }}>
                       {referrals.pendingReferrals || 0}
                     </div>
                     <div className={styles.refLabel}>Pending</div>
@@ -1078,7 +1313,7 @@ export function UserProfile() {
                 </div>
 
                 <div className={styles.referralNotice}>
-                  🎁 Share your invite code with friends to unlock bonus XP and rewards on their first quest completion!
+                  Share your invite code with friends to unlock bonus XP and rewards on their first quest completion.
                 </div>
               </div>
             </section>

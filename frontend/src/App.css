@@ -123,36 +123,36 @@
 .app-shell.theme-dark-gaming,
 .app-shell[data-theme="dark-gaming"],
 .app-shell:has([data-theme="dark-gaming"]) {
-  background-color: #0d0f1d !important;
-  --canvas-bg: #0d0f1d;
-  --surface-main: #181a2a;
-  --surface-alt: #1f2438;
-  --surface-muted: #252b42;
-  --surface-card: #1f2438;
-  --border-light: rgba(255, 255, 255, 0.06);
-  --border-subtle: #2a2d45;
-  --border-strong: rgba(255, 255, 255, 0.12);
+  background-color: #11121f !important;
+  --canvas-bg: #11121f;
+  --surface-main: #151628;
+  --surface-alt: #20213f;
+  --surface-muted: #252747;
+  --surface-card: #20213f;
+  --border-light: rgba(255, 255, 255, 0.08);
+  --border-subtle: rgba(168, 171, 197, 0.14);
+  --border-strong: rgba(255, 255, 255, 0.16);
   --text-main: #ffffff;
-  --text-secondary: #a7afc7;
-  --text-muted: #7f879d;
-  --primary-soft: rgba(99, 102, 241, 0.15);
-  --primary-border: rgba(99, 102, 241, 0.35);
+  --text-secondary: #a8abc5;
+  --text-muted: #7f83a3;
+  --primary-soft: rgba(67, 142, 255, 0.15);
+  --primary-border: rgba(67, 142, 255, 0.35);
   --primary-text: #a5b4fc;
 }
 
 .app-shell.theme-dark-gaming .app-surface-frame,
 .app-shell[data-theme="dark-gaming"] .app-surface-frame,
 .app-shell:has([data-theme="dark-gaming"]) .app-surface-frame {
-  background-color: #121528 !important;
-  border-color: #2a2d45 !important;
-  box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.75) !important;
+  background-color: #151628 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.78) !important;
 }
 
 .app-shell.theme-dark-gaming header,
 .app-shell[data-theme="dark-gaming"] header,
 .app-shell:has([data-theme="dark-gaming"]) header {
-  background-color: #181a2a !important;
-  border-bottom: 1px solid #2a2d45 !important;
+  background-color: #151628 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07) !important;
 }
 
 .app-shell.theme-dark-gaming header input,
@@ -221,35 +221,35 @@
 .app-shell.theme-dark-gaming aside,
 .app-shell[data-theme="dark-gaming"] aside,
 .app-shell:has([data-theme="dark-gaming"]) aside {
-  background-color: #131627 !important;
-  border-right: 1px solid #2a2d45 !important;
+  background-color: #11121f !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.07) !important;
 }
 
 .app-shell.theme-dark-gaming aside a:not([class*="brandLink"]),
 .app-shell[data-theme="dark-gaming"] aside a:not([class*="brandLink"]),
 .app-shell:has([data-theme="dark-gaming"]) aside a:not([class*="brandLink"]) {
-  color: #7f879d !important;
+  color: #a8abc5 !important;
 }
 
 .app-shell.theme-dark-gaming aside a:not([class*="brandLink"]):hover,
 .app-shell[data-theme="dark-gaming"] aside a:not([class*="brandLink"]):hover,
 .app-shell:has([data-theme="dark-gaming"]) aside a:not([class*="brandLink"]):hover {
-  background-color: #1f2438 !important;
-  color: #818cf8 !important;
+  background-color: #20213f !important;
+  color: #ffd500 !important;
 }
 
 .app-shell.theme-dark-gaming aside a[class*="navItemActive"],
 .app-shell[data-theme="dark-gaming"] aside a[class*="navItemActive"],
 .app-shell:has([data-theme="dark-gaming"]) aside a[class*="navItemActive"] {
-  background-color: rgba(99, 102, 241, 0.18) !important;
-  color: #818cf8 !important;
+  background-color: rgba(67, 142, 255, 0.18) !important;
+  color: #16dceb !important;
 }
 
 .app-shell.theme-dark-gaming .app-footer,
 .app-shell[data-theme="dark-gaming"] .app-footer,
 .app-shell:has([data-theme="dark-gaming"]) .app-footer {
-  background-color: #181a2a !important;
-  border-top: 1px solid #2a2d45 !important;
+  background-color: #151628 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.07) !important;
 }
 
 .app-shell.theme-dark-gaming .footer-text,
