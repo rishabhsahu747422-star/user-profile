@@ -1,8 +1,8 @@
 process.env.JWT_SECRET = process.env.JWT_SECRET || "milestone_3d_test_jwt_secret_secure_key_12345";
 
 import mongoose from "mongoose";
-import User, { generateReferralCodeString } from "./src/models/User.js";
-import Referral from "./src/models/Referral.js";
+import User, { generateReferralCodeString } from "../../src/models/User.js";
+import Referral from "../../src/models/Referral.js";
 import {
   validateReferralCode,
   createReferralRelationship,
@@ -10,9 +10,9 @@ import {
   getUserReferralsList,
   updateReferralStatus,
   backfillUserReferralCodes
-} from "./src/services/referral.service.js";
-import { generateToken } from "./src/utils/jwt.js";
-import app from "./src/app.js";
+} from "../../src/services/referral.service.js";
+import { generateToken } from "../../src/utils/jwt.js";
+import app from "../../src/app.js";
 
 const results = [];
 

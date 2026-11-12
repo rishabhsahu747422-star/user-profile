@@ -1,14 +1,14 @@
 process.env.JWT_SECRET = process.env.JWT_SECRET || "milestone_3e_test_jwt_secret_secure_key_12345";
 
 import mongoose from "mongoose";
-import User from "./src/models/User.js";
-import Wallet from "./src/models/Wallet.js";
-import Withdrawal from "./src/models/Withdrawal.js";
+import User from "../../src/models/User.js";
+import Wallet from "../../src/models/Wallet.js";
+import Withdrawal from "../../src/models/Withdrawal.js";
 import {
   executeCredit,
   getOrCreateWallet,
   reconcileWallet
-} from "./src/services/wallet.service.js";
+} from "../../src/services/wallet.service.js";
 import {
   createWithdrawalRequest,
   getUserWithdrawalSummary,
@@ -17,9 +17,9 @@ import {
   cancelWithdrawalRequest,
   reviewWithdrawalRequest,
   settleWithdrawalRequest
-} from "./src/services/withdrawal.service.js";
-import { generateToken } from "./src/utils/jwt.js";
-import app from "./src/app.js";
+} from "../../src/services/withdrawal.service.js";
+import { generateToken } from "../../src/utils/jwt.js";
+import app from "../../src/app.js";
 
 const results = [];
 

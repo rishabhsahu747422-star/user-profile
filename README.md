@@ -265,40 +265,36 @@ Refer to the backend implementation for the complete API route list.
 
 ## Testing & Quality Checks
 
-### Frontend Lint
+The backend test suite is organized under `backend/tests/` by test category:
+
+- `backend/tests/regression/` — Core module regression suites (`wallet`, `progression`, `referral`, `withdrawal`, `overview`, `withdrawal-api-fix`)
+- `backend/tests/integration/` — Frontend contract parity, admin RBAC/audit integration, and full end-to-end acceptance QA (`acceptance.e2e.test.js`)
+- `backend/tests/security/` — Security hardening, OWASP headers, JWT validation, IDOR, and injection checks (`security.test.js`)
+- `backend/tests/production/` — Production readiness, environment guards, `/health`, `/ready`, and concurrency/reconciliation checks (`production-readiness.test.js`)
+- `backend/tests/utilities/` — Environment-specific verification utilities (`replica-set-transactions.utility.js`, requires local Windows `mongod.exe`)
+
+### Run Backend Tests
+
+```bash
+# Run all reusable backend suites (regression, integration, security, production)
+npm --prefix backend test
+
+# Run specific categories
+npm --prefix backend run test:regression
+npm --prefix backend run test:integration
+npm --prefix backend run test:security
+npm --prefix backend run test:production
+npm --prefix backend run test:acceptance
+```
+
+### Run Frontend Checks
 
 ```bash
 npm --prefix frontend run lint
-```
-
-### Frontend Production Build
-
-```bash
 npm --prefix frontend run build
 ```
 
-### Backend Production Tests
-
-```bash
-node backend/test_milestone_7_production.js
-```
-
-### Backend Acceptance Tests
-
-```bash
-node backend/test_milestone_8_acceptance.js
-```
-
-**Previously reported test results:**
-
-| Test Suite | Reported Result |
-|---|---:|
-| Milestone 7 Production Suite | 33/33 passed |
-| Milestone 8 Acceptance Suite | 103/103 passed |
-| Frontend Lint | 0 errors, 0 warnings |
-| Frontend Build | Successful |
-
-These are results from the reported development runs; execute the commands against the latest repository version to confirm them.
+See [docs/TESTING.md](docs/TESTING.md) for the detailed test breakdown.
 
 ---
 

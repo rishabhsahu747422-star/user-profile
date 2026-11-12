@@ -19,12 +19,12 @@ process.env.CLIENT_URL = "http://localhost:5173,https://user-profile-azure.verce
 
 import http from "http";
 import mongoose from "mongoose";
-import app from "./src/app.js";
-import User from "./src/models/User.js";
-import Wallet from "./src/models/Wallet.js";
-import WalletTransaction from "./src/models/WalletTransaction.js";
-import Withdrawal from "./src/models/Withdrawal.js";
-import { executeCredit, getOrCreateWallet, reconcileWallet } from "./src/services/wallet.service.js";
+import app from "../../src/app.js";
+import User from "../../src/models/User.js";
+import Wallet from "../../src/models/Wallet.js";
+import WalletTransaction from "../../src/models/WalletTransaction.js";
+import Withdrawal from "../../src/models/Withdrawal.js";
+import { executeCredit, getOrCreateWallet, reconcileWallet } from "../../src/services/wallet.service.js";
 
 const MONGO_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/user-profile";
 

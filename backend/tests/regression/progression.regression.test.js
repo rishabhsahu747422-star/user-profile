@@ -1,12 +1,12 @@
 process.env.JWT_SECRET = process.env.JWT_SECRET || "milestone_3c_test_jwt_secret_secure_key_12345";
 
 import mongoose from "mongoose";
-import User from "./src/models/User.js";
-import UserProgress from "./src/models/UserProgress.js";
-import LevelConfiguration from "./src/models/LevelConfiguration.js";
-import Achievement from "./src/models/Achievement.js";
-import UserAchievement from "./src/models/UserAchievement.js";
-import XpTransaction from "./src/models/XpTransaction.js";
+import User from "../../src/models/User.js";
+import UserProgress from "../../src/models/UserProgress.js";
+import LevelConfiguration from "../../src/models/LevelConfiguration.js";
+import Achievement from "../../src/models/Achievement.js";
+import UserAchievement from "../../src/models/UserAchievement.js";
+import XpTransaction from "../../src/models/XpTransaction.js";
 import {
   getOrCreateUserProgress,
   calculateLevelForXp,
@@ -15,9 +15,9 @@ import {
   getUserAchievements,
   claimAchievementReward,
   seedDefaultProgressionConfigs
-} from "./src/services/progression.service.js";
-import { generateToken } from "./src/utils/jwt.js";
-import app from "./src/app.js";
+} from "../../src/services/progression.service.js";
+import { generateToken } from "../../src/utils/jwt.js";
+import app from "../../src/app.js";
 
 const results = [];
 

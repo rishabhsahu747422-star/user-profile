@@ -3,14 +3,14 @@ import { spawn } from "child_process";
 import fs from "fs";
 import path from "path";
 import os from "os";
-import User from "./src/models/User.js";
-import Wallet from "./src/models/Wallet.js";
-import WalletTransaction from "./src/models/WalletTransaction.js";
+import User from "../../src/models/User.js";
+import Wallet from "../../src/models/Wallet.js";
+import WalletTransaction from "../../src/models/WalletTransaction.js";
 import {
   getOrCreateWallet,
   executeCredit,
   isTransactionSupported
-} from "./src/services/wallet.service.js";
+} from "../../src/services/wallet.service.js";
 
 const results = [];
 

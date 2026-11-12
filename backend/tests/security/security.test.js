@@ -3,14 +3,14 @@ process.env.JWT_SECRET = process.env.JWT_SECRET || "milestone_6_security_test_se
 import http from "http";
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
-import User from "./src/models/User.js";
-import Wallet from "./src/models/Wallet.js";
-import Withdrawal from "./src/models/Withdrawal.js";
-import AdminAuditLog from "./src/models/AdminAuditLog.js";
-import { executeCredit } from "./src/services/wallet.service.js";
-import { createWithdrawalRequest } from "./src/services/withdrawal.service.js";
-import { generateToken } from "./src/utils/jwt.js";
-import app from "./src/app.js";
+import User from "../../src/models/User.js";
+import Wallet from "../../src/models/Wallet.js";
+import Withdrawal from "../../src/models/Withdrawal.js";
+import AdminAuditLog from "../../src/models/AdminAuditLog.js";
+import { executeCredit } from "../../src/services/wallet.service.js";
+import { createWithdrawalRequest } from "../../src/services/withdrawal.service.js";
+import { generateToken } from "../../src/utils/jwt.js";
+import app from "../../src/app.js";
 
 const MONGO_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/user-profile";
 

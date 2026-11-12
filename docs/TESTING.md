@@ -10,17 +10,18 @@ All tests are implemented natively in Node.js and execute against the active Mon
 
 | Milestone / Test Suite | File Path | Focus Area | Assertions | Result |
 | :--- | :--- | :--- | :---: | :---: |
-| **Milestone 3B** | `backend/test_milestone_3b.js` | Core Multi-Asset Wallet, Ledger Immutability & Concurrency | 38 | **38 / 38 PASS** |
-| **Milestone 3C** | `backend/test_milestone_3c.js` | XP Accrual, Level Calculations & Achievement Unlocks | 43 | **43 / 43 PASS** |
-| **Milestone 3D** | `backend/test_milestone_3d.js` | Referral Code Uniqueness, Anti-Self-Referral & Privacy | 47 | **47 / 47 PASS** |
-| **Milestone 3E** | `backend/test_milestone_3e.js` | Withdrawal Fund Reservation, Cancellation & Settlements | 51 | **51 / 51 PASS** |
-| **Milestone 3F** | `backend/test_milestone_3f.js` | Unified Profile Overview (`GET /api/users/me/overview`) | 39 | **39 / 39 PASS** |
-| **Milestone 4** | `backend/test_milestone_4_frontend_integration.js` | Frontend Contract Parity, Routes & Component Payloads | 36 | **36 / 36 PASS** |
-| **Milestone 5** | `backend/test_milestone_5_admin.js` | Admin RBAC, User Status Transitions & AdminAuditLog | 53 | **53 / 53 PASS** |
-| **Milestone 6** | `backend/test_milestone_6_security.js` | OWASP Headers, JWT Forgery Blocks, IDOR & Injection | 29 | **29 / 29 PASS** |
-| **Milestone 7** | `backend/test_milestone_7_production.js` | Liveness/Readiness Probes, Startup Env Guard & Tracing | 33 | **33 / 33 PASS** |
-| **Milestone 8** | `backend/test_milestone_8_acceptance.js` | Full Acceptance QA, 12 User Journeys & Concurrency Stress | 103 | **103 / 103 PASS** |
-| **Total Automated Tests** | **All 10 Verification Suites** | **Complete Full-Stack Application** | **472** | **472 / 472 PASS (100%)** |
+| **Milestone 3B** | `backend/tests/regression/wallet.regression.test.js` | Core Multi-Asset Wallet, Ledger Immutability & Concurrency | 38 | **38 / 38 PASS** |
+| **Milestone 3C** | `backend/tests/regression/progression.regression.test.js` | XP Accrual, Level Calculations & Achievement Unlocks | 43 | **43 / 43 PASS** |
+| **Milestone 3D** | `backend/tests/regression/referral.regression.test.js` | Referral Code Uniqueness, Anti-Self-Referral & Privacy | 47 | **47 / 47 PASS** |
+| **Milestone 3E** | `backend/tests/regression/withdrawal.regression.test.js` | Withdrawal Fund Reservation, Cancellation & Settlements | 51 | **51 / 51 PASS** |
+| **Milestone 3F** | `backend/tests/regression/overview.regression.test.js` | Unified Profile Overview (`GET /api/users/me/overview`) | 39 | **39 / 39 PASS** |
+| **Withdrawal Fix** | `backend/tests/regression/withdrawal-api-fix.regression.test.js` | Withdrawal API 400 Fix & Idempotency Regression | 39 | **39 / 39 PASS** |
+| **Milestone 4** | `backend/tests/integration/frontend-contract.integration.test.js` | Frontend Contract Parity, Routes & Component Payloads | 36 | **36 / 36 PASS** |
+| **Milestone 5** | `backend/tests/integration/admin.integration.test.js` | Admin RBAC, User Status Transitions & AdminAuditLog | 53 | **53 / 53 PASS** |
+| **Milestone 6** | `backend/tests/security/security.test.js` | OWASP Headers, JWT Forgery Blocks, IDOR & Injection | 29 | **29 / 29 PASS** |
+| **Milestone 7** | `backend/tests/production/production-readiness.test.js` | Liveness/Readiness Probes, Startup Env Guard & Tracing | 33 | **33 / 33 PASS** |
+| **Milestone 8** | `backend/tests/integration/acceptance.e2e.test.js` | Full Acceptance QA, 12 User Journeys & Concurrency Stress | 103 | **103 / 103 PASS** |
+| **Total Automated Tests** | **All 11 Reusable Suites** | **Complete Full-Stack Application** | **511** | **511 / 511 PASS (100%)** |
 
 ---
 
@@ -29,28 +30,23 @@ All tests are implemented natively in Node.js and execute against the active Mon
 | Verification Check | Command | Result | Notes |
 | :--- | :--- | :---: | :--- |
 | **ESLint Static Analysis** | `npm --prefix frontend run lint` | **PASS (0 errors, 0 warnings)** | Clean code quality, strict hook dependencies. |
-| **Production Vite Build** | `npm --prefix frontend run build` | **PASS (422ms build time)** | Generated optimized bundles in `frontend/dist/`. |
+| **Production Vite Build** | `npm --prefix frontend run build` | **PASS** | Generated optimized bundles in `frontend/dist/`. |
 
 ---
 
 ## 3. How to Run Test Suites
 
-### Run All Regression & Acceptance Tests
+### Run All Reusable Backend Suites
 ```bash
-# Execute the comprehensive Milestone 8 final acceptance suite
-node backend/test_milestone_8_acceptance.js
+# Run all regression, integration, security, and production suites
+npm --prefix backend test
 
-# Execute all regression suites sequentially
-node backend/test_milestone_3b.js
-node backend/test_milestone_3c.js
-node backend/test_milestone_3d.js
-node backend/test_milestone_3e.js
-node backend/test_milestone_3f.js
-node backend/test_milestone_4_frontend_integration.js
-node backend/test_milestone_5_admin.js
-node backend/test_milestone_6_security.js
-node backend/test_milestone_7_production.js
-node backend/test_milestone_8_acceptance.js
+# Or run by category
+npm --prefix backend run test:regression
+npm --prefix backend run test:integration
+npm --prefix backend run test:security
+npm --prefix backend run test:production
+npm --prefix backend run test:acceptance
 ```
 
 ### Run Frontend Lint & Build

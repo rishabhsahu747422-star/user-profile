@@ -1,12 +1,12 @@
 process.env.JWT_SECRET = process.env.JWT_SECRET || "milestone_3f_test_jwt_secret_secure_key_12345";
 
 import mongoose from "mongoose";
-import User from "./src/models/User.js";
-import { executeCredit } from "./src/services/wallet.service.js";
-import { awardXp } from "./src/services/progression.service.js";
-import { createWithdrawalRequest } from "./src/services/withdrawal.service.js";
-import { generateToken } from "./src/utils/jwt.js";
-import app from "./src/app.js";
+import User from "../../src/models/User.js";
+import { executeCredit } from "../../src/services/wallet.service.js";
+import { awardXp } from "../../src/services/progression.service.js";
+import { createWithdrawalRequest } from "../../src/services/withdrawal.service.js";
+import { generateToken } from "../../src/utils/jwt.js";
+import app from "../../src/app.js";
 
 const results = [];
 

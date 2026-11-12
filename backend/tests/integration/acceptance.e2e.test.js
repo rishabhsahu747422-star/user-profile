@@ -4,15 +4,15 @@ process.env.CLIENT_URL = "http://localhost:5173,https://veloop-rewards.example.c
 import http from "http";
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
-import User from "./src/models/User.js";
-import Wallet from "./src/models/Wallet.js";
-import WalletTransaction from "./src/models/WalletTransaction.js";
-import UserProgress from "./src/models/UserProgress.js";
-import Achievement from "./src/models/Achievement.js";
-import UserAchievement from "./src/models/UserAchievement.js";
-import Referral from "./src/models/Referral.js";
-import Withdrawal from "./src/models/Withdrawal.js";
-import AdminAuditLog from "./src/models/AdminAuditLog.js";
+import User from "../../src/models/User.js";
+import Wallet from "../../src/models/Wallet.js";
+import WalletTransaction from "../../src/models/WalletTransaction.js";
+import UserProgress from "../../src/models/UserProgress.js";
+import Achievement from "../../src/models/Achievement.js";
+import UserAchievement from "../../src/models/UserAchievement.js";
+import Referral from "../../src/models/Referral.js";
+import Withdrawal from "../../src/models/Withdrawal.js";
+import AdminAuditLog from "../../src/models/AdminAuditLog.js";
 import {
   executeCredit,
   executeDebit,
@@ -20,16 +20,16 @@ import {
   releaseHold,
   settleHold,
   reconcileWallet
-} from "./src/services/wallet.service.js";
+} from "../../src/services/wallet.service.js";
 import {
   awardXp,
   claimAchievementReward,
   seedDefaultProgressionConfigs
-} from "./src/services/progression.service.js";
-import { validateReferralCode } from "./src/services/referral.service.js";
-import { createWithdrawalRequest } from "./src/services/withdrawal.service.js";
-import { validateEnv } from "./src/config/env.js";
-import app from "./src/app.js";
+} from "../../src/services/progression.service.js";
+import { validateReferralCode } from "../../src/services/referral.service.js";
+import { createWithdrawalRequest } from "../../src/services/withdrawal.service.js";
+import { validateEnv } from "../../src/config/env.js";
+import app from "../../src/app.js";
 
 const MONGO_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/user-profile";
 

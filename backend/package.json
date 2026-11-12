@@ -5,7 +5,14 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js",
-    "seed": "node src/scripts/seed.js"
+    "seed": "node src/scripts/seed.js",
+    "test": "node tests/run-all.js all",
+    "test:regression": "node tests/run-all.js regression",
+    "test:integration": "node tests/run-all.js integration",
+    "test:security": "node tests/run-all.js security",
+    "test:production": "node tests/run-all.js production",
+    "test:acceptance": "node tests/integration/acceptance.e2e.test.js",
+    "test:replica-set": "node tests/utilities/replica-set-transactions.utility.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
