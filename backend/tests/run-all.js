@@ -4,6 +4,7 @@ import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const backendRoot = path.resolve(__dirname, "..");
+const repoRoot = path.resolve(backendRoot, "..");
 
 const SUITES = {
   regression: [
@@ -50,8 +51,8 @@ let hasFailure = false;
 
 for (const relativeFile of filesToRun) {
   console.log(`\n>>> Executing: ${relativeFile}`);
-  const result = spawnSync(process.execPath, [relativeFile], {
-    cwd: backendRoot,
+  const result = spawnSync(process.execPath, [path.join(backendRoot, relativeFile)], {
+    cwd: repoRoot,
     stdio: "inherit",
     env: process.env
   });
