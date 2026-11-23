@@ -1,7 +1,20 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { api } from '../../services/api'
 import { useAuth } from '../../hooks/useAuth'
+
+// Specialized Sub-Components
+import TopRewardCards from '../../components/rewards/TopRewardCards'
+import DailyBonusCard from '../../components/rewards/DailyBonusCard'
+import EarnCards from '../../components/rewards/EarnCards'
+import MiningBanner from '../../components/rewards/MiningBanner'
+import StakingCard from '../../components/rewards/StakingCard'
+import MegaRewardVault from '../../components/rewards/MegaRewardVault'
+import SpinWheelModal from '../../components/rewards/SpinWheelModal'
+import TapEarnModal from '../../components/rewards/TapEarnModal'
+import StakeModal from '../../components/rewards/StakeModal'
+import SwapModal from '../../components/rewards/SwapModal'
+
 import styles from './UserProfile.module.css'
 
 export function UserProfile() {
@@ -14,8 +27,14 @@ export function UserProfile() {
   const [copiedKey, setCopiedKey] = useState(null)
   const [activeTab, setActiveTab] = useState('all') // for activity filter
 
-  // Withdrawal Request Modal State
+  // Interactive Modal States
   const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false)
+  const [isSpinModalOpen, setIsSpinModalOpen] = useState(false)
+  const [isTapModalOpen, setIsTapModalOpen] = useState(false)
+  const [isStakeModalOpen, setIsStakeModalOpen] = useState(false)
+  const [isSwapModalOpen, setIsSwapModalOpen] = useState(false)
+
+  // Withdrawal Request Form State
   const [withdrawAmount, setWithdrawAmount] = useState('')
   const [withdrawDestination, setWithdrawDestination] = useState('')
   const [withdrawing, setWithdrawing] = useState(false)
@@ -24,6 +43,9 @@ export function UserProfile() {
 
   // Interactive Quick Actions feedback state
   const [actionFeedback, setActionFeedback] = useState(null)
+
+  // Ref to scroll to missions section
+  const missionsSectionRef = useRef(null)
 
   const { isAuthenticated, logout } = useAuth()
   const navigate = useNavigate()
@@ -46,7 +68,7 @@ export function UserProfile() {
       setOverview(data)
       setError(null)
       if (isRefresh) {
-        showToast('Dashboard refreshed with latest blockchain ledger data', 'success')
+        showToast('Dashboard synchronized with latest ledger state', 'success')
       }
     } catch (err) {
       if (err.status === 401 || err.status === 403) {
@@ -103,7 +125,7 @@ export function UserProfile() {
     navigate('/login')
   }
 
-  // Copy to clipboard helper with inline feedback and execCommand fallback
+  // Copy to clipboard helper
   const copyToClipboard = async (text, label, keyName = null) => {
     if (!text) return
     let copied = false
@@ -194,20 +216,45 @@ export function UserProfile() {
     if (actionKey === 'streak') {
       setActionFeedback({
         title: 'Daily Check-in Streak',
-        message: 'Day 4 Streak Active! Check in daily to maintain your multiplier and claim your 100 GEM milestone bonus.',
-        actionLabel: 'Claim Today’s Bonus'
+        message: 'Day 4 Streak Active! Check in daily to maintain your 1.5x multiplier and unlock your milestone gem bonus.',
+        actionLabel: 'Check-In Completed'
       })
       return
     }
 
     if (actionKey === 'exchange') {
-      setActionFeedback({
-        title: 'VE Exchange Center',
-        message: 'Swap GEMs or platform Tokens into VEs or stake for SVE yield. Direct 1:1 liquidity protocol.',
-        actionLabel: 'Open Exchange Portal'
-      })
+      setIsSwapModalOpen(true)
       return
     }
+  }
+
+  // Handle Daily Bonus Claim
+  const handleClaimDailyBonus = async () => {
+    showToast('Daily Bonus Claimed! +50 VE and +100 XP credited to your ledger.', 'success')
+    await loadOverview(false)
+  }
+
+  // Handle Lucky Spin Reward
+  const handleSpinRewardWon = (won) => {
+    showToast(`Lucky Spin Awarded: ${won.label}! Added to your profile.`, 'success')
+    loadOverview(false)
+  }
+
+  // Handle Tap & Earn session
+  const handleTapRewardEarned = (amount) => {
+    showToast(`+${amount} VE mined from engagement matrix!`, 'info')
+  }
+
+  // Handle Staking confirmation
+  const handleStakeSuccess = (amount) => {
+    showToast(`Staked ${amount} VE into SVE platform vault. Ledger updated.`, 'success')
+    loadOverview(false)
+  }
+
+  // Handle Swap confirmation
+  const handleSwapSuccess = (gemAmt, veAmt) => {
+    showToast(`Swapped ${gemAmt} GEM for ${veAmt} VE successfully!`, 'success')
+    loadOverview(false)
   }
 
   // Request withdrawal submit
@@ -256,6 +303,13 @@ export function UserProfile() {
       showToast(err.message || 'Failed to submit withdrawal request.', 'error')
     } finally {
       setWithdrawing(false)
+    }
+  }
+
+  // Scroll to Missions
+  const scrollToMissions = () => {
+    if (missionsSectionRef.current) {
+      missionsSectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
   }
 
@@ -397,6 +451,38 @@ export function UserProfile() {
         </div>
       )}
 
+      {/* Lucky Spin Wheel Modal */}
+      <SpinWheelModal
+        isOpen={isSpinModalOpen}
+        onClose={() => setIsSpinModalOpen(false)}
+        onRewardWon={handleSpinRewardWon}
+      />
+
+      {/* Tap & Earn Modal */}
+      <TapEarnModal
+        isOpen={isTapModalOpen}
+        onClose={() => setIsTapModalOpen(false)}
+        onRewardEarned={handleTapRewardEarned}
+      />
+
+      {/* Staking Modal */}
+      <StakeModal
+        isOpen={isStakeModalOpen}
+        onClose={() => setIsStakeModalOpen(false)}
+        availableVE={balances.VE.available}
+        currentSVE={balances.SVE.available}
+        onStakeSuccess={handleStakeSuccess}
+      />
+
+      {/* Swap Center Modal */}
+      <SwapModal
+        isOpen={isSwapModalOpen}
+        onClose={() => setIsSwapModalOpen(false)}
+        availableGems={balances.GEM.available}
+        availableVE={balances.VE.available}
+        onSwapSuccess={handleSwapSuccess}
+      />
+
       {/* Quick Action Modal Dialog */}
       {actionFeedback && (
         <div className={styles.modalOverlay} role="dialog" aria-modal="true">
@@ -413,7 +499,7 @@ export function UserProfile() {
               </button>
             </div>
             <div className={styles.modalBody}>
-              <p style={{ color: '#C8CFE0', fontSize: '0.92rem', lineHeight: '1.6', margin: 0 }}>
+              <p style={{ color: '#A5A5BC', fontSize: '0.92rem', lineHeight: '1.6', margin: 0 }}>
                 {actionFeedback.message}
               </p>
             </div>
@@ -584,7 +670,7 @@ export function UserProfile() {
       {/* Main Wrapper */}
       <div className={styles.dashboardWrapper}>
         {/* ======================================================== */}
-        {/* SECTION 1: PREMIUM PROFILE HERO                          */}
+        {/* SECTION 1: PROFILE HERO SHOWCASE                         */}
         {/* ======================================================== */}
         <section className={styles.profileHero} aria-labelledby="hero-username">
           <div className={styles.heroMain}>
@@ -694,12 +780,86 @@ export function UserProfile() {
         </section>
 
         {/* ======================================================== */}
-        {/* SECTION 2: FIVE VISUALLY DISTINCT WALLET / REWARD CARDS */}
+        {/* 4A: TOP REWARD CARDS (Streak, Spin Wheel, Complete Missions) */}
+        {/* ======================================================== */}
+        <TopRewardCards
+          onOpenStreak={() => handleQuickAction('streak')}
+          onOpenSpin={() => setIsSpinModalOpen(true)}
+          onOpenMissions={scrollToMissions}
+          streakDay={4}
+          streakMultiplier="1.5x"
+          unlockedMissionsCount={achievements.unlocked}
+          totalMissionsCount={achievements.total}
+        />
+
+        {/* ======================================================== */}
+        {/* 4B: DAILY BONUS (Full-Width Premium Section)            */}
+        {/* ======================================================== */}
+        <DailyBonusCard
+          claimedToday={false}
+          onClaim={handleClaimDailyBonus}
+          dailyAmount={50}
+          streakDays={4}
+          multiplier="1.5x"
+        />
+
+        {/* ======================================================== */}
+        {/* 4C: TAP & EARN + SWAP CENTER (Two-Card Layout)          */}
+        {/* ======================================================== */}
+        <EarnCards
+          onTapEarn={() => setIsTapModalOpen(true)}
+          onOpenSwap={() => setIsSwapModalOpen(true)}
+          availableGems={balances.GEM.available}
+          availableVE={balances.VE.available}
+        />
+
+        {/* ======================================================== */}
+        {/* 4D: MINE & EARN (Large Premium Feature Banner)          */}
+        {/* ======================================================== */}
+        <MiningBanner
+          userTier={levelProgress.currentLevelName || 'Bronze Explorer'}
+          onAction={() => {
+            setActionFeedback({
+              title: 'Mining Node Active',
+              message: 'Background compute node synchronized with proof-of-engagement matrix. Generating 12.4 MH/s loyalty shares.',
+              actionLabel: 'Keep Mining'
+            })
+          }}
+        />
+
+        {/* ======================================================== */}
+        {/* 4E: STAKE & EARN (Large Premium Staking Feature Card)    */}
+        {/* ======================================================== */}
+        <StakingCard
+          sveAvailable={balances.SVE.available}
+          sveTotalEarned={balances.SVE.totalEarned}
+          veAvailable={balances.VE.available}
+          onOpenStake={() => setIsStakeModalOpen(true)}
+        />
+
+        {/* ======================================================== */}
+        {/* 4F: CONTRIBUTION / MEGA REWARD VAULT                     */}
+        {/* ======================================================== */}
+        <MegaRewardVault
+          userContributionVE={balances.VE.available}
+          referralCode={referrals.referralCode || profile.referralCode || 'DEMO2026'}
+          referralCount={referrals.totalReferrals || 1}
+          onOpenVault={() => {
+            setActionFeedback({
+              title: 'Seasonal Mega Reward Vault',
+              message: `Your eligible weight (${balances.VE.available.toLocaleString()} VE) is actively registered for the 500,000 VE seasonal jackpot drawing. Commission tier active.`,
+              actionLabel: 'Got It'
+            })
+          }}
+        />
+
+        {/* ======================================================== */}
+        {/* 4G: FIVE WALLET & ASSET BALANCES CARDS                   */}
         {/* ======================================================== */}
         <section className={styles.walletSection} aria-labelledby="wallets-heading">
           <div className={styles.sectionHeader}>
             <div>
-              <span className={styles.sectionEyebrow}>Ecosystem Assets</span>
+              <span className={styles.sectionEyebrow}>Ecosystem Balances</span>
               <h2 id="wallets-heading" className={styles.sectionTitle}>
                 Reward Balances &amp; Wallets
               </h2>
@@ -866,104 +1026,7 @@ export function UserProfile() {
         </section>
 
         {/* ======================================================== */}
-        {/* SECTION 3: ATTRACTIVE QUICK ACTIONS                      */}
-        {/* ======================================================== */}
-        <section className={styles.quickActionsSection} aria-labelledby="quick-actions-heading">
-          <div className={styles.sectionHeader}>
-            <div>
-              <span className={styles.sectionEyebrow}>Earning &amp; Transfers</span>
-              <h2 id="quick-actions-heading" className={styles.sectionTitle}>
-                Quick Actions
-              </h2>
-            </div>
-          </div>
-
-          <div className={styles.quickActionsGrid}>
-            {/* Action 1: Watch Ads & Earn */}
-            <button
-              type="button"
-              className={`${styles.actionTile} ${styles.actionTileAds}`}
-              onClick={() => handleQuickAction('ads')}
-            >
-              <div className={styles.actionIconBubble}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round">
-                  <polygon points="5 3 19 12 5 21 5 3" />
-                </svg>
-              </div>
-              <div className={styles.actionContent}>
-                <div className={styles.actionTitleRow}>
-                  <span className={styles.actionTitle}>Watch Ads &amp; Earn</span>
-                  <span className={styles.actionTagGreen}>+25 VE</span>
-                </div>
-                <p className={styles.actionSubtitle}>Complete sponsored video streams to claim instantaneous VE and XP rewards.</p>
-              </div>
-            </button>
-
-            {/* Action 2: Daily Streak */}
-            <button
-              type="button"
-              className={`${styles.actionTile} ${styles.actionTileStreak}`}
-              onClick={() => handleQuickAction('streak')}
-            >
-              <div className={styles.actionIconBubble}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 2c0 4.5-4 6.5-4 10a6 6 0 0 0 12 0c0-3.5-4-5.5-4-10z" />
-                </svg>
-              </div>
-              <div className={styles.actionContent}>
-                <div className={styles.actionTitleRow}>
-                  <span className={styles.actionTitle}>Daily Streak</span>
-                  <span className={styles.actionTagYellow}>Day 4 • 1.5x</span>
-                </div>
-                <p className={styles.actionSubtitle}>Check in daily without breaks to preserve bonus multipliers and unlock mystery gems.</p>
-              </div>
-            </button>
-
-            {/* Action 3: Exchange Center */}
-            <button
-              type="button"
-              className={`${styles.actionTile} ${styles.actionTileExchange}`}
-              onClick={() => handleQuickAction('exchange')}
-            >
-              <div className={styles.actionIconBubble}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M7 16V4M7 4L3 8M7 4L11 8M17 8V20M17 20L21 16M17 20L13 16" />
-                </svg>
-              </div>
-              <div className={styles.actionContent}>
-                <div className={styles.actionTitleRow}>
-                  <span className={styles.actionTitle}>Exchange Center</span>
-                  <span className={styles.actionTagCyan}>Swap 1:1</span>
-                </div>
-                <p className={styles.actionSubtitle}>Instantly convert quest Gems to VEs or stake for ongoing SVE platform yield.</p>
-              </div>
-            </button>
-
-            {/* Action 4: Payout & Withdraw */}
-            <button
-              type="button"
-              className={`${styles.actionTile} ${styles.actionTilePayout}`}
-              onClick={() => handleQuickAction('payout')}
-            >
-              <div className={styles.actionIconBubble}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="2" y="4" width="20" height="16" rx="2" />
-                  <line x1="2" y1="10" x2="22" y2="10" />
-                </svg>
-              </div>
-              <div className={styles.actionContent}>
-                <div className={styles.actionTitleRow}>
-                  <span className={styles.actionTitle}>Payout / Redeem</span>
-                  <span className={styles.actionTagPurple}>Instant UPI</span>
-                </div>
-                <p className={styles.actionSubtitle}>Redeem your available VE rewards to UPI, Amazon Gift Cards, or bank transfer.</p>
-              </div>
-            </button>
-          </div>
-        </section>
-
-        {/* ======================================================== */}
-        {/* SECTION 4: LEVEL PROGRESSION & NEXT-LEVEL REWARD         */}
+        {/* 4G: LEVEL PROGRESSION & NEXT-LEVEL REWARD                */}
         {/* ======================================================== */}
         <section className={styles.progressionCard} aria-labelledby="progression-heading">
           <div className={styles.progressionTopRow}>
@@ -1065,14 +1128,18 @@ export function UserProfile() {
         </section>
 
         {/* ======================================================== */}
-        {/* SECTION 5: ACHIEVEMENT & BADGE GALLERY                   */}
+        {/* 4G: ACHIEVEMENT & BADGE GALLERY                          */}
         {/* ======================================================== */}
-        <section className={styles.achievementsSection} aria-labelledby="achievements-heading">
+        <section
+          ref={missionsSectionRef}
+          className={styles.achievementsSection}
+          aria-labelledby="achievements-heading"
+        >
           <div className={styles.sectionHeader}>
             <div>
               <span className={styles.sectionEyebrow}>Badge Gallery</span>
               <h2 id="achievements-heading" className={styles.sectionTitle}>
-                Achievements ({achievements.unlocked} of {achievements.total} Unlocked)
+                Achievements &amp; Missions ({achievements.unlocked} of {achievements.total} Unlocked)
               </h2>
             </div>
             <div className={styles.achievedSummaryPill}>
@@ -1187,7 +1254,7 @@ export function UserProfile() {
         </section>
 
         {/* ======================================================== */}
-        {/* SECTION 6: ACTIVITY, REDEMPTIONS & REFERRALS HUB         */}
+        {/* 4G: ACTIVITY LEDGER, WITHDRAWAL ENGINE & REFERRALS HUB    */}
         {/* ======================================================== */}
         <div className={styles.hubColumnsGrid}>
           {/* Left Column: Recent Activity Ledger */}

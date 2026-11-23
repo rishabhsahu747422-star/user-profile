@@ -1,0 +1,182 @@
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(16, 16, 28, 0.85);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 1rem;
+}
+
+.modalDialog {
+  background: linear-gradient(180deg, #1D1D32 0%, #151526 100%);
+  border: 1px solid rgba(52, 124, 245, 0.3);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+  border-radius: var(--radius-xl, 24px);
+  width: 100%;
+  max-width: 440px;
+  overflow: hidden;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 1.4rem 1.75rem 1rem;
+  border-bottom: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.08));
+}
+
+.badgeBlue {
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--accent-blue, #347CF5);
+}
+
+.modalTitle {
+  font-family: var(--font-heading, 'Outfit', sans-serif);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  margin: 0.25rem 0 0 0;
+}
+
+.closeBtn {
+  background: var(--surface-elevated, #25253D);
+  border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.1));
+  color: var(--text-secondary, #A5A5BC);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.closeBtn:hover {
+  background: rgba(239, 68, 68, 0.2);
+  color: #EF4444;
+}
+
+.modalBody {
+  padding: 1.5rem 1.75rem;
+  text-align: center;
+}
+
+.statsRow {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.statBox {
+  flex: 1;
+  background: rgba(29, 29, 50, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md, 12px);
+  padding: 0.75rem;
+}
+
+.statLabel {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-muted, #77778F);
+  text-transform: uppercase;
+}
+
+.statValue {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #FFFFFF;
+}
+
+.statValueYellow {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--accent-yellow, #FFC928);
+}
+
+.tapArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1rem 0;
+}
+
+.tapCoinBtn {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #347CF5 0%, #1D58D8 100%);
+  border: 6px solid #25253D;
+  box-shadow: 0 0 30px rgba(52, 124, 245, 0.4);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.tapCoinBtn:hover:not(:disabled) {
+  transform: scale(1.05);
+  box-shadow: 0 0 40px rgba(52, 124, 245, 0.6);
+}
+
+.coinActive {
+  transform: scale(0.92) !important;
+  box-shadow: 0 0 20px rgba(255, 201, 40, 0.8) !important;
+}
+
+.coinInner {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  border: 2px dashed rgba(255, 255, 255, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.coinSymbol {
+  font-family: var(--font-heading, 'Outfit', sans-serif);
+  font-weight: 900;
+  font-size: 2.2rem;
+  color: #FFFFFF;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.tapPrompt {
+  font-size: 0.82rem;
+  color: var(--text-secondary, #A5A5BC);
+  margin-top: 1rem;
+}
+
+.modalFooter {
+  padding: 1.25rem 1.75rem;
+  border-top: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.08));
+}
+
+.btnDone {
+  width: 100%;
+  height: 44px;
+  border-radius: var(--radius-full, 9999px);
+  background: var(--gradient-blue, linear-gradient(135deg, #347CF5 0%, #1D58D8 100%));
+  border: none;
+  color: #FFFFFF;
+  font-size: 0.9rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(52, 124, 245, 0.35);
+  transition: all 0.2s ease;
+}
+
+.btnDone:hover {
+  background: linear-gradient(135deg, #5392F8 0%, #347CF5 100%);
+}

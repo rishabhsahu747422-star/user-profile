@@ -1,9 +1,9 @@
-/* Modern Fintech Application Shell */
+/* Modern Fintech Application Shell — VE Loop Rewards */
 
 .landing-page-root {
   min-height: 100vh;
   width: 100%;
-  background-color: #07090E;
+  background-color: var(--bg-primary, #10101C);
   margin: 0;
   padding: 0;
 }
@@ -11,7 +11,7 @@
 .auth-page-root {
   min-height: 100vh;
   width: 100%;
-  background-color: #07090E;
+  background-color: var(--bg-primary, #10101C);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -23,7 +23,7 @@
 .app-shell {
   min-height: 100vh;
   display: flex;
-  background-color: var(--canvas-bg, #E9EAEE);
+  background-color: var(--bg-primary, #10101C);
   width: 100%;
 }
 
@@ -32,17 +32,17 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
-  padding: 1.25rem 1.5rem 1.5rem 1rem;
+  padding: 1rem 1.25rem 1.5rem 0.75rem;
 }
 
 .app-surface-frame {
   flex: 1 0 auto;
   display: flex;
   flex-direction: column;
-  background-color: var(--surface-main, #FFFFFF);
-  border: 1px solid var(--border-light, #E2E8F0);
-  border-radius: var(--radius-xl, 20px);
-  box-shadow: var(--shadow-app);
+  background-color: var(--bg-secondary, #151526);
+  border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.08));
+  border-radius: var(--radius-xl, 24px);
+  box-shadow: var(--shadow-app, 0 24px 64px rgba(0, 0, 0, 0.65));
   overflow: hidden;
   width: 100%;
 }
@@ -52,13 +52,14 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  background-color: var(--bg-primary, #10101C);
 }
 
 .app-footer {
   flex-shrink: 0;
   margin-top: auto;
-  border-top: 1px solid var(--border-light, #E2E8F0);
-  background-color: var(--surface-main, #FFFFFF);
+  border-top: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.08));
+  background-color: var(--bg-secondary, #151526);
   padding: 1.25rem 2rem;
   display: flex;
   align-items: center;
@@ -66,7 +67,7 @@
 }
 
 .footer-text {
-  color: var(--text-muted, #64748B);
+  color: var(--text-muted, #77778F);
   font-size: 0.85rem;
   font-weight: 500;
 }
@@ -75,17 +76,18 @@
   display: flex;
   gap: 1.25rem;
   font-size: 0.85rem;
-  color: var(--text-muted, #64748B);
+  color: var(--text-muted, #77778F);
 }
 
 .footer-link {
-  color: var(--text-muted, #64748B);
+  color: var(--text-muted, #77778F);
   text-decoration: none;
-  transition: color 0.15s ease;
+  transition: color 0.2s ease;
+  cursor: pointer;
 }
 
 .footer-link:hover {
-  color: var(--primary-600, #4F46E5);
+  color: var(--accent-yellow, #FFC928);
 }
 
 @media (max-width: 991px) {
@@ -96,7 +98,7 @@
 
   .app-main-surface {
     padding: 0;
-    padding-bottom: 70px; /* Space for mobile bottom bar */
+    padding-bottom: 74px; /* Space for mobile bottom bar */
     width: 100%;
     max-width: 100vw;
     overflow-x: hidden;
@@ -117,139 +119,134 @@
   }
 }
 
-/* ======================================================== */
-/* THEME: Official VE Loop Rewards (velooprewards.in)       */
-/* ======================================================== */
+/* Unified Theme: Official VE Loop Rewards (velooprewards.in) */
 .app-shell.theme-dark-gaming,
 .app-shell[data-theme="dark-gaming"],
 .app-shell:has([data-theme="dark-gaming"]) {
-  background-color: #11121f !important;
-  --canvas-bg: #11121f;
-  --surface-main: #151628;
-  --surface-alt: #20213f;
-  --surface-muted: #252747;
-  --surface-card: #20213f;
+  background-color: #10101C !important;
+  --canvas-bg: #10101C;
+  --surface-main: #1D1D32;
+  --surface-alt: #25253D;
+  --surface-muted: #151526;
+  --surface-card: #1D1D32;
   --border-light: rgba(255, 255, 255, 0.08);
-  --border-subtle: rgba(168, 171, 197, 0.14);
+  --border-subtle: rgba(255, 255, 255, 0.08);
   --border-strong: rgba(255, 255, 255, 0.16);
-  --text-main: #ffffff;
-  --text-secondary: #a8abc5;
-  --text-muted: #7f83a3;
-  --primary-soft: rgba(67, 142, 255, 0.15);
-  --primary-border: rgba(67, 142, 255, 0.35);
-  --primary-text: #a5b4fc;
+  --text-main: #F5F5FA;
+  --text-secondary: #A5A5BC;
+  --text-muted: #77778F;
 }
 
 .app-shell.theme-dark-gaming .app-surface-frame,
 .app-shell[data-theme="dark-gaming"] .app-surface-frame,
 .app-shell:has([data-theme="dark-gaming"]) .app-surface-frame {
-  background-color: #151628 !important;
+  background-color: #151526 !important;
   border-color: rgba(255, 255, 255, 0.08) !important;
-  box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.78) !important;
+  box-shadow: 0 24px 64px -12px rgba(0, 0, 0, 0.78) !important;
 }
 
 .app-shell.theme-dark-gaming header,
 .app-shell[data-theme="dark-gaming"] header,
 .app-shell:has([data-theme="dark-gaming"]) header {
-  background-color: #151628 !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07) !important;
+  background-color: #151526 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
 
 .app-shell.theme-dark-gaming header input,
 .app-shell[data-theme="dark-gaming"] header input,
 .app-shell:has([data-theme="dark-gaming"]) header input {
-  background-color: #1f2438 !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
-  color: #ffffff !important;
+  background-color: #1D1D32 !important;
+  border: 1px solid rgba(255, 255, 255, 0.09) !important;
+  color: #F5F5FA !important;
 }
 
 .app-shell.theme-dark-gaming header input::placeholder,
 .app-shell[data-theme="dark-gaming"] header input::placeholder,
 .app-shell:has([data-theme="dark-gaming"]) header input::placeholder {
-  color: #7f879d !important;
+  color: #77778F !important;
 }
 
 .app-shell.theme-dark-gaming header input:focus,
 .app-shell[data-theme="dark-gaming"] header input:focus,
 .app-shell:has([data-theme="dark-gaming"]) header input:focus {
-  background-color: #252b42 !important;
-  border-color: #6366f1 !important;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25) !important;
+  background-color: #25253D !important;
+  border-color: #8652F5 !important;
+  box-shadow: 0 0 0 3px rgba(134, 82, 245, 0.25) !important;
 }
 
 .app-shell.theme-dark-gaming header button[class*="iconBtn"],
 .app-shell[data-theme="dark-gaming"] header button[class*="iconBtn"],
 .app-shell:has([data-theme="dark-gaming"]) header button[class*="iconBtn"] {
-  background: rgba(255, 255, 255, 0.05) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
-  color: #a7afc7 !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.09) !important;
+  color: #A5A5BC !important;
 }
 
 .app-shell.theme-dark-gaming header button[class*="iconBtn"]:hover,
 .app-shell[data-theme="dark-gaming"] header button[class*="iconBtn"]:hover,
 .app-shell:has([data-theme="dark-gaming"]) header button[class*="iconBtn"]:hover {
-  background: rgba(255, 255, 255, 0.1) !important;
-  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+  color: #FFFFFF !important;
 }
 
 .app-shell.theme-dark-gaming header a[class*="userPill"],
 .app-shell[data-theme="dark-gaming"] header a[class*="userPill"],
 .app-shell:has([data-theme="dark-gaming"]) header a[class*="userPill"] {
-  background: #1f2438 !important;
-  border: 1px solid #2a2d45 !important;
+  background: #1D1D32 !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
 .app-shell.theme-dark-gaming header a[class*="userPill"]:hover,
 .app-shell[data-theme="dark-gaming"] header a[class*="userPill"]:hover,
 .app-shell:has([data-theme="dark-gaming"]) header a[class*="userPill"]:hover {
-  background: #252b42 !important;
-  border-color: rgba(99, 102, 241, 0.4) !important;
+  background: #25253D !important;
+  border-color: rgba(255, 201, 40, 0.4) !important;
 }
 
 .app-shell.theme-dark-gaming header span[class*="userName"],
 .app-shell[data-theme="dark-gaming"] header span[class*="userName"],
 .app-shell:has([data-theme="dark-gaming"]) header span[class*="userName"] {
-  color: #ffffff !important;
+  color: #FFFFFF !important;
 }
 
 .app-shell.theme-dark-gaming header span[class*="userRole"],
 .app-shell[data-theme="dark-gaming"] header span[class*="userRole"],
 .app-shell:has([data-theme="dark-gaming"]) header span[class*="userRole"] {
-  color: #818cf8 !important;
+  color: #FFC928 !important;
 }
 
 .app-shell.theme-dark-gaming aside,
 .app-shell[data-theme="dark-gaming"] aside,
 .app-shell:has([data-theme="dark-gaming"]) aside {
-  background-color: #11121f !important;
-  border-right: 1px solid rgba(255, 255, 255, 0.07) !important;
+  background-color: #10101C !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
 
 .app-shell.theme-dark-gaming aside a:not([class*="brandLink"]),
 .app-shell[data-theme="dark-gaming"] aside a:not([class*="brandLink"]),
 .app-shell:has([data-theme="dark-gaming"]) aside a:not([class*="brandLink"]) {
-  color: #a8abc5 !important;
+  color: #A5A5BC !important;
 }
 
 .app-shell.theme-dark-gaming aside a:not([class*="brandLink"]):hover,
 .app-shell[data-theme="dark-gaming"] aside a:not([class*="brandLink"]):hover,
 .app-shell:has([data-theme="dark-gaming"]) aside a:not([class*="brandLink"]):hover {
-  background-color: #20213f !important;
-  color: #ffd500 !important;
+  background-color: #1D1D32 !important;
+  color: #FFC928 !important;
 }
 
 .app-shell.theme-dark-gaming aside a[class*="navItemActive"],
 .app-shell[data-theme="dark-gaming"] aside a[class*="navItemActive"],
 .app-shell:has([data-theme="dark-gaming"]) aside a[class*="navItemActive"] {
-  background-color: rgba(67, 142, 255, 0.18) !important;
-  color: #16dceb !important;
+  background-color: rgba(255, 201, 40, 0.15) !important;
+  color: #FFC928 !important;
 }
 
 .app-shell.theme-dark-gaming .app-footer,
 .app-shell[data-theme="dark-gaming"] .app-footer,
 .app-shell:has([data-theme="dark-gaming"]) .app-footer {
-  background-color: #151628 !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.07) !important;
+  background-color: #151526 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
 
 .app-shell.theme-dark-gaming .footer-text,
@@ -258,13 +255,13 @@
 .app-shell[data-theme="dark-gaming"] .footer-link,
 .app-shell:has([data-theme="dark-gaming"]) .footer-text,
 .app-shell:has([data-theme="dark-gaming"]) .footer-link {
-  color: #7f879d !important;
+  color: #77778F !important;
 }
 
 .app-shell.theme-dark-gaming .footer-link:hover,
 .app-shell[data-theme="dark-gaming"] .footer-link:hover,
 .app-shell:has([data-theme="dark-gaming"]) .footer-link:hover {
-  color: #818cf8 !important;
+  color: #FFC928 !important;
 }
 
 @media (max-width: 991px) {
@@ -272,7 +269,7 @@
   .app-shell[data-theme="dark-gaming"] aside,
   .app-shell:has([data-theme="dark-gaming"]) aside {
     border-right: none !important;
-    border-top: 1px solid #2a2d45 !important;
-    background-color: rgba(19, 22, 39, 0.98) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+    background-color: rgba(16, 16, 28, 0.98) !important;
   }
 }

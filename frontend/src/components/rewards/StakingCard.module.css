@@ -1,0 +1,264 @@
+.stakingSection {
+  background: linear-gradient(135deg, #121528 0%, #171B36 50%, #0F1222 100%);
+  border: 1px solid rgba(24, 199, 138, 0.28);
+  border-radius: var(--radius-xl, 24px);
+  padding: 2.25rem 2.5rem;
+  margin-bottom: 2.25rem;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+  position: relative;
+  overflow: hidden;
+}
+
+.innerContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2.25rem;
+}
+
+/* Left Visual Column */
+.vaultVisualCol {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+  width: 160px;
+}
+
+.vaultIllustrationBox {
+  width: 100px;
+  height: 100px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vaultShieldRing {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(24, 199, 138, 0.15) 0%, rgba(18, 199, 138, 0.05) 70%, transparent 100%);
+  border: 2px solid rgba(24, 199, 138, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 25px rgba(24, 199, 138, 0.2);
+}
+
+.vaultInnerCore {
+  width: 60px;
+  height: 60px;
+  border-radius: var(--radius-md, 14px);
+  background: #182330;
+  border: 1px solid rgba(24, 199, 138, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lockIcon {
+  color: var(--accent-green, #18C78A);
+}
+
+.securityAuditBadge {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #A5A5BC;
+  background: rgba(24, 199, 138, 0.1);
+  border: 1px solid rgba(24, 199, 138, 0.2);
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-full, 9999px);
+  white-space: nowrap;
+}
+
+.securityDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--accent-green, #18C78A);
+  box-shadow: 0 0 8px rgba(24, 199, 138, 0.8);
+}
+
+/* Center Details Column */
+.detailsCol {
+  flex: 1;
+}
+
+.badgeRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.greenSecurityBadge {
+  font-size: 0.74rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--accent-green, #18C78A);
+  background: rgba(24, 199, 138, 0.14);
+  border: 1px solid rgba(24, 199, 138, 0.3);
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-full, 9999px);
+}
+
+.yieldTypeBadge {
+  font-size: 0.74rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #60A5FA;
+  background: rgba(52, 124, 245, 0.14);
+  border: 1px solid rgba(52, 124, 245, 0.3);
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-full, 9999px);
+}
+
+.stakingTitle {
+  font-family: var(--font-heading, 'Outfit', sans-serif);
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  margin: 0 0 0.75rem 0;
+  letter-spacing: -0.4px;
+}
+
+.greenHighlight {
+  color: var(--accent-green, #18C78A);
+}
+
+.stakingDesc {
+  font-size: 0.92rem;
+  color: var(--text-secondary, #A5A5BC);
+  line-height: 1.6;
+  margin: 0 0 1.5rem 0;
+}
+
+.balanceReadoutsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.readoutCard {
+  background: rgba(29, 29, 50, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md, 12px);
+  padding: 0.85rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.readoutLabel {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-muted, #77778F);
+  letter-spacing: 0.4px;
+}
+
+.readoutValue {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #FFFFFF;
+}
+
+.tickerGreen {
+  font-size: 0.85rem;
+  color: var(--accent-green, #18C78A);
+}
+
+.tickerYellow {
+  font-size: 0.85rem;
+  color: var(--accent-yellow, #FFC928);
+}
+
+/* Right CTA Column */
+.ctaCol {
+  flex-shrink: 0;
+  width: 250px;
+}
+
+.actionCard {
+  background: rgba(29, 29, 50, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg, 18px);
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.actionTitle {
+  display: block;
+  font-family: var(--font-heading, 'Outfit', sans-serif);
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  margin-bottom: 0.35rem;
+}
+
+.actionSub {
+  font-size: 0.78rem;
+  color: var(--text-secondary, #A5A5BC);
+  line-height: 1.45;
+  margin: 0 0 1.25rem 0;
+}
+
+.prominentBlueBtn {
+  width: 100%;
+  height: 46px;
+  border-radius: var(--radius-full, 9999px);
+  background: var(--gradient-blue, linear-gradient(135deg, #347CF5 0%, #1D58D8 100%));
+  border: none;
+  color: #FFFFFF;
+  font-family: var(--font-heading, 'Outfit', sans-serif);
+  font-size: 0.92rem;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(52, 124, 245, 0.38);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.prominentBlueBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(52, 124, 245, 0.55);
+  background: linear-gradient(135deg, #5392F8 0%, #347CF5 100%);
+}
+
+@media (max-width: 991px) {
+  .stakingSection {
+    padding: 1.75rem 1.5rem;
+  }
+
+  .innerContainer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.75rem;
+  }
+
+  .vaultVisualCol {
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+
+  .balanceReadoutsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .ctaCol {
+    width: 100%;
+  }
+}

@@ -1,51 +1,68 @@
-/* Official VE Loop Rewards Design Tokens */
+/* Official VE Loop Rewards — Premium Dark Fintech Design System Tokens */
 :root {
-  /* Official Surfaces & Canvas */
-  --canvas-bg: #0d0f1d;
-  --surface-main: #181a2a;
-  --surface-alt: #1f2438;
-  --surface-primary: #1f2438;
-  --surface-secondary: #252b42;
-  --surface-hover: #2d3552;
-  --surface-card: linear-gradient(135deg, #1f2438 0%, #171b2d 100%);
-  --surface-header: #181a2a;
+  /* Core Backgrounds */
+  --bg-primary: #10101C;
+  --bg-secondary: #151526;
+  --surface-main: #1D1D32;
+  --surface-elevated: #25253D;
+  --canvas-bg: #10101C;
+  --surface-card: linear-gradient(180deg, #1D1D32 0%, #151526 100%);
+  --surface-card-elevated: linear-gradient(180deg, #25253D 0%, #1D1D32 100%);
+  --surface-header: #151526;
 
-  /* Official Borders & Dividers */
-  --border-primary: rgba(255, 255, 255, 0.06);
-  --border-secondary: #2a2d45;
-  --border-active: rgba(99, 102, 241, 0.35);
-  --border-highlight: rgba(120, 160, 255, 0.18);
-  --border-light: rgba(255, 255, 255, 0.08);
-  --border-subtle: rgba(255, 255, 255, 0.05);
-  --border-strong: rgba(255, 255, 255, 0.15);
+  /* Accent Colors */
+  --accent-yellow: #FFC928;
+  --accent-purple: #8652F5;
+  --accent-blue: #347CF5;
+  --accent-pink: #E84DA8;
+  --accent-green: #18C78A;
 
-  /* Official Text Palette */
-  --text-primary: #ffffff;
-  --text-secondary: #a7afc7;
-  --text-muted: #7f879d;
-  --text-dim: #5a627a;
-  --text-main: #ffffff;
+  /* Typography Colors */
+  --text-white: #FFFFFF;
+  --text-primary: #F5F5FA;
+  --text-secondary: #A5A5BC;
+  --text-muted: #77778F;
+  --text-main: #F5F5FA;
 
-  /* Official Brand & Accents */
-  --primary: #6366f1;
-  --primary-600: #4f46e5;
-  --primary-700: #4338ca;
-  --primary-500: #6366f1;
-  --primary-soft: rgba(99, 102, 241, 0.15);
-  --primary-border: rgba(99, 102, 241, 0.35);
-  --primary-text: #a5b4fc;
-  --primary-gradient: linear-gradient(145deg, #3d5afe, #5c7cff);
-  --primary-gradient-hover: linear-gradient(145deg, #6980ff, #5c7cff);
-  --avatar-gradient: linear-gradient(135deg, #4e73ff, #6a5af9);
-  --badge-gradient: linear-gradient(135deg, #7c5cff, #5f8bff);
+  /* Subtle Borders */
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-primary: rgba(255, 255, 255, 0.08);
+  --border-light: rgba(255, 255, 255, 0.06);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --border-purple: rgba(134, 82, 245, 0.22);
+  --border-purple-glow: rgba(134, 82, 245, 0.45);
+  --border-blue: rgba(52, 124, 245, 0.25);
+  --border-yellow: rgba(255, 201, 40, 0.3);
+  --border-green: rgba(24, 199, 138, 0.25);
+  --border-pink: rgba(232, 77, 168, 0.25);
 
-  /* Semantic Status Colors */
-  --success: #22c55e;
-  --warning: #f59e0b;
-  --gold: #ffd54a;
-  --gold-warm: #e6b84a;
-  --danger: #ef4444;
-  --info: #38bdf8;
+  /* Gradients */
+  --gradient-yellow: linear-gradient(135deg, #FFC928 0%, #E0A812 100%);
+  --gradient-yellow-hover: linear-gradient(135deg, #FFD554 0%, #FFC928 100%);
+  --gradient-purple: linear-gradient(135deg, #8652F5 0%, #6366F1 100%);
+  --gradient-purple-hover: linear-gradient(135deg, #996BF8 0%, #7579F5 100%);
+  --gradient-blue: linear-gradient(135deg, #347CF5 0%, #1D58D8 100%);
+  --gradient-blue-hover: linear-gradient(135deg, #5392F8 0%, #347CF5 100%);
+  --gradient-pink: linear-gradient(135deg, #E84DA8 0%, #BA2483 100%);
+  --gradient-pink-hover: linear-gradient(135deg, #F06EB8 0%, #E84DA8 100%);
+  --gradient-green: linear-gradient(135deg, #18C78A 0%, #0E9B68 100%);
+  --gradient-dark-purple: linear-gradient(135deg, #1D1D35 0%, #161628 100%);
+  --gradient-banner-mining: linear-gradient(135deg, #17182E 0%, #1D1E3A 50%, #15162B 100%);
+  --gradient-banner-staking: linear-gradient(135deg, #14172C 0%, #191E3B 50%, #121424 100%);
+  --gradient-banner-vault: linear-gradient(135deg, #241D17 0%, #1E1D30 60%, #151526 100%);
+
+  /* Semantic Aliases for Compatibility */
+  --primary: #347CF5;
+  --primary-600: #2563EB;
+  --primary-700: #1D4ED8;
+  --primary-soft: rgba(52, 124, 245, 0.15);
+  --primary-border: rgba(52, 124, 245, 0.35);
+  --primary-text: #93B4FC;
+  --success: #18C78A;
+  --warning: #FFC928;
+  --gold: #FFC928;
+  --danger: #EF4444;
+  --info: #347CF5;
 
   /* Typography */
   --font-family: 'Outfit', 'Poppins', 'Nunito', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -55,15 +72,22 @@
   /* Radii */
   --radius-sm: 8px;
   --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 22px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
   --radius-full: 9999px;
 
-  /* Official Shadows */
-  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.25);
-  --shadow-md: 0 10px 25px rgba(0, 0, 0, 0.35);
-  --shadow-lg: 0 15px 35px rgba(0, 0, 0, 0.45);
-  --shadow-app: 0 25px 60px rgba(0, 0, 0, 0.6);
+  /* Ambient Shadows & Glows */
+  --shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.5);
+  --shadow-app: 0 24px 64px rgba(0, 0, 0, 0.65);
+  --shadow-yellow: 0 8px 25px rgba(255, 201, 40, 0.28);
+  --shadow-purple: 0 8px 25px rgba(134, 82, 245, 0.28);
+  --shadow-blue: 0 8px 25px rgba(52, 124, 245, 0.28);
+  --glow-yellow: 0 0 20px rgba(255, 201, 40, 0.2);
+  --glow-purple: 0 0 20px rgba(134, 82, 245, 0.2);
+  --glow-blue: 0 0 20px rgba(52, 124, 245, 0.2);
+  --glow-green: 0 0 20px rgba(24, 199, 138, 0.2);
 }
 
 *,
@@ -76,7 +100,7 @@ html, body {
   min-height: 100%;
   margin: 0;
   padding: 0;
-  background-color: var(--canvas-bg);
+  background-color: var(--bg-primary);
   color: var(--text-primary);
   font-family: var(--font-family);
   -webkit-font-smoothing: antialiased;
@@ -87,4 +111,24 @@ html, body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background-color: var(--bg-primary);
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--surface-elevated);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(134, 82, 245, 0.4);
 }

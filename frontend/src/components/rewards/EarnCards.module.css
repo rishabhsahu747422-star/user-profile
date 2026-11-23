@@ -1,0 +1,196 @@
+.sectionRoot {
+  margin-bottom: 2.25rem;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.sectionEyebrow {
+  display: block;
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--accent-blue, #347CF5);
+  margin-bottom: 0.25rem;
+}
+
+.sectionTitle {
+  font-family: var(--font-heading, 'Outfit', sans-serif);
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: var(--text-white, #FFFFFF);
+  margin: 0;
+  letter-spacing: -0.3px;
+}
+
+.categoryBadge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #60A5FA;
+  background: rgba(52, 124, 245, 0.12);
+  border: 1px solid rgba(52, 124, 245, 0.25);
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-full, 9999px);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.twoCardGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+}
+
+.earnCard {
+  background: linear-gradient(180deg, #1D1D32 0%, #151526 100%);
+  border: 1px solid rgba(52, 124, 245, 0.22);
+  border-radius: var(--radius-xl, 22px);
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.earnCard:hover {
+  transform: translateY(-4px);
+  border-color: rgba(52, 124, 245, 0.45);
+  box-shadow: 0 14px 34px rgba(52, 124, 245, 0.22);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.iconContainer {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-lg, 16px);
+  background: rgba(52, 124, 245, 0.15);
+  border: 1px solid rgba(52, 124, 245, 0.3);
+  color: #60A5FA;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(52, 124, 245, 0.25);
+  transition: transform 0.2s ease;
+}
+
+.earnCard:hover .iconContainer {
+  transform: scale(1.08);
+}
+
+.availabilityTag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--accent-blue, #347CF5);
+  background: rgba(52, 124, 245, 0.12);
+  border: 1px solid rgba(52, 124, 245, 0.25);
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-full, 9999px);
+  letter-spacing: 0.4px;
+}
+
+.cardContent {
+  margin-bottom: 1.5rem;
+}
+
+.cardTitle {
+  font-family: var(--font-heading, 'Outfit', sans-serif);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  margin: 0 0 0.5rem 0;
+}
+
+.cardDesc {
+  font-size: 0.88rem;
+  color: var(--text-secondary, #A5A5BC);
+  line-height: 1.55;
+  margin: 0 0 1rem 0;
+}
+
+.rewardIndicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(29, 29, 50, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.45rem 0.85rem;
+  border-radius: var(--radius-sm, 8px);
+}
+
+.rewardIcon {
+  font-size: 1rem;
+}
+
+.rewardText {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.cardFooter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: auto;
+}
+
+.primaryActionBtn {
+  width: 100%;
+  height: 44px;
+  border-radius: var(--radius-full, 9999px);
+  background: var(--gradient-blue, linear-gradient(135deg, #347CF5 0%, #1D58D8 100%));
+  border: none;
+  color: #FFFFFF;
+  font-size: 0.88rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(52, 124, 245, 0.35);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: var(--font-family);
+}
+
+.primaryActionBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 22px rgba(52, 124, 245, 0.5);
+  background: linear-gradient(135deg, #5392F8 0%, #347CF5 100%);
+}
+
+.supportLink {
+  background: none;
+  border: none;
+  color: #60A5FA;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+  padding: 0.25rem;
+  transition: color 0.15s ease;
+}
+
+.supportLink:hover {
+  color: var(--accent-yellow, #FFC928);
+}
+
+@media (max-width: 991px) {
+  .twoCardGrid {
+    grid-template-columns: 1fr;
+  }
+}

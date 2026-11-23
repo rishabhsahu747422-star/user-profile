@@ -1,0 +1,245 @@
+.bannerRoot {
+  position: relative;
+  background: linear-gradient(135deg, #17182E 0%, #1D1E3A 50%, #15162B 100%);
+  border: 1px solid rgba(134, 82, 245, 0.28);
+  border-radius: var(--radius-xl, 24px);
+  padding: 2.25rem 2.5rem;
+  margin-bottom: 2.25rem;
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+}
+
+.ambientGlow {
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 201, 40, 0.14) 0%, rgba(134, 82, 245, 0.1) 50%, transparent 70%);
+  filter: blur(50px);
+  pointer-events: none;
+}
+
+.bannerGrid {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2.5rem;
+}
+
+.contentCol {
+  flex: 1;
+  max-width: 660px;
+}
+
+.badgeRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+}
+
+.featureBadge {
+  font-size: 0.74rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--accent-yellow, #FFC928);
+  background: rgba(255, 201, 40, 0.14);
+  border: 1px solid rgba(255, 201, 40, 0.3);
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-full, 9999px);
+}
+
+.tierBadge {
+  font-size: 0.74rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #A78BFA;
+  background: rgba(134, 82, 245, 0.14);
+  border: 1px solid rgba(134, 82, 245, 0.3);
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-full, 9999px);
+}
+
+.bannerHeadline {
+  font-family: var(--font-heading, 'Outfit', sans-serif);
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  margin: 0 0 0.75rem 0;
+  letter-spacing: -0.4px;
+}
+
+.headlineHighlight {
+  color: var(--accent-yellow, #FFC928);
+}
+
+.bannerDesc {
+  font-size: 0.92rem;
+  color: var(--text-secondary, #A5A5BC);
+  line-height: 1.6;
+  margin: 0 0 1.5rem 0;
+}
+
+.benefitIndicators {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.indicatorPill {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  background: rgba(29, 29, 50, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.5rem 0.85rem;
+  border-radius: var(--radius-md, 12px);
+}
+
+.indicatorIcon {
+  font-size: 1.25rem;
+}
+
+.indicatorText {
+  display: flex;
+  flex-direction: column;
+}
+
+.indicatorTitle {
+  font-size: 0.76rem;
+  font-weight: 800;
+  color: #FFFFFF;
+}
+
+.indicatorSub {
+  font-size: 0.7rem;
+  color: var(--text-muted, #77778F);
+}
+
+/* Action Col */
+.actionCol {
+  flex-shrink: 0;
+  width: 290px;
+}
+
+.miningVisualBox {
+  background: rgba(29, 29, 50, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg, 18px);
+  padding: 1.6rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  text-align: center;
+}
+
+.minerRigGlow {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+}
+
+.minerCore {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #25253D 0%, #151526 100%);
+  border: 2px solid rgba(255, 201, 40, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: 0 0 20px rgba(255, 201, 40, 0.25);
+}
+
+.coreIcon {
+  font-size: 2rem;
+}
+
+.pulseRing {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid rgba(134, 82, 245, 0.4);
+  animation: pulseAnim 2.5s infinite;
+}
+
+@keyframes pulseAnim {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.15); opacity: 0.2; }
+  100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+.hashMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.45rem 0.85rem;
+  background: rgba(16, 16, 28, 0.6);
+  border-radius: var(--radius-sm, 8px);
+  margin-bottom: 1.25rem;
+}
+
+.hashLabel {
+  font-size: 0.74rem;
+  color: var(--text-muted, #77778F);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.hashValue {
+  font-size: 0.84rem;
+  color: var(--accent-yellow, #FFC928);
+  font-family: var(--font-mono);
+  font-weight: 800;
+}
+
+.mainCtaBtn {
+  width: 100%;
+  height: 46px;
+  border-radius: var(--radius-full, 9999px);
+  background: var(--gradient-yellow, linear-gradient(135deg, #FFC928 0%, #E0A812 100%));
+  border: none;
+  color: #10101C;
+  font-family: var(--font-heading, 'Outfit', sans-serif);
+  font-size: 0.92rem;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(255, 201, 40, 0.35);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mainCtaBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(255, 201, 40, 0.5);
+  background: linear-gradient(135deg, #FFD554 0%, #FFC928 100%);
+}
+
+@media (max-width: 991px) {
+  .bannerRoot {
+    padding: 1.75rem 1.5rem;
+  }
+
+  .bannerGrid {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.75rem;
+  }
+
+  .contentCol {
+    max-width: 100%;
+  }
+
+  .actionCol {
+    width: 100%;
+  }
+}
